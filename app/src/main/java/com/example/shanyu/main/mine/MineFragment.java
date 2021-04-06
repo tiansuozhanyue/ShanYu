@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.shanyu.R;
+import com.example.shanyu.main.mine.ui.AddressActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,11 +32,14 @@ public class MineFragment extends Fragment {
         return view;
     }
 
-    @OnClick({R.id.mine_set})
+    @OnClick({R.id.mine_set, R.id.set_address})
     public void onClickView(View view) {
         switch (view.getId()) {
             case R.id.mine_set:
                 startActivity(new Intent(getContext(), SetingActivity.class));
+                break;
+            case R.id.set_address:
+                startActivity(new Intent(getContext(), AddressActivity.class));
                 break;
 
         }

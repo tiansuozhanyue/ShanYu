@@ -128,9 +128,16 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <RadioButton
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/bg_login_radio"
+                android:button="@null" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
                 android:text="登录则代表您同意"
                 android:textColor="@color/color_black_4D"
                 android:textSize="12sp" />
@@ -152,7 +159,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="35dp"
-        android:drawableTop="@mipmap/login_wechat"
+        android:drawableTop="@mipmap/login_weixin"
         android:drawablePadding="10dp"
         android:text="@string/login_wchat"
         android:textColor="@color/color_black_E6"

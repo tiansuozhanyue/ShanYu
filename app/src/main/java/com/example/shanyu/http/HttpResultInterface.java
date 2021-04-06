@@ -9,6 +9,7 @@ public interface HttpResultInterface {
 
     void onFailure(String errorMsg);
 
-    void onSuccess(String info);
+    void onSuccess(String t);
+
 
 }

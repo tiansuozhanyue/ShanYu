@@ -25,6 +25,7 @@
     <color name="color_red">#FFFF3849</color>
     <color name="color_red_login">#FFFF570B</color>
     <color name="color_white">#FFFFFF</color>
+    <color name="color_trant">#00FFFFFF</color>
 
 
 </resources>

@@ -53,4 +53,13 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.google.code.gson:gson:2.8.6'
 
+    implementation 'com.to.aboomy:banner:3.0.6'
+    implementation 'com.to.aboomy:banner:3.0.6-x'
+
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.5.1'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5.1'
+
 }

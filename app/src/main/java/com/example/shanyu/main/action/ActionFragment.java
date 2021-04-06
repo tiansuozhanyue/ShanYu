@@ -4,23 +4,33 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.app.Notification;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ListView;
 
-import com.example.shanyu.MyApplication;
 import com.example.shanyu.R;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.utils.LogUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
-public class ActionFragment extends Fragment {
+public class ActionFragment extends Fragment implements ActionAdapter.ActionOnClick {
+
+    Unbinder bind;
+
+    @BindView(R.id.mListView)
+    public ListView mListView;
 
     @Nullable
     @Override
@@ -28,22 +38,28 @@ public class ActionFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_action, container, false);
+        bind = ButterKnife.bind(this, view);
         initView();
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        bind.unbind();
+    }
 
     private void initView() {
-        getBanner();
+        getActions();
     }
 
 
     /**
      * 获取banner
      */
-    private void getBanner() {
+    private void getActions() {
 
-        HttpUtil.doGet(HttpApi.BANNER, new HttpResultInterface<String>() {
+        HttpUtil.doGet(HttpApi.ACTION, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
                 LogUtil.i("===>" + errorMsg);
@@ -51,10 +67,16 @@ public class ActionFragment extends Fragment {
 
             @Override
             public void onSuccess(String resultData) {
-                LogUtil.i("===>" + resultData);
+                List<ActionMode> actionModes = new Gson().fromJson(resultData, new TypeToken<List<ActionMode>>() {
+                }.getType());
+                mListView.setAdapter(new ActionAdapter(getContext(), actionModes, ActionFragment.this));
             }
         });
 
     }
 
+    @Override
+    public void onActionClick(int p) {
+
+    }
 }

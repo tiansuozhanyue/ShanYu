@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_pws_white">
+
+    <ImageView
+        android:id="@+id/select"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:src="@mipmap/detail_choose" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/home_detail_location" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:text="杭州市西湖区教工路198号浙商大创业园二楼浙商大创业园二楼"
+        android:textColor="@color/color_black_E6"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/address"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:text="赵晓晓"
+        android:textColor="@color/color_black_E6"
+        android:textSize="14sp" />
+
+
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/address"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:layout_toRightOf="@id/name"
+        android:text="15432653365"
+        android:textColor="@color/color_black_E6"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:id="@+id/set_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/bg_address_radio"
+            android:button="@null" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="设置默认地址"
+            android:textColor="#b3000000"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/edit"
+            android:layout_width="28dp"
+            android:layout_height="20dp"
+            android:text="编辑"
+            android:textColor="@color/color_red_login"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/delet"
+            android:layout_width="28dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="40dp"
+            android:text="删除"
+            android:textColor="@color/color_red_login"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

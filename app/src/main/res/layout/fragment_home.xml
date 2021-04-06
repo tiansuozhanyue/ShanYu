@@ -78,7 +78,8 @@
 
         </LinearLayout>
 
-        <ImageView
+        <com.to.aboomy.banner.Banner
+            android:id="@+id/mBanner"
             android:layout_width="match_parent"
             android:layout_height="125dp"
             android:layout_marginTop="10dp" />
@@ -113,6 +114,15 @@
             android:text="推荐专区"
             android:textColor="@color/color_black_E6"
             android:textSize="16sp" />
+
+        <com.example.shanyu.widget.MyGridView
+            android:id="@+id/myGridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="4"
+            android:verticalSpacing="10dp" />
 
     </LinearLayout>
 

@@ -9,4 +9,9 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <declare-styleable name="roundImageView">
+        <attr name="radius" format="integer" />
+    </declare-styleable>
+
 </resources>

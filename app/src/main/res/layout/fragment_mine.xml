@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,11 +30,12 @@
         android:background="@drawable/bg_main_white"
         android:padding="19dp">
 
-        <ImageView
+        <com.example.shanyu.widget.RoundImageView
             android:id="@+id/user_img"
             android:layout_width="53dp"
             android:layout_height="53dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            app:radius="90" />
 
         <TextView
             android:id="@+id/user_name"
@@ -328,6 +330,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/set_address"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
