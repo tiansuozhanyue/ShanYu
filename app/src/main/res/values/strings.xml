@@ -1,0 +1,45 @@
+<resources>
+
+    <string name="app_name">善羽</string>
+    <string name="main_home">首页</string>
+    <string name="main_action">活动</string>
+    <string name="main_chat">聊天</string>
+    <string name="main_mine">我的</string>
+
+    <string name="hint_phone">请输入您的手机号</string>
+    <string name="hint_phone2">请填写您的手机号</string>
+    <string name="hint_pws">请输入密码</string>
+    <string name="hint_pws1">请设置您的新密码</string>
+    <string name="hint_pws2">请确认您的新密码</string>
+
+    <string name="hint_phone_set">请设置您的手机号</string>
+    <string name="hint_pws_set">请设置您的密码</string>
+    <string name="hint_code_set">请输入验证码</string>
+    <string name="hint_code_set2">请填写验证码</string>
+    <string name="hint_school_set">请填写您的学校</string>
+
+    <string name="login">登录</string>
+    <string name="unLogin">退出登录</string>
+    <string name="regist">注册</string>
+    <string name="login_wchat">微信一键登录</string>
+
+    <string name="activity_pws_edit1">忘记密码</string>
+    <string name="activity_pws_edit2">修改密码</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+</resources>

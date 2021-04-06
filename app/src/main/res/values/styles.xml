@@ -1,0 +1,33 @@
+<resources>
+
+    <style name="Widget.Theme.ShanYu.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+    <style name="login_edit_img">
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+    </style>
+
+    <style name="login_edit_input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:textColor">@color/color_black_E6</item>
+        <item name="android:cacheColorHint">@color/color_black_4D</item>
+    </style>
+
+    <style name="pws_edit_input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_margin">15dp</item>
+        <item name="android:textColor">@color/color_black_E6</item>
+        <item name="android:cacheColorHint">@color/color_black_4D</item>
+    </style>
+
+</resources>

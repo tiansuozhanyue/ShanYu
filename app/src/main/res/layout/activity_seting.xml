@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".main.mine.SetingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_pws_white"
+        android:orientation="vertical"
+        android:paddingRight="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:text="绑定手机"
+                android:textColor="@color/color_black_E6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity=""
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:text="186****8888"
+                android:textColor="@color/color_black_80"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/common_more" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:text="微信"
+                android:textColor="@color/color_black_E6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity=""
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:text="末绑定"
+                android:textColor="@color/color_black_80"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/common_more" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/reset_pws"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:text="修改密码"
+                android:textColor="@color/color_black_E6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity=""
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/color_black_80"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/common_more" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:text="消息提醒"
+                android:textColor="@color/color_black_E6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity=""
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/color_black_80"
+                android:textSize="14sp" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_pws_white"
+        android:orientation="vertical"
+        android:paddingRight="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:text="清除缓存"
+                android:textColor="@color/color_black_E6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity=""
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:text="1.72MB"
+                android:textColor="@color/color_black_80"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:text="检查新版本"
+                android:textColor="@color/color_black_E6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity=""
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/color_black_80"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/common_more" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.example.shanyu.widget.CirButton
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:text="@string/unLogin"
+        android:textSize="14sp" />
+
+</LinearLayout>
