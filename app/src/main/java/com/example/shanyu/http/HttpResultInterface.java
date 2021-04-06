@@ -5,11 +5,10 @@ package com.example.shanyu.http;
  * Time   ： 2019/1/3
  * Desc   ： 回调结果
  */
-public interface HttpResultInterface<T> {
+public interface HttpResultInterface {
 
     void onFailure(String errorMsg);
 
-    void onSuccess(T t);
-
+    void onSuccess(String info);
 
 }
