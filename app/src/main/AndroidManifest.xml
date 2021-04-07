@@ -14,7 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShanYu"
         android:usesCleartextTraffic="true">
-        <activity android:name=".main.mine.ui.AddressActivity"></activity>
+        <activity android:name=".main.mine.ui.MineOrderActivity"></activity>
+        <activity android:name=".main.mine.ui.PersionInfoActivity" />
+        <activity android:name=".main.mine.ui.AdviceActivity" />
+        <activity android:name=".main.mine.ui.OffersActivity" />
+        <activity android:name=".main.mine.ui.FootActivity" />
+        <activity android:name=".main.mine.ui.AddressActivity" />
         <activity android:name=".main.mine.SetingActivity" />
         <activity android:name=".login.PwsEditActivity" />
         <activity

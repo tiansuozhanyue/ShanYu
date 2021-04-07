@@ -41,6 +41,11 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void initView() {
+
+    }
+
     //底部导航
     private void initBottomNav() {
 

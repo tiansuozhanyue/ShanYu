@@ -139,7 +139,9 @@
 
             <Switch
                 android:layout_width="wrap_content"
-                android:layout_height="20dp" />
+                android:layout_height="20dp"
+                android:thumb="@drawable/thumb"
+                android:track="@drawable/track" />
 
         </LinearLayout>
 

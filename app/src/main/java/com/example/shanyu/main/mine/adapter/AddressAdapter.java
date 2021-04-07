@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.shanyu.R;
@@ -25,8 +26,8 @@ public class AddressAdapter extends BaseAdapter {
     private AddressOnClick onClick;
     private boolean isEditStyle;
 
-    public void exchangeStyle() {
-        isEditStyle = !isEditStyle;
+    public void exchangeStyle(boolean f) {
+        isEditStyle = f;
         notifyDataSetChanged();
     }
 
@@ -60,7 +61,7 @@ public class AddressAdapter extends BaseAdapter {
         TextView name = view.findViewById(R.id.name);
         TextView phone = view.findViewById(R.id.phone);
         LinearLayout set_layout = view.findViewById(R.id.set_layout);
-        RadioButton radioButton = view.findViewById(R.id.radioButton);
+        Switch radioButton = view.findViewById(R.id.radioButton);
         TextView edit = view.findViewById(R.id.edit);
         TextView delet = view.findViewById(R.id.delet);
 

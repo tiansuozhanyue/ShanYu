@@ -20,13 +20,17 @@ import com.example.shanyu.utils.OsUtil;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
+
+    public TextView rightView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
     }
+
+    public abstract void initView();
 
     /**
      * 带标题栏布局1
@@ -46,9 +50,9 @@ public class BaseActivity extends AppCompatActivity {
         ((TextView) root.findViewById(R.id.base_title)).setText(titile);
 
         if (titleRight != null) {
-            TextView textView = root.findViewById(R.id.base_right_title);
-            textView.setText(titleRight);
-            textView.setOnClickListener(onClickListener);
+            rightView = root.findViewById(R.id.base_right_title);
+            rightView.setText(titleRight);
+            rightView.setOnClickListener(onClickListener);
         }
 
         FrameLayout frameLayout = root.findViewById(R.id.root_View);

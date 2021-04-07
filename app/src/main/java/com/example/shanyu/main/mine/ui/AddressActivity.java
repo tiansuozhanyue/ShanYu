@@ -36,6 +36,7 @@ import butterknife.ButterKnife;
 public class AddressActivity extends BaseActivity {
 
     AddressAdapter mAddressAdapter;
+    private boolean isEditStyle;
 
     @BindView(R.id.myRefreshLayout)
     public MyRefreshLayout myRefreshLayout;
@@ -47,16 +48,21 @@ public class AddressActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address, "收货地址", "管理", v -> {
-            if (mAddressAdapter != null)
-                mAddressAdapter.exchangeStyle();
+            if (mAddressAdapter != null) {
+                isEditStyle = !isEditStyle;
+                rightView.setText(isEditStyle ? "完成" : "管理");
+                mAddressAdapter.exchangeStyle(isEditStyle);
+            }
         });
         ButterKnife.bind(this);
         initView();
     }
 
-    private void initView() {
+    @Override
+    public void initView() {
         getAddress();
     }
+
 
     private void getAddress() {
 

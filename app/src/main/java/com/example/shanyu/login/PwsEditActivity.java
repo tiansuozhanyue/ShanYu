@@ -20,4 +20,9 @@ public class PwsEditActivity extends BaseActivity {
         setContentView(R.layout.activity_pws_edit, getResources().getString(isRestPws ? R.string.activity_pws_edit2 : R.string.activity_pws_edit1));
     }
 
+    @Override
+    public void initView() {
+
+    }
+
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 高度40 -->
+    <size
+        android:width="40dp"
+        android:height="20dp" />
+    <!-- 圆角弧度 20 -->
+    <corners android:radius="30dp" />
+    <!-- 变化率 -->
+    <solid android:color="@color/color_red_login" />
+
+</shape>

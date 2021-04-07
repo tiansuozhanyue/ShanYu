@@ -94,6 +94,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/mine_foot"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -120,6 +121,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/mine_offers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -177,6 +179,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/mine_order0"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -200,6 +203,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/mine_order1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -223,6 +227,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/mine_order2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -246,6 +251,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/mine_order3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -269,6 +275,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/mine_order4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -292,6 +299,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/mine_order5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -389,6 +397,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/mine_advice"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"

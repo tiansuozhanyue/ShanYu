@@ -25,6 +25,11 @@ public class RegistActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
+    @Override
+    public void initView() {
+
+    }
+
     @OnClick({R.id.bth_regist,
             R.id.login_goto})
     public void onViewClicked(View view) {

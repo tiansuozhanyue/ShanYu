@@ -24,6 +24,11 @@ public class SetingActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
+    @Override
+    public void initView() {
+
+    }
+
     @OnClick({R.id.reset_pws})
     public void onViewClicked(View view) {
         switch (view.getId()) {

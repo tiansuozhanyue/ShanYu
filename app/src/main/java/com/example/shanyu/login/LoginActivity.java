@@ -25,6 +25,11 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
+    @Override
+    public void initView() {
+
+    }
+
 
     @OnClick({R.id.btn_login,
             R.id.regist_goto,
