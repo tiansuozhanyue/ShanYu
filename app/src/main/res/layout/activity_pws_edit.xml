@@ -17,6 +17,7 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/reset_phone"
             style="@style/pws_edit_input"
             android:hint="@string/hint_phone2"
             android:inputType="phone"
@@ -29,6 +30,7 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/reset_code"
                 style="@style/pws_edit_input"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -37,21 +39,24 @@
                 android:maxLength="6" />
 
             <TextView
+                android:id="@+id/reset_getCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
                 android:text="获取验证码"
-                android:textColor="@color/color_black_4D"
+                android:textColor="@drawable/tab_text_color"
                 android:textSize="14sp" />
 
         </LinearLayout>
 
         <EditText
+            android:id="@+id/reset_pws"
             style="@style/pws_edit_input"
             android:hint="@string/hint_pws1"
             android:inputType="textPassword" />
 
         <EditText
+            android:id="@+id/reset_pwsAgin"
             style="@style/pws_edit_input"
             android:hint="@string/hint_pws2"
             android:inputType="textPassword" />
@@ -59,6 +64,7 @@
     </LinearLayout>
 
     <com.example.shanyu.widget.CirButton
+        android:id="@+id/reset_commit"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"

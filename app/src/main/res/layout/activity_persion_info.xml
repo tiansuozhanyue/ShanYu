@@ -38,6 +38,7 @@
                 android:layout_weight="1" />
 
             <com.example.shanyu.widget.RoundImageView
+                android:id="@+id/avatar"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@mipmap/ic_launcher"
@@ -70,6 +71,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/nickname"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity=""
@@ -105,6 +107,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/autograph"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity=""

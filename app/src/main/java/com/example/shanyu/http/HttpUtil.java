@@ -17,12 +17,15 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Key;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -36,6 +39,8 @@ import okhttp3.Response;
  * desc  :
  */
 public class HttpUtil {
+
+    private static String session;
     private static Handler mhander = new Handler();
 
     public static OkHttpClient getOkHttpClient() {
@@ -48,6 +53,9 @@ public class HttpUtil {
 
 
     public static void doPost(String url, Map<String, String> map, HttpResultInterface resultInterface) {
+
+        JSONObject json = new JSONObject(map);
+        LogUtil.net_i("====>doPost : " + url + " >>> " + json);
 
         if (!isNetworkAvailable()) {
             ToastUtil.shortToast("网络异常，请稍后重试！");
@@ -64,27 +72,75 @@ public class HttpUtil {
         }
         RequestBody requestBody = requestBuild.build();
 
-        final Request request = new Request.Builder()
+        Request.Builder builder = new Request.Builder()
                 .url(url.trim())
                 .header("Content-Type", "application/json;charset=utf-8")
-                .post(requestBody)
-                .build();
-        Call call = getOkHttpClient().newCall(request);
+                .post(requestBody);
+
+        if (!StringUtil.isEmpty(session))
+            builder.addHeader("cookie", session);
+
+        Call call = getOkHttpClient().newCall(builder.build());
         call.enqueue(getCallback(resultInterface));
 
     }
 
     public static void doGet(String url, HttpResultInterface resultInterface) {
+        doGet(url, null, resultInterface);
+    }
+
+    public static void doGet(String url, Map<String, String> map, HttpResultInterface resultInterface) {
+
 
         if (!isNetworkAvailable()) {
             ToastUtil.shortToast("网络异常，请稍后重试！");
             return;
         }
 
-        final Request request = new Request.Builder()
-                .url(url)
+        String newUrl = "";
+        if (map == null) {
+            newUrl = url;
+        } else {
+            newUrl = url + "?";
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                newUrl = newUrl + key + "=" + value + "&";
+            }
+        }
+
+        LogUtil.net_i("====>doGet : " + newUrl);
+
+        Request.Builder builder = new Request.Builder()
+                .url(newUrl.trim())
                 .header("Content-Type", "application/json;charset=utf-8")
-                .get()
+                .get();
+
+        if (!StringUtil.isEmpty(session))
+            builder.addHeader("cookie", session);
+
+        Call call = getOkHttpClient().newCall(builder.build());
+        call.enqueue(getCallback(resultInterface));
+
+    }
+
+    public static void upload(File file, HttpResultInterface resultInterface) {
+
+        if (!isNetworkAvailable()) {
+            ToastUtil.shortToast("网络异常，请稍后重试！");
+            if (resultInterface != null)
+                resultInterface.onFailure("网络异常......");
+            return;
+        }
+
+        if (file == null)
+            return;
+
+        RequestBody body = RequestBody.create(MediaType.parse("image/*"), file);
+        final Request request = new Request.Builder()
+                .url(HttpApi.UPLOAD)
+                .header("Content-Type", "application/json")
+                .post(body)
                 .build();
         Call call = getOkHttpClient().newCall(request);
         call.enqueue(getCallback(resultInterface));
@@ -97,25 +153,46 @@ public class HttpUtil {
             @Override
             public void onFailure(Call call, final IOException e) {
                 mhander.post(() -> {
-                    if (resultInterface != null)
+                    if (resultInterface != null) {
                         resultInterface.onFailure(e.getMessage());
+                        LogUtil.net_i("====>onFailure : " + e.getMessage());
+                    }
                 });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+
                 String result = response.body().string();
-                LogUtil.net_i(result);
+
+                Headers headers = response.headers();
+                List<String> cookies = headers.values("Set-Cookie");
+                if (cookies.size() > 0) {
+                    String s = cookies.get(0);
+                    session = s.substring(0, s.indexOf(";"));
+                }
+
+                LogUtil.net_i("====>onResponse : " + result);
                 try {
                     JSONObject object = new JSONObject(result);
                     int status = object.getInt("status");
-                    String data = object.getString("data");
-                    if (status == 1) {
+                    if (resultInterface != null) {
                         mhander.post(() -> {
-                            if (resultInterface != null)
-                                resultInterface.onSuccess(data);
+                            try {
+
+                                if (status == 1) {
+                                    String data = object.getString("data");
+                                    resultInterface.onSuccess(data);
+                                } else {
+                                    String msg = object.getString("msg");
+                                    resultInterface.onFailure(msg);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         });
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

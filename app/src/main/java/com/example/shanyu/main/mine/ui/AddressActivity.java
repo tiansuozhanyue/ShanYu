@@ -1,39 +1,36 @@
 package com.example.shanyu.main.mine.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
-import com.example.shanyu.main.action.ActionMode;
-import com.example.shanyu.main.home.adapter.CategoryAdapter;
-import com.example.shanyu.main.home.bean.BannerMode;
 import com.example.shanyu.main.mine.adapter.AddressAdapter;
 import com.example.shanyu.main.mine.bean.AddressMode;
-import com.example.shanyu.utils.ImageLoaderUtil;
-import com.example.shanyu.utils.LogUtil;
+import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.MyRefreshLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.to.aboomy.banner.IndicatorView;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class AddressActivity extends BaseActivity {
+public class AddressActivity extends BaseActivity implements MyRefreshLayout.RefreshListener, AddressAdapter.AddressOnClick {
 
     AddressAdapter mAddressAdapter;
     private boolean isEditStyle;
@@ -44,6 +41,10 @@ public class AddressActivity extends BaseActivity {
     @BindView(R.id.mListView)
     public ListView mListView;
 
+    @BindView(R.id.add_address)
+    public TextView add_address;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +53,7 @@ public class AddressActivity extends BaseActivity {
                 isEditStyle = !isEditStyle;
                 rightView.setText(isEditStyle ? "完成" : "管理");
                 mAddressAdapter.exchangeStyle(isEditStyle);
+                add_address.setVisibility(isEditStyle ? View.GONE : View.VISIBLE);
             }
         });
         ButterKnife.bind(this);
@@ -60,51 +62,128 @@ public class AddressActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        showLoading();
+        getAddress();
+        myRefreshLayout.setRefreshListener(this);
+    }
+
+    @OnClick({R.id.add_address,})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.add_address:
+                startActivityForResult(new Intent(this, SetAddressActivity.class), 10);
+                break;
+        }
+    }
+
+    /**
+     * 获取地址列表
+     */
+    private void getAddress() {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+        showLoading();
+        HttpUtil.doGet(HttpApi.ADDRESS, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                dismissLoading();
+                myRefreshLayout.closeLoadingView();
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                dismissLoading();
+                myRefreshLayout.closeLoadingView();
+                List<AddressMode> addressModes = new Gson().fromJson(resultData, new TypeToken<List<AddressMode>>() {
+                }.getType());
+
+                mAddressAdapter = new AddressAdapter(AddressActivity.this, addressModes, AddressActivity.this);
+                mListView.setAdapter(mAddressAdapter);
+
+            }
+        });
+
+    }
+
+    /**
+     * 删除地址
+     */
+    private void dellAddress(String id) {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        showLoading();
+        HttpUtil.doGet(HttpApi.DELL, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                dismissLoading();
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                dismissLoading();
+                ToastUtil.shortToast("删除成功");
+                isEditStyle = false;
+                rightView.setText("管理");
+                add_address.setVisibility(View.VISIBLE);
+                getAddress();
+            }
+        });
+
+    }
+
+    /**
+     * 设置/取消默认地址
+     */
+    private void seletedAddress(boolean flag, String id) {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("id", id);
+        map.put("isselected", flag ? "1" : "0");
+        showLoading();
+        HttpUtil.doGet(HttpApi.SELECTED, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                dismissLoading();
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                dismissLoading();
+                ToastUtil.shortToast("删除成功");
+                isEditStyle = false;
+                rightView.setText("管理");
+                add_address.setVisibility(View.VISIBLE);
+                getAddress();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10 && resultCode == 200)
+            getAddress();
+    }
+
+    @Override
+    public void onRefresh(MyRefreshLayout refreshLayout) {
         getAddress();
     }
 
+    @Override
+    public void onAddressSet(boolean flag, String id) {
+        seletedAddress(flag, id);
+    }
 
-    private void getAddress() {
+    @Override
+    public void onAddressEdit(String id) {
 
-        List<AddressMode> addressModes = new ArrayList<>();
-        AddressMode mode1 = new AddressMode();
-        mode1.setAddress("杭州市西湖区教工路198号浙商大创业园二楼浙商大创业园二楼");
-        mode1.setIsselected(1);
-        mode1.setName("李四");
-        mode1.setPhone("18868026919");
+    }
 
-        AddressMode mode2 = new AddressMode();
-        mode2.setAddress("杭州市西湖区教工路198号浙商大创业园二楼浙商大创业园二楼");
-        mode2.setIsselected(0);
-        mode2.setName("张三");
-        mode2.setPhone("13407389414");
-
-        addressModes.add(mode1);
-        addressModes.add(mode2);
-
-        mAddressAdapter = new AddressAdapter(AddressActivity.this, addressModes);
-        mListView.setAdapter(mAddressAdapter);
-
-//        Map<String, String> map = new HashMap<>();
-//        map.put("uid", "1");
-//        HttpUtil.doPost(HttpApi.ADDRESS, map, new HttpResultInterface() {
-//            @Override
-//            public void onFailure(String errorMsg) {
-//                LogUtil.i("===>" + errorMsg);
-//            }
-//
-//            @Override
-//            public void onSuccess(String resultData) {
-//
-//                List<AddressMode> addressModes = new Gson().fromJson(resultData, new TypeToken<List<AddressMode>>() {
-//                }.getType());
-//
-//                mAddressAdapter = new AddressAdapter(AddressActivity.this, addressModes);
-//                mListView.setAdapter(mAddressAdapter);
-//
-//            }
-//        });
-
+    @Override
+    public void onAddressDell(String id) {
+        dellAddress(id);
     }
 
 }

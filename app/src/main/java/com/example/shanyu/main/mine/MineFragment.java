@@ -5,19 +5,36 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.shanyu.R;
+import com.example.shanyu.http.HttpApi;
+import com.example.shanyu.http.HttpResultInterface;
+import com.example.shanyu.http.HttpUtil;
+import com.example.shanyu.login.LoginActivity;
+import com.example.shanyu.main.MainActivity;
+import com.example.shanyu.main.mine.bean.UserMode;
 import com.example.shanyu.main.mine.ui.AddressActivity;
 import com.example.shanyu.main.mine.ui.AdviceActivity;
 import com.example.shanyu.main.mine.ui.FootActivity;
 import com.example.shanyu.main.mine.ui.MineOrderActivity;
 import com.example.shanyu.main.mine.ui.OffersActivity;
 import com.example.shanyu.main.mine.ui.PersionInfoActivity;
+import com.example.shanyu.utils.ImageLoaderUtil;
+import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.utils.StringUtil;
+import com.example.shanyu.utils.ToastUtil;
+import com.example.shanyu.widget.RoundImageView;
+import com.google.gson.Gson;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -26,6 +43,14 @@ import butterknife.Unbinder;
 public class MineFragment extends Fragment {
 
     Unbinder bind;
+    UserMode mUserMode;
+
+    @BindView(R.id.user_name)
+    public TextView user_name;
+    @BindView(R.id.user_sign)
+    public TextView user_sign;
+    @BindView(R.id.user_img)
+    public RoundImageView user_img;
 
     @Nullable
     @Override
@@ -34,6 +59,7 @@ public class MineFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
         bind = ButterKnife.bind(this, view);
+        getUserInfo();
         return view;
     }
 
@@ -45,7 +71,7 @@ public class MineFragment extends Fragment {
     public void onClickView(View view) {
         switch (view.getId()) {
             case R.id.mine_set:
-                startActivity(new Intent(getContext(), SetingActivity.class));
+                startActivityForResult(new Intent(getContext(), SetingActivity.class), 101);
                 break;
             case R.id.set_address:
                 startActivity(new Intent(getContext(), AddressActivity.class));
@@ -57,12 +83,16 @@ public class MineFragment extends Fragment {
                 startActivity(new Intent(getContext(), OffersActivity.class));
                 break;
             case R.id.mine_advice:
-                startActivity(new Intent(getContext(), AdviceActivity.class));
+                startActivity(new Intent(getContext(), AdviceActivity.class).putExtra("action", "advice"));
                 break;
             case R.id.user_img:
             case R.id.user_name:
             case R.id.user_sign:
-                startActivity(new Intent(getContext(), PersionInfoActivity.class));
+                Intent intent = new Intent(getContext(), PersionInfoActivity.class);
+                intent.putExtra("avatar", mUserMode.getAvatar());
+                intent.putExtra("nickname", mUserMode.getNickname());
+                intent.putExtra("autograph", mUserMode.getAutograph());
+                startActivityForResult(intent, 10);
                 break;
             case R.id.mine_order0:
                 startActivity(new Intent(getContext(), MineOrderActivity.class).putExtra("index", 0));
@@ -92,5 +122,44 @@ public class MineFragment extends Fragment {
         bind.unbind();
     }
 
+    /**
+     * 获取个人信息
+     */
+    private void getUserInfo() {
 
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+
+        HttpUtil.doGet(HttpApi.SET, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+
+            }
+
+            @Override
+            public void onSuccess(String t) {
+
+                mUserMode = new Gson().fromJson(t, UserMode.class);
+
+                if (!StringUtil.isEmpty(mUserMode.getAvatar()))
+                    ImageLoaderUtil.loadImage(mUserMode.getAvatar(), user_img);
+
+                if (!StringUtil.isEmpty(mUserMode.getNickname()))
+                    user_name.setText(mUserMode.getNickname());
+
+                if (!StringUtil.isEmpty(mUserMode.getAutograph()))
+                    user_sign.setText(mUserMode.getAutograph());
+
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 100) {
+            getUserInfo();
+        }
+
+    }
 }

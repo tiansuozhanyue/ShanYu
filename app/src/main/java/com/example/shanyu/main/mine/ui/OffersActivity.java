@@ -13,19 +13,27 @@ import com.example.shanyu.main.mine.adapter.OfferAdapter;
 import com.example.shanyu.main.mine.bean.FootMode;
 import com.example.shanyu.main.mine.bean.OffersMode;
 import com.example.shanyu.utils.LogUtil;
+import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.utils.ToastUtil;
+import com.example.shanyu.widget.MyRefreshLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OffersActivity extends BaseActivity implements OfferAdapter.OfferOnClick {
+public class OffersActivity extends BaseActivity implements OfferAdapter.OfferOnClick, MyRefreshLayout.RefreshListener {
 
     @BindView(R.id.mListView)
     public ListView mListView;
+
+    @BindView(R.id.myRefreshLayout)
+    public MyRefreshLayout myRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,29 +45,26 @@ public class OffersActivity extends BaseActivity implements OfferAdapter.OfferOn
 
     @Override
     public void initView() {
-
-        List<OffersMode> actionModes = new ArrayList<>();
-        actionModes.add(new OffersMode());
-        actionModes.add(new OffersMode());
-        actionModes.add(new OffersMode());
-        actionModes.add(new OffersMode());
-        mListView.setAdapter(new OfferAdapter(OffersActivity.this, actionModes, OffersActivity.this));
-
+        myRefreshLayout.setRefreshListener(this);
+        getOfferss();
     }
 
     private void getOfferss() {
-
-        HttpUtil.doGet(HttpApi.OFFERS, new HttpResultInterface() {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+        showLoading();
+        HttpUtil.doPost(HttpApi.OFFERS, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
-                LogUtil.i("===>" + errorMsg);
+                ToastUtil.shortToast(errorMsg);
+                dismissLoading();
             }
 
             @Override
             public void onSuccess(String resultData) {
+                dismissLoading();
                 List<OffersMode> actionModes = new Gson().fromJson(resultData, new TypeToken<List<OffersMode>>() {
                 }.getType());
-
                 mListView.setAdapter(new OfferAdapter(OffersActivity.this, actionModes, OffersActivity.this));
             }
         });
@@ -70,4 +75,10 @@ public class OffersActivity extends BaseActivity implements OfferAdapter.OfferOn
     public void onActionClick(int p) {
 
     }
+
+    @Override
+    public void onRefresh(MyRefreshLayout refreshLayout) {
+        getOfferss();
+    }
+
 }

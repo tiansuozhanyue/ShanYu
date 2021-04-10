@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -14,7 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShanYu"
         android:usesCleartextTraffic="true">
-        <activity android:name=".main.mine.ui.MineOrderActivity"></activity>
+        <activity android:name=".main.mine.ui.SelectAddressActivity"></activity>
+        <activity android:name=".main.mine.ui.SetAddressActivity" />
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".main.mine.ui.MineOrderActivity" />
         <activity android:name=".main.mine.ui.PersionInfoActivity" />
         <activity android:name=".main.mine.ui.AdviceActivity" />
         <activity android:name=".main.mine.ui.OffersActivity" />
@@ -25,7 +31,7 @@
         <activity
             android:name=".login.RegistActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".login.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,6 +41,16 @@
         <activity
             android:name=".main.MainActivity"
             android:launchMode="singleTask" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.shanyu.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public" />
+        </provider>
     </application>
 
 </manifest>

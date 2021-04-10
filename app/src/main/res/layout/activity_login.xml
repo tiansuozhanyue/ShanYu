@@ -45,6 +45,7 @@
                 android:src="@mipmap/login_phone" />
 
             <EditText
+                android:id="@+id/edit_phone"
                 style="@style/login_edit_input"
                 android:hint="@string/hint_phone"
                 android:inputType="phone"
@@ -67,6 +68,7 @@
                 android:src="@mipmap/login_captcha" />
 
             <EditText
+                android:id="@+id/edit_pws"
                 style="@style/login_edit_input"
                 android:hint="@string/hint_pws"
                 android:inputType="textPassword" />

@@ -218,7 +218,7 @@
     </LinearLayout>
 
     <com.example.shanyu.widget.CirButton
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_signout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="15dp"

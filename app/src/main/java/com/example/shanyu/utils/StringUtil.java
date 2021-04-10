@@ -13,6 +13,18 @@ public class StringUtil {
         return false;
     }
 
+    public static boolean isPhoneNumber(String info) {
+        if (isEmpty(info) || info.length() != 11)
+            return false;
+        return true;
+    }
+
+    public static boolean isVerifyCode(String info) {
+        if (isEmpty(info) || info.length() != 6)
+            return false;
+        return true;
+    }
+
     public static String mobileSecurityInfo(String info) {
         if (isEmpty(info))
             return " ";

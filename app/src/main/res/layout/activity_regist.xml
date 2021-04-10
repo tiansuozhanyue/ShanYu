@@ -44,6 +44,7 @@
                 android:src="@mipmap/login_phone" />
 
             <EditText
+                android:id="@+id/regist_phone"
                 style="@style/login_edit_input"
                 android:hint="@string/hint_phone_set"
                 android:inputType="phone"
@@ -66,6 +67,7 @@
                 android:src="@mipmap/login_shool" />
 
             <EditText
+                android:id="@+id/regist_pws"
                 style="@style/login_edit_input"
                 android:hint="@string/hint_pws_set"
                 android:inputType="textPassword" />
@@ -88,17 +90,20 @@
                 android:src="@mipmap/login_captcha" />
 
             <EditText
+                android:id="@+id/regist_code"
                 style="@style/login_edit_input"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:hint="@string/hint_code_set"
-                android:inputType="textPassword" />
+                android:maxLength="6"
+                android:inputType="number" />
 
             <TextView
+                android:id="@+id/regist_getCode"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="获取验证码"
-                android:textColor="@color/color_red_login"
+                android:textColor="@drawable/tab_text_color"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -119,9 +124,10 @@
                 android:src="@mipmap/login_password" />
 
             <EditText
+                android:id="@+id/regist_school"
                 style="@style/login_edit_input"
                 android:hint="@string/hint_school_set"
-                android:inputType="textPassword" />
+                android:inputType="text" />
 
         </LinearLayout>
 

@@ -31,10 +31,10 @@ public class AddressAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public AddressAdapter(Context mContext, List<AddressMode> actionModes) {
+    public AddressAdapter(Context mContext, List<AddressMode> actionModes, AddressOnClick onClick) {
         this.mContext = mContext;
         this.addressModes = actionModes;
-//        this.onClick = onClick;
+        this.onClick = onClick;
     }
 
     @Override
@@ -66,24 +66,36 @@ public class AddressAdapter extends BaseAdapter {
         TextView delet = view.findViewById(R.id.delet);
 
         selectView.setVisibility(mode.getIsselected() == 1 ? View.VISIBLE : View.GONE);
-        address.setText(mode.getAddress());
+        radioButton.setChecked(mode.getIsselected() == 1);
+        address.setText(mode.getAreaname() + mode.getAddress());
         name.setText(mode.getName());
         phone.setText(mode.getPhone());
 
         set_layout.setVisibility(isEditStyle ? View.VISIBLE : View.GONE);
 
 
-//        if (onClick != null) {
-//            mImageView.setOnClickListener(v -> {
-//                onClick.onAddressClick(position);
-//            });
-//        }
+        if (onClick != null) {
+            radioButton.setOnClickListener(v -> {
+                onClick.onAddressSet(radioButton.isChecked(), mode.getId().toString());
+            });
+            edit.setOnClickListener(v -> {
+                onClick.onAddressEdit(mode.getId().toString());
+            });
+            delet.setOnClickListener(v -> {
+                onClick.onAddressDell(mode.getId().toString());
+            });
+        }
 
         return view;
     }
 
     public interface AddressOnClick {
-        void onAddressClick(int p);
+
+        void onAddressSet(boolean flag, String id);
+
+        void onAddressEdit(String id);
+
+        void onAddressDell(String id);
     }
 
 }

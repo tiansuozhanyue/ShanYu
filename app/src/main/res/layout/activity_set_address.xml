@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".main.mine.ui.SetAddressActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_pws_white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/login_edit_img"
+                android:src="@mipmap/home_detail_name" />
+
+            <EditText
+                android:id="@+id/name"
+                style="@style/login_edit_input"
+                android:hint="请输入姓名"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <include layout="@layout/line_view" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/login_edit_img"
+                android:src="@mipmap/home_detail_phone" />
+
+            <EditText
+                android:id="@+id/phone"
+                style="@style/login_edit_input"
+                android:hint="请输入收货人手机号码"
+                android:maxLength="11"
+                android:inputType="phone" />
+
+        </LinearLayout>
+
+        <include layout="@layout/line_view" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/login_edit_img"
+                android:src="@mipmap/home_detail_location" />
+
+            <TextView
+                android:id="@+id/area0"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:drawableRight="@mipmap/common_more"
+                android:gravity="center_vertical"
+                android:text="请选择省"
+                android:textColor="@drawable/address_select_text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/area1"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:drawableRight="@mipmap/common_more"
+                android:gravity="center_vertical"
+                android:text="请选择市"
+                android:textColor="@drawable/address_select_text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/area2"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:drawableRight="@mipmap/common_more"
+                android:gravity="center_vertical"
+                android:text="请选择区"
+                android:textColor="@drawable/address_select_text_color"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/area3"
+            style="@style/login_edit_input"
+            android:layout_marginLeft="25dp"
+            android:layout_marginBottom="20dp"
+            android:hint="请填写详细街道地址"
+            android:inputType="text" />
+
+    </LinearLayout>
+
+    <com.example.shanyu.widget.CirButton
+        android:id="@+id/commit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="16dp"
+        android:text="提交" />
+
+</LinearLayout>

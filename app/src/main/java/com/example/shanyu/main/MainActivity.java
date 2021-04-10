@@ -1,6 +1,8 @@
 package com.example.shanyu.main;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,12 +10,15 @@ import android.widget.TextView;
 
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
+import com.example.shanyu.login.LoginActivity;
 import com.example.shanyu.main.action.ActionFragment;
 import com.example.shanyu.main.chat.ChatFragment;
 import com.example.shanyu.main.home.HomeFragment;
 import com.example.shanyu.main.mine.MineFragment;
+import com.example.shanyu.utils.ToastUtil;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -25,7 +30,7 @@ public class MainActivity extends BaseActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
     List<Fragment> fragmentList = new ArrayList<>();
-
+    long mExitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +124,36 @@ public class MainActivity extends BaseActivity {
         });
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 102) {//退出登录
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else {
+            fragmentList.get(viewPager.getCurrentItem()).onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //判断用户是否点击了“返回键”
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //与上次点击返回键时刻作差
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                //大于2000ms则认为是误操作，使用Toast进行提示
+                ToastUtil.shortToast("再按一次退出程序");
+                //并记录下本次点击“返回键”的时刻，以便下次进行判断
+                mExitTime = System.currentTimeMillis();
+            } else {
+                //小于2000ms则认为是用户确实希望退出程序-调用System.exit()方法进行退出
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

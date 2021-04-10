@@ -8,6 +8,7 @@
     tools:context=".main.mine.ui.AdviceActivity">
 
     <EditText
+        android:id="@+id/edit"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginLeft="16dp"
@@ -21,6 +22,7 @@
         android:textSize="14sp" />
 
     <com.example.shanyu.widget.CirButton
+        android:id="@+id/commit"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="16dp"

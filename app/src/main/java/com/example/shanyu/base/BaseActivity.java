@@ -16,11 +16,12 @@ import android.widget.TextView;
 
 import com.example.shanyu.R;
 import com.example.shanyu.utils.OsUtil;
+import com.example.shanyu.widget.NetLoadingDialog;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends BaseRootActivity {
 
     public TextView rightView;
 
@@ -30,7 +31,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    public abstract void initView();
+
+    protected void dismissLoading() {
+        NetLoadingDialog.hideProgressDialog();
+    }
+
+    protected void showLoading() {
+        NetLoadingDialog.showProgressDialog(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dismissLoading();
+    }
 
     /**
      * 带标题栏布局1
