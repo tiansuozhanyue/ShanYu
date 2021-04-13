@@ -8,17 +8,18 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.shanyu.R;
+import com.example.shanyu.main.home.bean.BannerMode;
 
 import java.util.List;
 
 public class CategoryAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<String> names;
+    private List<BannerMode.CategoryDTO> names;
     private int index = 0;
     private CategoryOnClick onClick;
 
-    public CategoryAdapter(Context mContext, List<String> names, CategoryOnClick onClick) {
+    public CategoryAdapter(Context mContext, List<BannerMode.CategoryDTO> names, CategoryOnClick onClick) {
         this.mContext = mContext;
         this.names = names;
         this.onClick = onClick;
@@ -45,13 +46,13 @@ public class CategoryAdapter extends BaseAdapter {
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_category_item, parent, false);
         TextView mTextView = view.findViewById(R.id.mTextView);
         mTextView.setSelected(index == position);
-        mTextView.setText(names.get(position));
+        mTextView.setText(names.get(position).getName());
 
         if (onClick != null) {
             mTextView.setOnClickListener(v -> {
                 index = position;
                 notifyDataSetChanged();
-                onClick.onCategoryClick(position);
+                onClick.onCategoryClick(names.get(position).getId() + "");
             });
         }
 
@@ -59,7 +60,7 @@ public class CategoryAdapter extends BaseAdapter {
     }
 
     public interface CategoryOnClick {
-        void onCategoryClick(int p);
+        void onCategoryClick(String id);
     }
 
 }

@@ -14,6 +14,7 @@ import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.mine.adapter.OfferAdapter;
+import com.example.shanyu.main.mine.bean.AddressMode;
 import com.example.shanyu.main.mine.bean.OffersMode;
 import com.example.shanyu.main.mine.bean.PositionMode;
 import com.example.shanyu.utils.LogUtil;
@@ -38,9 +39,8 @@ import butterknife.OnClick;
 public class SetAddressActivity extends BaseActivity {
 
     SortModel model0, model1, model2;
-
+    AddressMode mode;
     String nameText, phoneText, address, province, city, area;
-
     @BindView(R.id.name)
     public EditText name;
     @BindView(R.id.phone)
@@ -66,6 +66,30 @@ public class SetAddressActivity extends BaseActivity {
 
     @Override
     public void initView() {
+
+        mode = (AddressMode) getIntent().getSerializableExtra("mode");
+
+        if (mode != null) {
+
+            String[] areas = mode.getAreaname().split(",");
+            String[] keys = mode.getAre().split(",");
+            model0 = new SortModel(Integer.valueOf(keys[0]), areas[0]);
+            model1 = new SortModel(Integer.valueOf(keys[1]), areas[1]);
+            model2 = new SortModel(Integer.valueOf(keys[2]), areas[2]);
+
+            name.setText(mode.getName());
+            phone.setText(mode.getPhone());
+            area0.setText(model0.getName());
+            area1.setText(model1.getName());
+            area2.setText(model2.getName());
+            area3.setText(mode.getAddress());
+
+            area0.setSelected(true);
+            area1.setSelected(true);
+            area2.setSelected(true);
+            commit.setSelected(true);
+
+        }
 
         TextWatcher mTextWatcher = new TextWatcher() {
             @Override
@@ -116,12 +140,21 @@ public class SetAddressActivity extends BaseActivity {
                 }
                 break;
             case R.id.commit:
-                if (commit.isSelected())
-                    setAddress();
+                if (commit.isSelected()) {
+                    if (mode == null) {
+                        setAddress();
+                    } else {
+                        editAddress();
+                    }
+                }
+
                 break;
         }
     }
 
+    /**
+     * 设置地址
+     */
     private void setAddress() {
         Map<String, String> map = new HashMap<>();
         map.put("name", nameText);
@@ -143,6 +176,37 @@ public class SetAddressActivity extends BaseActivity {
             public void onSuccess(String resultData) {
                 dismissLoading();
                 ToastUtil.shortToast("添加成功");
+                setResult(200);
+                finish();
+            }
+        });
+
+    }
+
+    /**
+     * 编辑地址
+     */
+    private void editAddress() {
+        Map<String, String> map = new HashMap<>();
+        map.put("name", nameText);
+        map.put("phone", phoneText);
+        map.put("address", address);
+        map.put("province", model0.getKey().toString());
+        map.put("city", model1.getKey().toString());
+        map.put("area", model2.getKey().toString());
+//        map.put("uid", SharedUtil.getIntence().getUid());
+        showLoading();
+        HttpUtil.doPost(HttpApi.EDIT + "?uid=" + SharedUtil.getIntence().getUid() + "&id=" + mode.getId(), map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                ToastUtil.shortToast(errorMsg);
+                dismissLoading();
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                dismissLoading();
+                ToastUtil.shortToast("编辑成功");
                 setResult(200);
                 finish();
             }

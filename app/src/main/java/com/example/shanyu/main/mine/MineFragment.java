@@ -22,6 +22,7 @@ import com.example.shanyu.main.mine.ui.AddressActivity;
 import com.example.shanyu.main.mine.ui.AdviceActivity;
 import com.example.shanyu.main.mine.ui.FootActivity;
 import com.example.shanyu.main.mine.ui.MineOrderActivity;
+import com.example.shanyu.main.mine.ui.MyBooksActivity;
 import com.example.shanyu.main.mine.ui.OffersActivity;
 import com.example.shanyu.main.mine.ui.PersionInfoActivity;
 import com.example.shanyu.utils.ImageLoaderUtil;
@@ -67,11 +68,14 @@ public class MineFragment extends Fragment {
             R.id.user_img, R.id.user_name, R.id.user_sign,
             R.id.mine_order0, R.id.mine_order1, R.id.mine_order2,
             R.id.mine_order3, R.id.mine_order4, R.id.mine_order5,
-            R.id.mine_advice, R.id.mine_offers})
+            R.id.mine_advice, R.id.mine_offers, R.id.mine_mybooks})
     public void onClickView(View view) {
         switch (view.getId()) {
             case R.id.mine_set:
                 startActivityForResult(new Intent(getContext(), SetingActivity.class), 101);
+                break;
+            case R.id.mine_mybooks:
+                startActivity(new Intent(getContext(), MyBooksActivity.class));
                 break;
             case R.id.set_address:
                 startActivity(new Intent(getContext(), AddressActivity.class));

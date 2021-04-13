@@ -75,54 +75,89 @@
                 android:layout_height="30dp"
                 android:text="搜索" />
 
-
         </LinearLayout>
 
-        <com.to.aboomy.banner.Banner
-            android:id="@+id/mBanner"
+        <com.example.shanyu.widget.MyRefreshLayout
+            android:id="@+id/myRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="125dp"
-            android:layout_marginTop="10dp" />
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/home_dianpu" />
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/shop_peixun" />
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="推荐专区"
-            android:textColor="@color/color_black_E6"
-            android:textSize="16sp" />
+                    <com.to.aboomy.banner.Banner
+                        android:id="@+id/mBanner"
+                        android:layout_width="match_parent"
+                        android:layout_height="125dp"
+                        android:layout_marginTop="10dp" />
 
-        <com.example.shanyu.widget.MyGridView
-            android:id="@+id/myGridView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:horizontalSpacing="10dp"
-            android:numColumns="4"
-            android:verticalSpacing="10dp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/home_dianpu" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/shop_peixun" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="推荐专区"
+                        android:textColor="@color/color_black_E6"
+                        android:textSize="16sp" />
+
+                    <com.example.shanyu.widget.MyGridView
+                        android:id="@+id/myGridView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:horizontalSpacing="10dp"
+                        android:numColumns="4"
+                        android:verticalSpacing="10dp" />
+
+                    <com.example.shanyu.widget.MyListView
+                        android:id="@+id/mListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:divider="@color/color_root_bg"
+                        android:dividerHeight="10dp"
+                        android:scrollbars="none" />
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </com.example.shanyu.widget.MyRefreshLayout>
 
     </LinearLayout>
 

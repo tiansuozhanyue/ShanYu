@@ -158,15 +158,16 @@ public class PwsEditActivity extends BaseActivity {
 
         Map<String, String> map = new HashMap<>();
         map.put("mobile", phone);
-
+        showLoading();
         HttpUtil.doPost(HttpApi.SEND, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
-
+                dismissLoading();
             }
 
             @Override
             public void onSuccess(String t) {
+                dismissLoading();
                 timeCode = SharedUtil.getIntence().getCodeTime(true);
                 reset_getCode.setSelected(false);
                 mHandler.sendEmptyMessage(0);
@@ -184,7 +185,7 @@ public class PwsEditActivity extends BaseActivity {
         map.put("password2", pwsAgin);
         map.put("mobile", phone);
         map.put("pcaptcha", code);
-//        showLoading();
+        showLoading();
         HttpUtil.doPost(HttpApi.RESET, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {

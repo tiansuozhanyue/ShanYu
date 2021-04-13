@@ -10,6 +10,7 @@ public class HttpApi {
     public static String SEND = HOST + "index.php/user/publics/send";
     public static String LOGIN = HOST + "index.php/user/publics/signin";
     public static String BANNER = HOST + "index.php/index";
+    public static String BOOKS = HOST + "index.php/index/index/isrecommend";
     public static String ACTION = HOST + "index.php/index/activity";
     public static String ADDRESS = HOST + "index.php/index/address";
     public static String FOOTS = HOST + "index.php/index/user/history";
@@ -19,7 +20,10 @@ public class HttpApi {
     public static String UPLOAD = HOST + "index.php/index/evaluate/upload";
     public static String POSITION = HOST + "index.php/index/shop/position";
     public static String ADD = HOST + "index.php/index/address/add";
+    public static String EDIT = HOST + "index.php/index/address/edit";
     public static String DELL = HOST + "index.php/index/address/isdell";
-    public static String SELECTED = HOST + "index.php//index/address/isselected";
-
+    public static String SELECTED = HOST + "index.php/index/address/isselected";
+    public static String CARTLIST = HOST + "index.php/index/cart/list";
+    public static String ADDCART = HOST + "index.php/index/cart";
+    public static String EVALUATE = HOST + "index.php/index/goods/evaluate";
 }

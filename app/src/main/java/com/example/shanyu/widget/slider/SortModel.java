@@ -8,6 +8,14 @@ public class SortModel implements Serializable {
     private String name;
     private String letters;//显示拼音的首字母
 
+    public SortModel() {
+    }
+
+    public SortModel(Integer key, String name) {
+        this.key = key;
+        this.name = name;
+    }
+
     public Integer getKey() {
         return key;
     }

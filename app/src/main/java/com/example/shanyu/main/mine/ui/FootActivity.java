@@ -17,6 +17,7 @@ import com.example.shanyu.main.mine.adapter.FootAdapter;
 import com.example.shanyu.main.mine.bean.FootMode;
 import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.utils.ToastUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -53,6 +54,7 @@ public class FootActivity extends BaseActivity implements FootAdapter.FootOnClic
         HttpUtil.doGet(HttpApi.FOOTS, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
+                ToastUtil.shortToast(errorMsg);
                 dismissLoading();
             }
 

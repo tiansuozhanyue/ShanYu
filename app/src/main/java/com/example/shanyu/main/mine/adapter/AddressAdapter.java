@@ -79,7 +79,7 @@ public class AddressAdapter extends BaseAdapter {
                 onClick.onAddressSet(radioButton.isChecked(), mode.getId().toString());
             });
             edit.setOnClickListener(v -> {
-                onClick.onAddressEdit(mode.getId().toString());
+                onClick.onAddressEdit(mode);
             });
             delet.setOnClickListener(v -> {
                 onClick.onAddressDell(mode.getId().toString());
@@ -93,7 +93,7 @@ public class AddressAdapter extends BaseAdapter {
 
         void onAddressSet(boolean flag, String id);
 
-        void onAddressEdit(String id);
+        void onAddressEdit(AddressMode mode);
 
         void onAddressDell(String id);
     }

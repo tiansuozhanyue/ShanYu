@@ -44,7 +44,6 @@ public class AddressActivity extends BaseActivity implements MyRefreshLayout.Ref
     @BindView(R.id.add_address)
     public TextView add_address;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,7 +148,7 @@ public class AddressActivity extends BaseActivity implements MyRefreshLayout.Ref
             @Override
             public void onSuccess(String resultData) {
                 dismissLoading();
-                ToastUtil.shortToast("删除成功");
+                ToastUtil.shortToast("设置成功");
                 isEditStyle = false;
                 rightView.setText("管理");
                 add_address.setVisibility(View.VISIBLE);
@@ -162,8 +161,9 @@ public class AddressActivity extends BaseActivity implements MyRefreshLayout.Ref
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 10 && resultCode == 200)
+        if (resultCode == 200) {
             getAddress();
+        }
     }
 
     @Override
@@ -177,13 +177,16 @@ public class AddressActivity extends BaseActivity implements MyRefreshLayout.Ref
     }
 
     @Override
-    public void onAddressEdit(String id) {
-
+    public void onAddressEdit(AddressMode mode) {
+        Intent intent = new Intent(AddressActivity.this, SetAddressActivity.class);
+        intent.putExtra("mode", mode);
+        startActivityForResult(intent, 11);
     }
 
     @Override
     public void onAddressDell(String id) {
         dellAddress(id);
     }
+
 
 }

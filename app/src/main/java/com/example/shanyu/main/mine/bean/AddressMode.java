@@ -1,6 +1,8 @@
 package com.example.shanyu.main.mine.bean;
 
-public class AddressMode {
+import java.io.Serializable;
+
+public class AddressMode implements Serializable {
 
     /**
      * id : 1
