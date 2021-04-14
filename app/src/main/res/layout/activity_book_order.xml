@@ -33,6 +33,7 @@
             android:textSize="10sp" />
 
         <TextView
+            android:id="@+id/final_sum11"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:text="32"
@@ -40,6 +41,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/final_sum12"
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:gravity="bottom"
@@ -53,6 +55,7 @@
             android:layout_weight="1" />
 
         <com.example.shanyu.widget.CirButton
+            android:id="@+id/goPay"
             android:layout_width="100dp"
             android:layout_height="35dp"
             android:layout_marginRight="16dp"
@@ -145,18 +148,20 @@
                     android:src="@mipmap/home_detail_location" />
 
                 <TextView
+                    android:id="@+id/address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:ellipsize="end"
-                    android:lines="2"
-                    android:text="杭州市西湖区教工路198号浙商大创业园二楼浙商大创业园二楼"
+                    android:maxLines="2"
+                    android:text="二楼浙商大创业园二楼园二楼"
                     android:textColor="@color/color_black_E6"
                     android:textSize="14sp" />
 
                 <ImageView
+                    android:id="@+id/address_more"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_marginRight="10dp"
@@ -168,12 +173,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="15dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="45dp"
@@ -182,6 +188,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -202,20 +209,8 @@
             android:background="@drawable/bg_pws_white"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="15dp"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text="新华书店南昌分店"
-                android:textColor="@color/color_black_E6"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
             <com.example.shanyu.widget.MyListView
+                android:id="@+id/myListView"
                 android:layout_width="match_parent"
                 android:layout_height="40dp" />
 
@@ -236,6 +231,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/all_sum"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:gravity="center|right"
@@ -262,6 +258,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/offers_sum"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
@@ -303,6 +300,7 @@
                     android:textSize="10sp" />
 
                 <TextView
+                    android:id="@+id/final_sum1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="32"
@@ -310,6 +308,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/final_sum2"
                     android:layout_width="15dp"
                     android:layout_height="14dp"
                     android:text=".23"

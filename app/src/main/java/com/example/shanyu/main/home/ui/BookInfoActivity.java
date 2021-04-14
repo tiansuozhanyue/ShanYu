@@ -19,6 +19,8 @@ import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.mine.adapter.AddressAdapter;
 import com.example.shanyu.main.mine.bean.AddressMode;
+import com.example.shanyu.main.mine.bean.MyBooksMode;
+import com.example.shanyu.main.mine.bean.ShopBook;
 import com.example.shanyu.main.mine.ui.AddressActivity;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.ToastUtil;
@@ -32,8 +34,11 @@ import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.main.MainPageAdapter;
 import com.example.shanyu.main.home.bean.BookMode;
 import com.example.shanyu.utils.ImageLoaderUtil;
+import com.example.shanyu.widget.ShopSumButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,9 +70,10 @@ public class BookInfoActivity extends BaseActivity {
     @BindView(R.id.book_commot_index)
     public TextView book_commot_index;
 
+    TextView dialogAddress;
     BookDetailFragment bookDetailFragment;
     BookCommentFragment bookCommentFragment;
-    BookMode mode;
+    BookMode bookMode;
     AddressMode addressMode;
     Fragment currentFragment;
 
@@ -83,21 +89,21 @@ public class BookInfoActivity extends BaseActivity {
     @Override
     public void initView() {
 
-        mode = (BookMode) getIntent().getSerializableExtra("mode");
-        ImageLoaderUtil.loadImage(HttpApi.HOST + mode.getPath(), cover);
-        name.setText(mode.getGoods());
-        price.setText(mode.getPreevent());
-        price1.setText("￥" + mode.getPrice());
+        bookMode = (BookMode) getIntent().getSerializableExtra("mode");
+        ImageLoaderUtil.loadImage(HttpApi.HOST + bookMode.getPath(), cover);
+        name.setText(bookMode.getGoods());
+        price.setText(bookMode.getPreevent());
+        price1.setText("￥" + bookMode.getPrice());
         price1.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         bookDetailFragment = new BookDetailFragment();
         Bundle bundle1 = new Bundle();
-        bundle1.putString("details", mode.getDetails());
+        bundle1.putString("details", bookMode.getDetails());
         bookDetailFragment.setArguments(bundle1);
 
         bookCommentFragment = new BookCommentFragment();
         Bundle bundle2 = new Bundle();
-        bundle2.putString("id", mode.getId().toString());
+        bundle2.putString("id", bookMode.getId().toString());
         bookCommentFragment.setArguments(bundle2);
 
         book_detail.setSelected(true);
@@ -109,7 +115,8 @@ public class BookInfoActivity extends BaseActivity {
 
     @OnClick({R.id.goback, R.id.share, R.id.shop,
             R.id.chat, R.id.buy, R.id.add,
-            R.id.address_layout, R.id.book_detail, R.id.book_commot})
+            R.id.address_layout, R.id.book_detail,
+            R.id.book_commot})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -136,7 +143,9 @@ public class BookInfoActivity extends BaseActivity {
                 break;
 
             case R.id.address_layout:
-                startActivity(new Intent(BookInfoActivity.this, AddressActivity.class));
+                Intent intent = new Intent(BookInfoActivity.this, AddressActivity.class);
+                intent.putExtra("SeletAddress", true);
+                startActivityForResult(intent, 100);
                 break;
 
             case R.id.book_detail:
@@ -154,6 +163,7 @@ public class BookInfoActivity extends BaseActivity {
                 book_commot_index.setSelected(true);
                 switchFragment(bookCommentFragment).commit();
                 break;
+
 
         }
     }
@@ -199,27 +209,34 @@ public class BookInfoActivity extends BaseActivity {
     private void bugBookDialog() {
         Dialog shareDialog = new Dialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_buy, null, false);
-
-        ImageLoaderUtil.loadImage(HttpApi.HOST + mode.getPath(), view.findViewById(R.id.imag));
-
-        ((TextView) view.findViewById(R.id.name)).setText(mode.getGoods());
-        String[] sum = mode.getPreevent().split("\\.");
+        ImageLoaderUtil.loadImage(HttpApi.HOST + bookMode.getPath(), view.findViewById(R.id.imag));
+        ((TextView) view.findViewById(R.id.name)).setText(bookMode.getGoods());
+        String[] sum = bookMode.getPreevent().split("\\.");
         ((TextView) view.findViewById(R.id.price1)).setText(sum[0]);
         ((TextView) view.findViewById(R.id.price2)).setText("." + sum[1]);
+        dialogAddress = view.findViewById(R.id.address);
         if (addressMode != null) {
-            ((TextView) view.findViewById(R.id.address)).setSelected(true);
-            ((TextView) view.findViewById(R.id.address)).setText(addressMode.getAreaname() + addressMode.getAddress());
+            dialogAddress.setSelected(true);
+            dialogAddress.setText(addressMode.getAreaname() + addressMode.getAddress());
         }
         TextView price3 = view.findViewById(R.id.price3);
-        price3.setText(mode.getPrice());
+        price3.setText(bookMode.getPrice());
         price3.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         view.findViewById(R.id.commit).setSelected(true);
         view.findViewById(R.id.commit).setOnClickListener(v -> {
             shareDialog.dismiss();
-            startActivity(new Intent(BookInfoActivity.this, BookOrderActivity.class));
+            int num = ((ShopSumButton) view.findViewById(R.id.mShopSumButton)).getSum();
+            List<ShopBook> shopBooks = new ArrayList<>();
+            MyBooksMode myBooksMode = new MyBooksMode(bookMode.getName(), num, bookMode.getPreevent(), bookMode.getPrice(), bookMode.getPath(), bookMode.getTitle());
+            ShopBook shopBook = new ShopBook(bookMode.getName(), bookMode.getShopId(), myBooksMode);
+            shopBooks.add(shopBook);
+            BookOrderActivity.start(BookInfoActivity.this, addressMode, shopBooks);
         });
-        view.findViewById(R.id.address_layout).setOnClickListener(v ->
-                startActivity(new Intent(BookInfoActivity.this, AddressActivity.class)));
+        view.findViewById(R.id.address_layout).setOnClickListener(v -> {
+            Intent intent = new Intent(BookInfoActivity.this, AddressActivity.class);
+            intent.putExtra("SeletAddress", true);
+            startActivityForResult(intent, 100);
+        });
         shareDialog.setContentView(view);
         WindowManager.LayoutParams lp = shareDialog.getWindow().getAttributes();
         lp.gravity = Gravity.BOTTOM;
@@ -266,9 +283,11 @@ public class BookInfoActivity extends BaseActivity {
     private void addCart() {
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
-        map.put("goods_id", mode.getId() + "");
+        map.put("goods_id", bookMode.getId() + "");
+        map.put("buy_num", "1");
+
         showLoading();
-        HttpUtil.doGet(HttpApi.ADDCART, map, new HttpResultInterface() {
+        HttpUtil.doPost(HttpApi.ADDCART, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
                 dismissLoading();
@@ -283,4 +302,19 @@ public class BookInfoActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == 101) {
+            addressMode = (AddressMode) data.getSerializableExtra("AddressMode");
+            if (addressMode != null) {
+                def_address.setSelected(true);
+                def_address.setText(addressMode.getAreaname() + addressMode.getAddress());
+                if (dialogAddress != null) {
+                    dialogAddress.setSelected(true);
+                    dialogAddress.setText(addressMode.getAreaname() + addressMode.getAddress());
+                }
+            }
+        }
+    }
 }

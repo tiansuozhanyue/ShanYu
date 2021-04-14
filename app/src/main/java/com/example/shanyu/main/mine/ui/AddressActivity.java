@@ -184,6 +184,16 @@ public class AddressActivity extends BaseActivity implements MyRefreshLayout.Ref
     }
 
     @Override
+    public void onAddressSelet(AddressMode mode) {
+        if (getIntent().getBooleanExtra("SeletAddress", false)) {
+            Intent intent = new Intent();
+            intent.putExtra("AddressMode", mode);
+            setResult(101, intent);
+            finish();
+        }
+    }
+
+    @Override
     public void onAddressDell(String id) {
         dellAddress(id);
     }

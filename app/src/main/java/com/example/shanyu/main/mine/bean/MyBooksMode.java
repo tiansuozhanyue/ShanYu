@@ -1,6 +1,8 @@
 package com.example.shanyu.main.mine.bean;
 
-public class MyBooksMode {
+import java.io.Serializable;
+
+public class MyBooksMode implements Serializable {
 
     /**
      * id : 229
@@ -25,6 +27,15 @@ public class MyBooksMode {
     private String price;
     private String path;
     private String title;
+
+    public MyBooksMode(String name, Integer count, String preevent, String price, String path, String title) {
+        this.name = name;
+        this.count = count;
+        this.preevent = preevent;
+        this.price = price;
+        this.path = path;
+        this.title = title;
+    }
 
     public Integer getId() {
         return id;

@@ -123,8 +123,7 @@
                         <ImageView
                             android:id="@+id/cover"
                             android:layout_width="290dp"
-                            android:layout_height="290dp"
-                            android:scaleType="centerCrop" />
+                            android:layout_height="290dp" />
 
                         <TextView
                             android:id="@+id/name"

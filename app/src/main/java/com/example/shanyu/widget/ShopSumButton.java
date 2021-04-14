@@ -50,8 +50,8 @@ public class ShopSumButton extends LinearLayout {
 
     }
 
-    public String getSum() {
-        return sum + "";
+    public int getSum() {
+        return sum;
     }
 
 }

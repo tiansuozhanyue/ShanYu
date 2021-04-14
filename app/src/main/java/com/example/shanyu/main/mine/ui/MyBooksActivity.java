@@ -70,28 +70,32 @@ public class MyBooksActivity extends BaseActivity {
             public void onSuccess(String resultData) {
                 dismissLoading();
 
-                List<MyBooksMode> actionModes = new Gson().fromJson(resultData, new TypeToken<List<MyBooksMode>>() {
-                }.getType());
+                try {
+                    List<MyBooksMode> actionModes = new Gson().fromJson(resultData, new TypeToken<List<MyBooksMode>>() {
+                    }.getType());
 
-                List<ShopBook> shopBooks = new ArrayList<>();
+                    List<ShopBook> shopBooks = new ArrayList<>();
 
-                for (int i = 0; i < actionModes.size(); i++) {
-                    MyBooksMode myBooksMode = actionModes.get(i);
-                    if (shopBooks.size() == 0) {
-                        ShopBook shopBook = new ShopBook(myBooksMode.getName(), myBooksMode.getShopId(), myBooksMode);
-                        shopBooks.add(shopBook);
-                    } else {
-                        ShopBook shopBook = shopBooks.get(shopBooks.size() - 1);
-                        if (shopBook.getShopId() == myBooksMode.getShopId()) {
-                            shopBook.add(myBooksMode);
+                    for (int i = 0; i < actionModes.size(); i++) {
+                        MyBooksMode myBooksMode = actionModes.get(i);
+                        if (shopBooks.size() == 0) {
+                            ShopBook shopBook = new ShopBook(myBooksMode.getName(), myBooksMode.getShopId(), myBooksMode);
+                            shopBooks.add(shopBook);
                         } else {
-                            ShopBook shopBook1 = new ShopBook(myBooksMode.getName(), myBooksMode.getShopId(), myBooksMode);
-                            shopBooks.add(shopBook1);
+                            ShopBook shopBook = shopBooks.get(shopBooks.size() - 1);
+                            if (shopBook.getShopId() == myBooksMode.getShopId()) {
+                                shopBook.add(myBooksMode);
+                            } else {
+                                ShopBook shopBook1 = new ShopBook(myBooksMode.getName(), myBooksMode.getShopId(), myBooksMode);
+                                shopBooks.add(shopBook1);
+                            }
                         }
                     }
-                }
 
-                mListView.setAdapter(new MyBooksAdapter(MyBooksActivity.this, shopBooks));
+                    mListView.setAdapter(new MyBooksAdapter(MyBooksActivity.this, shopBooks));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         });

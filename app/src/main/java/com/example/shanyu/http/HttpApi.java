@@ -24,6 +24,6 @@ public class HttpApi {
     public static String DELL = HOST + "index.php/index/address/isdell";
     public static String SELECTED = HOST + "index.php/index/address/isselected";
     public static String CARTLIST = HOST + "index.php/index/cart/list";
-    public static String ADDCART = HOST + "index.php/index/cart";
+    public static String ADDCART = HOST + "index.php/index/cart/add";
     public static String EVALUATE = HOST + "index.php/index/goods/evaluate";
 }
