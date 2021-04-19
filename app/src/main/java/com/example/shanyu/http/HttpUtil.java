@@ -21,6 +21,8 @@ import java.security.Key;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -163,7 +165,7 @@ public class HttpUtil {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 
-                String result = response.body().string();
+                String result = unicodeDecode(response.body().string());
 
                 Headers headers = response.headers();
                 List<String> cookies = headers.values("Set-Cookie");
@@ -200,6 +202,17 @@ public class HttpUtil {
             }
         };
         return myCallback;
+    }
+
+    public static String unicodeDecode(String string) {
+        Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
+        Matcher matcher = pattern.matcher(string);
+        char ch;
+        while (matcher.find()) {
+            ch = (char) Integer.parseInt(matcher.group(2), 16);
+            string = string.replace(matcher.group(1), ch + "");
+        }
+        return string;
     }
 
     /**

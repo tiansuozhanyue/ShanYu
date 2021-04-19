@@ -27,6 +27,8 @@
     <string name="activity_pws_edit2">修改密码</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
+    <string name="about_mine">&#12288;&#12288;书善羽是学习人和年轻人的学习互动平台，由江西社优拼电商科技有限公司于2021年在南昌自主研发。书善羽以实体书店为基点便利快捷的服务、学习者以知识分享和发现世界的精彩”为使命，用户可以通过短视频、图文等形式记录生活和学习点滴，分享学习方式，并基于擅长爱好形成学习互动。</string>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>

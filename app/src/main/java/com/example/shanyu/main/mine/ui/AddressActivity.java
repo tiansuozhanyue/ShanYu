@@ -180,6 +180,7 @@ public class AddressActivity extends BaseActivity implements MyRefreshLayout.Ref
     public void onAddressEdit(AddressMode mode) {
         Intent intent = new Intent(AddressActivity.this, SetAddressActivity.class);
         intent.putExtra("mode", mode);
+        intent.putExtra("user", 1);
         startActivityForResult(intent, 11);
     }
 

@@ -26,4 +26,6 @@ public class HttpApi {
     public static String CARTLIST = HOST + "index.php/index/cart/list";
     public static String ADDCART = HOST + "index.php/index/cart/add";
     public static String EVALUATE = HOST + "index.php/index/goods/evaluate";
+    public static String BOOKINFO = HOST + "index.php/index/goods/detail";
+
 }

@@ -11,13 +11,14 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShanYu"
         android:usesCleartextTraffic="true">
-        <activity android:name=".main.home.ui.BookOrderActivity"></activity>
+        <activity android:name=".main.mine.ui.AboutActivity"></activity>
+        <activity android:name=".main.home.ui.BookOrderActivity" />
         <activity android:name=".main.home.ui.BookInfoActivity" />
         <activity android:name=".main.mine.ui.MyBooksActivity" />
         <activity android:name=".main.mine.ui.SelectAddressActivity" />

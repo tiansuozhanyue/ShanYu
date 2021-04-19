@@ -63,12 +63,12 @@ public class BookOrderActivity extends BaseActivity {
     public MyListView myListView;
 
     private static AddressMode addressMode;
-    private static List<ShopBook> shopBooks;
+    private static List<MyBooksMode> shopBooks;
     String allSum = "0.00";        //总金额
     String offersSum = "0.00";     //优惠金额
     String finalSum = "0.00";      //合计金额
 
-    public static void start(BaseActivity activity, AddressMode addressMode, List<ShopBook> shopBooks) {
+    public static void start(BaseActivity activity, AddressMode addressMode, List<MyBooksMode> shopBooks) {
         BookOrderActivity.addressMode = addressMode;
         BookOrderActivity.shopBooks = shopBooks;
         Intent intent = new Intent(activity, BookOrderActivity.class);
@@ -132,8 +132,8 @@ public class BookOrderActivity extends BaseActivity {
     private String getAllSum() {
         if (shopBooks == null) return "0.00";
 
-        for (ShopBook shopBook : shopBooks) {
-            for (MyBooksMode booksMode : shopBook.getModes()) {
+        for (MyBooksMode shopBook : shopBooks) {
+            for (MyBooksMode.ListDTO booksMode : shopBook.getList()) {
                 String sum = ArithUtil.mul(booksMode.getPreevent(), booksMode.getCount().toString());
                 allSum = ArithUtil.add(sum, allSum);
             }

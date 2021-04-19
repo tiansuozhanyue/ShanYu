@@ -22,10 +22,10 @@ import java.util.List;
 public class OrderBooksAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<ShopBook> names;
+    private List<MyBooksMode> names;
     private int index = 0;
 
-    public OrderBooksAdapter(Context mContext, List<ShopBook> names) {
+    public OrderBooksAdapter(Context mContext, List<MyBooksMode> names) {
         this.mContext = mContext;
         this.names = names;
     }
@@ -49,8 +49,8 @@ public class OrderBooksAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_order_book_item, parent, false);
-        ShopBook mode = names.get(position);
-        List<MyBooksMode> booksModes = mode.getModes();
+        MyBooksMode mode = names.get(position);
+        List<MyBooksMode.ListDTO> booksModes = mode.getList();
 
         TextView shopName = view.findViewById(R.id.shopName);
         shopName.setText(mode.getName());
@@ -76,7 +76,7 @@ public class OrderBooksAdapter extends BaseAdapter {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_order_books_item, parent, false);
-                MyBooksMode book = booksModes.get(position);
+                MyBooksMode.ListDTO book = booksModes.get(position);
 
                 TextView bookName = view.findViewById(R.id.bookName);
                 TextView bookPrice = view.findViewById(R.id.bookPrice);

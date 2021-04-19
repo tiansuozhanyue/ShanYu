@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.androidkun.xtablayout.XTabLayout;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
+import com.example.shanyu.main.home.bean.BookInfoMode;
 import com.example.shanyu.main.mine.adapter.AddressAdapter;
 import com.example.shanyu.main.mine.bean.AddressMode;
 import com.example.shanyu.main.mine.bean.MyBooksMode;
@@ -73,7 +74,8 @@ public class BookInfoActivity extends BaseActivity {
     TextView dialogAddress;
     BookDetailFragment bookDetailFragment;
     BookCommentFragment bookCommentFragment;
-    BookMode bookMode;
+    String bookModeId;
+    BookInfoMode bookMode;
     AddressMode addressMode;
     Fragment currentFragment;
 
@@ -89,28 +91,12 @@ public class BookInfoActivity extends BaseActivity {
     @Override
     public void initView() {
 
-        bookMode = (BookMode) getIntent().getSerializableExtra("mode");
-        ImageLoaderUtil.loadImage(HttpApi.HOST + bookMode.getPath(), cover);
-        name.setText(bookMode.getGoods());
-        price.setText(bookMode.getPreevent());
-        price1.setText("￥" + bookMode.getPrice());
-        price1.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        bookModeId = getIntent().getStringExtra("bookModeId");
 
-        bookDetailFragment = new BookDetailFragment();
-        Bundle bundle1 = new Bundle();
-        bundle1.putString("details", bookMode.getDetails());
-        bookDetailFragment.setArguments(bundle1);
-
-        bookCommentFragment = new BookCommentFragment();
-        Bundle bundle2 = new Bundle();
-        bundle2.putString("id", bookMode.getId().toString());
-        bookCommentFragment.setArguments(bundle2);
-
-        book_detail.setSelected(true);
-        book_detail_index.setSelected(true);
-        switchFragment(bookDetailFragment).commit();
+        getBookInfo();
 
         getAddress();
+
     }
 
     @OnClick({R.id.goback, R.id.share, R.id.shop,
@@ -209,7 +195,8 @@ public class BookInfoActivity extends BaseActivity {
     private void bugBookDialog() {
         Dialog shareDialog = new Dialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_buy, null, false);
-        ImageLoaderUtil.loadImage(HttpApi.HOST + bookMode.getPath(), view.findViewById(R.id.imag));
+        String path = HttpApi.HOST + bookMode.getPathList().get(0).getPath();
+        ImageLoaderUtil.loadImage(path, view.findViewById(R.id.imag));
         ((TextView) view.findViewById(R.id.name)).setText(bookMode.getGoods());
         String[] sum = bookMode.getPreevent().split("\\.");
         ((TextView) view.findViewById(R.id.price1)).setText(sum[0]);
@@ -226,11 +213,11 @@ public class BookInfoActivity extends BaseActivity {
         view.findViewById(R.id.commit).setOnClickListener(v -> {
             shareDialog.dismiss();
             int num = ((ShopSumButton) view.findViewById(R.id.mShopSumButton)).getSum();
-            List<ShopBook> shopBooks = new ArrayList<>();
-            MyBooksMode myBooksMode = new MyBooksMode(bookMode.getName(), num, bookMode.getPreevent(), bookMode.getPrice(), bookMode.getPath(), bookMode.getTitle());
-            ShopBook shopBook = new ShopBook(bookMode.getName(), bookMode.getShopId(), myBooksMode);
-            shopBooks.add(shopBook);
-            BookOrderActivity.start(BookInfoActivity.this, addressMode, shopBooks);
+            List<MyBooksMode> myBooksModes = new ArrayList<>();
+            List<MyBooksMode.ListDTO> listDTOS = new ArrayList<>();
+            listDTOS.add(new MyBooksMode.ListDTO(bookMode.getId(), 1, bookMode.getPreevent(), bookMode.getPrice(), path, bookMode.getTitle()));
+            myBooksModes.add(new MyBooksMode(bookMode.getShopId(), bookMode.getName(), listDTOS));
+            BookOrderActivity.start(BookInfoActivity.this, addressMode, myBooksModes);
         });
         view.findViewById(R.id.address_layout).setOnClickListener(v -> {
             Intent intent = new Intent(BookInfoActivity.this, AddressActivity.class);
@@ -245,6 +232,48 @@ public class BookInfoActivity extends BaseActivity {
         shareDialog.getWindow().setAttributes(lp);
         shareDialog.getWindow().setBackgroundDrawable(null);
         shareDialog.show();
+    }
+
+    /**
+     * 获取书籍详情
+     */
+    private void getBookInfo() {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", bookModeId);
+        showLoading();
+        HttpUtil.doGet(HttpApi.BOOKINFO, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                dismissLoading();
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                dismissLoading();
+                bookMode = new Gson().fromJson(resultData, BookInfoMode.class);
+                ImageLoaderUtil.loadImage(HttpApi.HOST + bookMode.getPathList().get(0).getPath(), cover);
+                name.setText(bookMode.getGoods());
+                price.setText(bookMode.getPreevent());
+                price1.setText("￥" + bookMode.getPrice());
+                price1.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+                bookDetailFragment = new BookDetailFragment();
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("details", bookMode.getDetails());
+                bookDetailFragment.setArguments(bundle1);
+
+                bookCommentFragment = new BookCommentFragment();
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("id", bookMode.getId().toString());
+                bookCommentFragment.setArguments(bundle2);
+
+                book_detail.setSelected(true);
+                book_detail_index.setSelected(true);
+                switchFragment(bookDetailFragment).commit();
+
+            }
+        });
+
     }
 
     /**
@@ -285,7 +314,8 @@ public class BookInfoActivity extends BaseActivity {
         map.put("uid", SharedUtil.getIntence().getUid());
         map.put("goods_id", bookMode.getId() + "");
         map.put("buy_num", "1");
-
+        map.put("ty", "0");
+        map.put("addressid", addressMode.getId() + "");
         showLoading();
         HttpUtil.doPost(HttpApi.ADDCART, map, new HttpResultInterface() {
             @Override

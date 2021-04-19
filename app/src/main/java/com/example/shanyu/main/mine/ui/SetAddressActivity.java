@@ -59,7 +59,8 @@ public class SetAddressActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_address, "新增收货地址");
+        int user = getIntent().getIntExtra("user", 0);
+        setContentView(R.layout.activity_set_address, user == 0 ? "新增收货地址" : "编辑收货地址");
         ButterKnife.bind(this);
         initView();
     }
@@ -194,9 +195,10 @@ public class SetAddressActivity extends BaseActivity {
         map.put("province", model0.getKey().toString());
         map.put("city", model1.getKey().toString());
         map.put("area", model2.getKey().toString());
-//        map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("id", mode.getId().toString());
         showLoading();
-        HttpUtil.doPost(HttpApi.EDIT + "?uid=" + SharedUtil.getIntence().getUid() + "&id=" + mode.getId(), map, new HttpResultInterface() {
+        HttpUtil.doPost(HttpApi.EDIT, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
                 ToastUtil.shortToast(errorMsg);

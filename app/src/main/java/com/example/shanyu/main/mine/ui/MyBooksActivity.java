@@ -1,9 +1,9 @@
 package com.example.shanyu.main.mine.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.example.shanyu.R;
@@ -11,29 +11,33 @@ import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
-import com.example.shanyu.main.mine.adapter.FootAdapter;
 import com.example.shanyu.main.mine.adapter.MyBooksAdapter;
-import com.example.shanyu.main.mine.bean.FootMode;
 import com.example.shanyu.main.mine.bean.MyBooksMode;
-import com.example.shanyu.main.mine.bean.ShopBook;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.CirButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MyBooksActivity extends BaseActivity {
 
     @BindView(R.id.mListView)
     public ListView mListView;
+    @BindView(R.id.allCheckBox)
+    public CheckBox allCheckBox;
+    @BindView(R.id.mCirButton)
+    public CirButton mCirButton;
+
+    boolean isAllSelected;
+    MyBooksAdapter myBooksAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +54,29 @@ public class MyBooksActivity extends BaseActivity {
         initView();
     }
 
+    @OnClick({R.id.allCheckBox, R.id.allCheckBox_text})
+    public void onClickView(View view) {
+
+        switch (view.getId()) {
+            case R.id.allCheckBox:
+            case R.id.allCheckBox_text:
+                isAllSelected = !isAllSelected;
+                allCheckBox.setChecked(isAllSelected);
+                myBooksAdapter.setAllSelected(isAllSelected);
+                break;
+        }
+
+    }
+
     @Override
     public void initView() {
+        mCirButton.setSelected(true);
         getBookss();
     }
 
+    /**
+     * 获取购物车列表
+     */
     private void getBookss() {
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
@@ -71,28 +93,13 @@ public class MyBooksActivity extends BaseActivity {
                 dismissLoading();
 
                 try {
+
                     List<MyBooksMode> actionModes = new Gson().fromJson(resultData, new TypeToken<List<MyBooksMode>>() {
                     }.getType());
 
-                    List<ShopBook> shopBooks = new ArrayList<>();
+                    myBooksAdapter = new MyBooksAdapter(MyBooksActivity.this, actionModes);
+                    mListView.setAdapter(myBooksAdapter);
 
-                    for (int i = 0; i < actionModes.size(); i++) {
-                        MyBooksMode myBooksMode = actionModes.get(i);
-                        if (shopBooks.size() == 0) {
-                            ShopBook shopBook = new ShopBook(myBooksMode.getName(), myBooksMode.getShopId(), myBooksMode);
-                            shopBooks.add(shopBook);
-                        } else {
-                            ShopBook shopBook = shopBooks.get(shopBooks.size() - 1);
-                            if (shopBook.getShopId() == myBooksMode.getShopId()) {
-                                shopBook.add(myBooksMode);
-                            } else {
-                                ShopBook shopBook1 = new ShopBook(myBooksMode.getName(), myBooksMode.getShopId(), myBooksMode);
-                                shopBooks.add(shopBook1);
-                            }
-                        }
-                    }
-
-                    mListView.setAdapter(new MyBooksAdapter(MyBooksActivity.this, shopBooks));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

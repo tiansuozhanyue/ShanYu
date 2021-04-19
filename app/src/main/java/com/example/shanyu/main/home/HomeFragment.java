@@ -157,7 +157,7 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick, 
     @Override
     public void onBookClick(BookMode mode) {
         Intent intent = new Intent(getContext(), BookInfoActivity.class);
-        intent.putExtra("mode", mode);
+        intent.putExtra("bookModeId", mode.getId().toString());
         startActivity(intent);
     }
 

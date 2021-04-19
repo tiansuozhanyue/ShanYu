@@ -13,6 +13,7 @@ import com.example.shanyu.R;
 public class ShopSumButton extends LinearLayout {
 
     int sum = 1;
+    TextView mTextView;
 
     public ShopSumButton(Context context) {
         super(context);
@@ -32,7 +33,7 @@ public class ShopSumButton extends LinearLayout {
         View view = LayoutInflater.from(mContext).inflate(R.layout.button_view, null, false);
         ImageView button1 = view.findViewById(R.id.button1);
         ImageView button2 = view.findViewById(R.id.button2);
-        TextView mTextView = view.findViewById(R.id.mTextView);
+        mTextView = view.findViewById(R.id.mTextView);
 
         button1.setOnClickListener(v -> {
             if (sum > 1) {
@@ -52,6 +53,11 @@ public class ShopSumButton extends LinearLayout {
 
     public int getSum() {
         return sum;
+    }
+
+    public void setSum(int n) {
+        sum = n;
+        mTextView.setText(sum + "");
     }
 
 }

@@ -16,6 +16,7 @@ import com.example.shanyu.login.PwsEditActivity;
 import com.example.shanyu.main.MainActivity;
 import com.example.shanyu.main.mine.adapter.OfferAdapter;
 import com.example.shanyu.main.mine.bean.OffersMode;
+import com.example.shanyu.main.mine.ui.AboutActivity;
 import com.example.shanyu.main.mine.ui.OffersActivity;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.ToastUtil;
@@ -50,17 +51,24 @@ public class SetingActivity extends BaseActivity {
         btn_signout.setSelected(true);
     }
 
-    @OnClick({R.id.reset_pws, R.id.btn_signout})
+    @OnClick({R.id.reset_pws, R.id.btn_signout, R.id.mine_about})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+
             case R.id.reset_pws:
                 Intent intent = new Intent(this, PwsEditActivity.class);
                 intent.putExtra("isRestPws", true);
                 startActivity(intent);
                 break;
+
             case R.id.btn_signout:
                 showSignOutView();
                 break;
+
+            case R.id.mine_about:
+                startActivity(new Intent(this, AboutActivity.class));
+                break;
+
         }
     }
 
