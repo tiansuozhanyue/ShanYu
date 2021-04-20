@@ -77,7 +77,7 @@ public class MyBooksActivity extends BaseActivity {
                         shopBooks.add(shopBook);
                     } else {
                         ShopBook shopBook = shopBooks.get(shopBooks.size() - 1);
-                        if (shopBook.getShopId() == myBooksMode.getShopId()) {
+                        if (shopBook.getShopId().equals(myBooksMode.getShopId())) {
                             shopBook.add(myBooksMode);
                         } else {
                             ShopBook shopBook1 = new ShopBook(myBooksMode.getName(), myBooksMode.getShopId(), myBooksMode);
