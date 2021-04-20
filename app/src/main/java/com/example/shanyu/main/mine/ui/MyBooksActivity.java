@@ -1,9 +1,7 @@
 package com.example.shanyu.main.mine.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListView;
 
 import com.example.shanyu.R;
@@ -11,14 +9,11 @@ import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
-import com.example.shanyu.main.mine.adapter.FootAdapter;
 import com.example.shanyu.main.mine.adapter.MyBooksAdapter;
-import com.example.shanyu.main.mine.bean.FootMode;
 import com.example.shanyu.main.mine.bean.MyBooksMode;
 import com.example.shanyu.main.mine.bean.ShopBook;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.ToastUtil;
-import com.example.shanyu.widget.CirButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
