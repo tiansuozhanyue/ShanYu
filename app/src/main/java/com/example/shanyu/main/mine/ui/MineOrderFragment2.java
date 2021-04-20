@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.shanyu.R;
 
-
+/**
+ * 待发货
+ */
 public class MineOrderFragment2 extends Fragment {
 
     @Nullable
