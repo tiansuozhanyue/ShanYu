@@ -56,6 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="13dp"
+            android:gravity="center_vertical"
             android:background="@drawable/bg_home_1"
             android:orientation="horizontal">
 
@@ -71,8 +72,10 @@
                 android:textSize="14sp" />
 
             <com.example.shanyu.widget.CirButton
+                android:id="@+id/search"
                 android:layout_width="55dp"
-                android:layout_height="30dp"
+                android:layout_height="28dp"
+                android:layout_marginRight="1dp"
                 android:text="搜索" />
 
         </LinearLayout>
@@ -110,6 +113,7 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/shop_join"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"

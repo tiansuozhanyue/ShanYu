@@ -24,7 +24,7 @@ public class ActionMode {
     private Integer status;
     private Integer createTime;
     private Integer updateTime;
-    private String path;
+    private String covers;
 
     public Integer getId() {
         return id;
@@ -98,11 +98,11 @@ public class ActionMode {
         this.updateTime = updateTime;
     }
 
-    public String getPath() {
-        return path;
+    public String getCovers() {
+        return covers;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setCovers(String covers) {
+        this.covers = covers;
     }
 }

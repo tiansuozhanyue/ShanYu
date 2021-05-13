@@ -18,12 +18,15 @@ import com.example.shanyu.main.mine.adapter.OfferAdapter;
 import com.example.shanyu.main.mine.bean.OffersMode;
 import com.example.shanyu.main.mine.ui.AboutActivity;
 import com.example.shanyu.main.mine.ui.OffersActivity;
+import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.CirButton;
 import com.example.shanyu.widget.MyCommonDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -105,10 +108,19 @@ public class SetingActivity extends BaseActivity {
                 dismissLoading();
                 SharedUtil.getIntence().setUid("");
                 setResult(102);
+                new EMThread().start();
                 finish();
             }
         });
 
+    }
+
+    class EMThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            EMClient.getInstance().logout(true);
+        }
     }
 
 

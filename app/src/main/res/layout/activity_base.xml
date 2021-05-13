@@ -29,7 +29,8 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:textColor="@color/color_black_E6"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/base_right_title"

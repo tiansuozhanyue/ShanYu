@@ -12,22 +12,22 @@ public class MyBooksMode implements Serializable {
      * list : [{"id":240,"goods_id":2,"name":"陆上书店","shop_id":1,"isselected":0,"count":1,"preevent":"35.00","discount":"35.00","money":"115.00","price":"115.00","path":"uploads/images/20210401/b6491afe1ca68e0a7c31d4579caf528e.jpg","title":"三国演义原著"}]
      */
 
-    private Integer shopId;
+    private Integer shop_id;
     private String name;
     private List<ListDTO> list;
 
     public MyBooksMode(Integer shopId, String name, List<ListDTO> list) {
-        this.shopId = shopId;
+        this.shop_id = shopId;
         this.name = name;
         this.list = list;
     }
 
     public Integer getShopId() {
-        return shopId;
+        return shop_id;
     }
 
     public void setShopId(Integer shopId) {
-        this.shopId = shopId;
+        this.shop_id = shopId;
     }
 
     public String getName() {
@@ -63,24 +63,24 @@ public class MyBooksMode implements Serializable {
          */
 
         private Integer id;
-        private Integer goodsId;
+        private Integer goods_id;
         private String name;
-        private Integer shopId;
+        private Integer shop_id;
         private Integer isselected;
         private Integer count;
         private String preevent;
         private String discount;
         private String money;
         private String price;
-        private String path;
+        private String covers;
         private String title;
 
         public ListDTO(Integer goodsId, Integer count, String preevent, String price, String path, String title) {
-            this.goodsId = goodsId;
+            this.goods_id = goodsId;
             this.count = count;
             this.preevent = preevent;
             this.price = price;
-            this.path = path;
+            this.covers = path;
             this.title = title;
         }
 
@@ -93,11 +93,11 @@ public class MyBooksMode implements Serializable {
         }
 
         public Integer getGoodsId() {
-            return goodsId;
+            return goods_id;
         }
 
         public void setGoodsId(Integer goodsId) {
-            this.goodsId = goodsId;
+            this.goods_id = goodsId;
         }
 
         public String getName() {
@@ -109,11 +109,11 @@ public class MyBooksMode implements Serializable {
         }
 
         public Integer getShopId() {
-            return shopId;
+            return shop_id;
         }
 
         public void setShopId(Integer shopId) {
-            this.shopId = shopId;
+            this.shop_id = shopId;
         }
 
         public Integer getIsselected() {
@@ -164,12 +164,12 @@ public class MyBooksMode implements Serializable {
             this.price = price;
         }
 
-        public String getPath() {
-            return path;
+        public String getCovers() {
+            return covers;
         }
 
-        public void setPath(String path) {
-            this.path = path;
+        public void setCovers(String covers) {
+            this.covers = covers;
         }
 
         public String getTitle() {

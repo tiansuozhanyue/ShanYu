@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_pws_white"
+    android:orientation="vertical"
+    android:padding="12.5dp">
+
+    <ImageView
+        android:id="@+id/bookCover"
+        android:layout_width="75dp"
+        android:layout_height="75dp" />
+
+    <TextView
+        android:id="@+id/bookName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/bookCover"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="四大名著全套小学生版全4册"
+        android:textColor="@color/color_black_E6"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bookName"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/bookCover"
+        android:text="155人收藏"
+        android:textColor="@color/color_black_80"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/num"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@id/bookCover"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥"
+            android:textColor="#ffff570b"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/price1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="32"
+            android:textColor="#ffff570b"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/price2"
+            android:layout_width="15dp"
+            android:layout_height="14dp"
+            android:text=".23"
+            android:textColor="#ffff570b"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

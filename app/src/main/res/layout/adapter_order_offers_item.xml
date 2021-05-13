@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:translationZ="5dp"
+    android:background="@mipmap/yhj_bg">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/yhj_spdkj" />
+
+    <ImageView
+        android:id="@+id/select"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:src="@mipmap/detail_choose" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginTop="12dp"
+        android:text="优惠券"
+        android:textColor="#cc000000"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="45dp"
+        android:text="2020.09.09  23:00-2020.09.05  24:00"
+        android:textColor="#66000000"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/rule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="12dp"
+        android:text="使用规则：限客户端使用"
+        android:textColor="#66000000"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/sum"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:text="10"
+        android:textColor="#ffff570b"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@id/sum"
+        android:text="￥"
+        android:textColor="#ffff570b"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/info1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sum"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:text="满10元可用"
+        android:layout_alignBaseline="@id/time"
+        android:textColor="#66000000"
+        android:textSize="11sp" />
+
+
+</RelativeLayout>

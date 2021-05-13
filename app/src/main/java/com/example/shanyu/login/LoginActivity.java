@@ -15,10 +15,14 @@ import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.MainActivity;
+import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.StringUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.CirButton;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements EMCallBack {
 
     @BindView(R.id.edit_phone)
     public EditText edit_phone;
@@ -136,13 +140,62 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(String t) {
                 dismissLoading();
+
+                //保存数据
                 SharedUtil.getIntence().setAccount(phone);
                 SharedUtil.getIntence().setUid(t);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                new EMThread(t, t).start();
+
                 finish();
             }
         });
     }
 
 
+    class EMThread extends Thread {
+        String username, password;
+
+        public EMThread(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+
+            try {
+                //登录注册
+                EMClient.getInstance().createAccount(username, username);//同步方法
+
+                EMClient.getInstance().login(username, username, LoginActivity.this);
+            } catch (HyphenateException e) {
+                if (e.getErrorCode() == 203) {//用户已存在
+                    //登录环信
+                    EMClient.getInstance().login(username, username, LoginActivity.this);
+                } else {
+                    LogUtil.i("---->环信注册失败：" + e.getErrorCode());
+                }
+            }
+
+        }
+    }
+
+
+    @Override
+    public void onSuccess() {
+        LogUtil.i("---->环信登录成功！");
+    }
+
+    @Override
+    public void onError(int i, String s) {
+        LogUtil.i("---->环信登录失败：" + s);
+    }
+
+    @Override
+    public void onProgress(int i, String s) {
+
+    }
 }

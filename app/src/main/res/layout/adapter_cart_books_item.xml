@@ -40,7 +40,7 @@
         android:layout_below="@id/bookName"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="30dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="5dp"
         android:layout_toRightOf="@id/bookCover"
         android:text="￥32.23"
         android:textColor="@color/color_black_E6"

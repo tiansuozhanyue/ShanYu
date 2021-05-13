@@ -81,6 +81,7 @@ public class AddressActivity extends BaseActivity implements MyRefreshLayout.Ref
     private void getAddress() {
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("isselected", "0");
         showLoading();
         HttpUtil.doGet(HttpApi.ADDRESS, map, new HttpResultInterface() {
             @Override

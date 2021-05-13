@@ -1,27 +1,36 @@
 package com.example.shanyu.main.mine.bean;
 
-public class OffersMode {
+import java.io.Serializable;
+
+public class OffersMode implements Serializable {
+
 
     /**
-     * id : 1
-     * uid : 3
-     * money : 10
-     * explain : 满15元可用
-     * rule : 限客户端使用
-     * business : 2021.04.01
-     * rest : 2021.04.30
-     * create_time : 1617246389
+     * id : 5
+     * uid : 47
+     * shop_id : 3
+     * money : 25
+     * maximum : 35
+     * explain : 满35元可用
+     * status : 0
+     * rule : 限三合书店使用
+     * business : 1618580784
+     * rest : 1619790384
+     * create_time : 1617239167
      * update_time : null
      */
 
     private Integer id;
     private Integer uid;
+    private Integer shop_id;
     private Integer money;
+    private Integer maximum;
     private String explain;
+    private Integer status;
     private String rule;
     private String business;
     private String rest;
-    private Integer createTime;
+    private Integer create_time;
     private Object updateTime;
 
     public Integer getId() {
@@ -40,6 +49,14 @@ public class OffersMode {
         this.uid = uid;
     }
 
+    public Integer getShop_id() {
+        return shop_id;
+    }
+
+    public void setShop_id(Integer shop_id) {
+        this.shop_id = shop_id;
+    }
+
     public Integer getMoney() {
         return money;
     }
@@ -48,12 +65,28 @@ public class OffersMode {
         this.money = money;
     }
 
+    public Integer getMaximum() {
+        return maximum;
+    }
+
+    public void setMaximum(Integer maximum) {
+        this.maximum = maximum;
+    }
+
     public String getExplain() {
         return explain;
     }
 
     public void setExplain(String explain) {
         this.explain = explain;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getRule() {
@@ -81,11 +114,11 @@ public class OffersMode {
     }
 
     public Integer getCreateTime() {
-        return createTime;
+        return create_time;
     }
 
     public void setCreateTime(Integer createTime) {
-        this.createTime = createTime;
+        this.create_time = createTime;
     }
 
     public Object getUpdateTime() {

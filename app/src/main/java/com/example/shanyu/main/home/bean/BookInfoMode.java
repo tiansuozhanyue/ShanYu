@@ -33,8 +33,8 @@ public class BookInfoMode {
     private Integer id;
     private Integer uid;
     private String title;
-    private Integer shopId;
-    private Integer categoryId;
+    private Integer shop_id;
+    private Integer category_id;
     private String category;
     private String goods;
     private String details;
@@ -50,8 +50,26 @@ public class BookInfoMode {
     private Integer created_at;
     private Integer updated_at;
     private String name;
+    private Integer collection;
+    private String covers;
     private String decimal;
     private List<PathListDTO> path_list;
+
+    public Integer getCollection() {
+        return collection;
+    }
+
+    public void setCollection(Integer collection) {
+        this.collection = collection;
+    }
+
+    public String getCovers() {
+        return covers;
+    }
+
+    public void setCovers(String covers) {
+        this.covers = covers;
+    }
 
     public Integer getId() {
         return id;
@@ -77,20 +95,36 @@ public class BookInfoMode {
         this.title = title;
     }
 
-    public Integer getShopId() {
-        return shopId;
+    public Integer getShop_id() {
+        return shop_id;
     }
 
-    public void setShopId(Integer shopId) {
-        this.shopId = shopId;
+    public void setShop_id(Integer shop_id) {
+        this.shop_id = shop_id;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public Integer getCategory_id() {
+        return category_id;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory_id(Integer category_id) {
+        this.category_id = category_id;
+    }
+
+    public Integer getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Integer created_at) {
+        this.created_at = created_at;
+    }
+
+    public Integer getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Integer updated_at) {
+        this.updated_at = updated_at;
     }
 
     public String getCategory() {

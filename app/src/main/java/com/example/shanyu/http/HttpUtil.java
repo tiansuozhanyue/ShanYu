@@ -57,7 +57,10 @@ public class HttpUtil {
     public static void doPost(String url, Map<String, String> map, HttpResultInterface resultInterface) {
 
         JSONObject json = new JSONObject(map);
-        LogUtil.net_i("====>doPost : " + url + " >>> " + json);
+        StringBuffer loginfo = new StringBuffer();
+
+        loginfo.append("  \r\n");
+        loginfo.append("====>doPost : " + url + " >>> " + json + "\r\n");
 
         if (!isNetworkAvailable()) {
             ToastUtil.shortToast("网络异常，请稍后重试！");
@@ -66,6 +69,7 @@ public class HttpUtil {
 
         if (map == null)
             return;
+
 
         //构建表单参数
         FormBody.Builder requestBuild = new FormBody.Builder();
@@ -83,7 +87,7 @@ public class HttpUtil {
             builder.addHeader("cookie", session);
 
         Call call = getOkHttpClient().newCall(builder.build());
-        call.enqueue(getCallback(resultInterface));
+        call.enqueue(getCallback(resultInterface, loginfo));
 
     }
 
@@ -103,15 +107,18 @@ public class HttpUtil {
         if (map == null) {
             newUrl = url;
         } else {
-            newUrl = url + "?";
+            StringBuffer buffer = new StringBuffer();
             for (Map.Entry<String, String> entry : map.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                newUrl = newUrl + key + "=" + value + "&";
+                buffer.append(entry.getKey() + "=" + entry.getValue() + "&");
             }
+
+            newUrl = url + "?" + buffer.substring(0, buffer.length() - 1);
+
         }
 
-        LogUtil.net_i("====>doGet : " + newUrl);
+        StringBuffer loginfo = new StringBuffer();
+        loginfo.append("  \r\n");
+        loginfo.append("====>doGet: " + newUrl + "\r\n");
 
         Request.Builder builder = new Request.Builder()
                 .url(newUrl.trim())
@@ -122,7 +129,7 @@ public class HttpUtil {
             builder.addHeader("cookie", session);
 
         Call call = getOkHttpClient().newCall(builder.build());
-        call.enqueue(getCallback(resultInterface));
+        call.enqueue(getCallback(resultInterface, loginfo));
 
     }
 
@@ -138,26 +145,40 @@ public class HttpUtil {
         if (file == null)
             return;
 
+        StringBuffer loginfo = new StringBuffer();
+        loginfo.append("\r\n");
+        loginfo.append("====>upload: " + HttpApi.UPLOAD + "\r\n");
+
         RequestBody body = RequestBody.create(MediaType.parse("image/*"), file);
-        final Request request = new Request.Builder()
-                .url(HttpApi.UPLOAD)
-                .header("Content-Type", "application/json")
-                .post(body)
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image_list", file.getName(), body)
                 .build();
+        Request request = new Request.Builder()
+                .url(HttpApi.UPLOAD)
+                .post(requestBody)
+                .build();
+
         Call call = getOkHttpClient().newCall(request);
-        call.enqueue(getCallback(resultInterface));
+        call.enqueue(getCallback(resultInterface, loginfo));
 
     }
 
-    private static Callback getCallback(final HttpResultInterface resultInterface) {
+
+    private static Callback getCallback(final HttpResultInterface resultInterface, StringBuffer loginfo) {
 
         Callback myCallback = new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
+
+                loginfo.append("====>onResponse :" + e.getMessage() + "\r\r");
+
+                LogUtil.net_i(loginfo.toString());
+
                 mhander.post(() -> {
                     if (resultInterface != null) {
                         resultInterface.onFailure(e.getMessage());
-                        LogUtil.net_i("====>onFailure : " + e.getMessage());
                     }
                 });
             }
@@ -174,7 +195,10 @@ public class HttpUtil {
                     session = s.substring(0, s.indexOf(";"));
                 }
 
-                LogUtil.net_i("====>onResponse : " + result);
+                loginfo.append("====>onResponse :" + result + "\r\n");
+                loginfo.append("\r\n");
+                LogUtil.net_i(loginfo.toString());
+
                 try {
                     JSONObject object = new JSONObject(result);
                     int status = object.getInt("status");

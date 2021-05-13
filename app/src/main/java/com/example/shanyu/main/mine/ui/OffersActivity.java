@@ -46,22 +46,26 @@ public class OffersActivity extends BaseActivity implements OfferAdapter.OfferOn
     @Override
     public void initView() {
         myRefreshLayout.setRefreshListener(this);
+        showLoading();
         getOfferss();
     }
 
     private void getOfferss() {
+
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
-        showLoading();
+        map.put("ty", "1");
         HttpUtil.doPost(HttpApi.OFFERS, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
                 ToastUtil.shortToast(errorMsg);
+                myRefreshLayout.closeLoadingView();
                 dismissLoading();
             }
 
             @Override
             public void onSuccess(String resultData) {
+                myRefreshLayout.closeLoadingView();
                 dismissLoading();
                 List<OffersMode> actionModes = new Gson().fromJson(resultData, new TypeToken<List<OffersMode>>() {
                 }.getType());

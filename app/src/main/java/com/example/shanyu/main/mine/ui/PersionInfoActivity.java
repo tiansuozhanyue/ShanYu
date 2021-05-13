@@ -18,12 +18,16 @@ import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.login.PwsEditActivity;
 import com.example.shanyu.utils.ImageLoaderUtil;
+import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.MPermissionUtils;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.RoundImageView;
 
+import org.json.JSONException;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -119,6 +123,7 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
      */
     private void uploadAvatar(File file) {
         showLoading();
+
         HttpUtil.upload(file, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {

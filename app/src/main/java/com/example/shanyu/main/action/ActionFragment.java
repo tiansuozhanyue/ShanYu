@@ -15,6 +15,8 @@ import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.utils.LogUtil;
+import com.example.shanyu.utils.ToastUtil;
+import com.example.shanyu.widget.MyRefreshLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,12 +27,14 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class ActionFragment extends Fragment implements ActionAdapter.ActionOnClick {
+public class ActionFragment extends Fragment implements ActionAdapter.ActionOnClick, MyRefreshLayout.RefreshListener {
 
     Unbinder bind;
 
     @BindView(R.id.mListView)
     public ListView mListView;
+    @BindView(R.id.myRefreshLayout)
+    public MyRefreshLayout myRefreshLayout;
 
     @Nullable
     @Override
@@ -50,6 +54,9 @@ public class ActionFragment extends Fragment implements ActionAdapter.ActionOnCl
     }
 
     private void initView() {
+
+        myRefreshLayout.setRefreshListener(this);
+
         getActions();
     }
 
@@ -62,11 +69,13 @@ public class ActionFragment extends Fragment implements ActionAdapter.ActionOnCl
         HttpUtil.doGet(HttpApi.ACTION, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
-                LogUtil.i("===>" + errorMsg);
+                myRefreshLayout.closeLoadingView();
+                ToastUtil.shortToast(errorMsg);
             }
 
             @Override
             public void onSuccess(String resultData) {
+                myRefreshLayout.closeLoadingView();
                 List<ActionMode> actionModes = new Gson().fromJson(resultData, new TypeToken<List<ActionMode>>() {
                 }.getType());
                 mListView.setAdapter(new ActionAdapter(getContext(), actionModes, ActionFragment.this));
@@ -79,4 +88,10 @@ public class ActionFragment extends Fragment implements ActionAdapter.ActionOnCl
     public void onActionClick(int p) {
 
     }
+
+    @Override
+    public void onRefresh(MyRefreshLayout refreshLayout) {
+        getActions();
+    }
+
 }

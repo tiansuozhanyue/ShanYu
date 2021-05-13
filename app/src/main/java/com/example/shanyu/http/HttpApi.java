@@ -1,8 +1,13 @@
 package com.example.shanyu.http;
 
+
 public class HttpApi {
 
-    public static String HOST = "http://sypds.com/";
+
+    //    public static String WxPayAppId = "wx20b72ab25f7f8e8e";
+    public static String WxPayAppId = "wx0a44f6b97bddac61";
+
+    public static String HOST = "http://shushanyu.com/";
 
     public static String REGIST = HOST + "index.php/user/publics/signup";
     public static String SIGNOUT = HOST + "index.php/user//publics/signout";
@@ -24,8 +29,20 @@ public class HttpApi {
     public static String DELL = HOST + "index.php/index/address/isdell";
     public static String SELECTED = HOST + "index.php/index/address/isselected";
     public static String CARTLIST = HOST + "index.php/index/cart/list";
+    public static String CARTDELET = HOST + "index.php/index/cart/isdell";
+    public static String CARTSELECT = HOST + "index.php/index/cart/isselected";
+    public static String CARTSUM = HOST + "index.php/index/cart/is_sum";
     public static String ADDCART = HOST + "index.php/index/cart/add";
     public static String EVALUATE = HOST + "index.php/index/goods/evaluate";
     public static String BOOKINFO = HOST + "index.php/index/goods/detail";
+    public static String ORDER_ADD = HOST + "index.php/index/order/add";
+    public static String WXPAY = HOST + "index.php/index/wechat_pay/is_now";
+    public static String SHOP_STATUE = HOST + "index.php/index/shop";
+    public static String SHOP_ADD = HOST + "index.php/index/shop/add";
+    public static String ORDER_LIST = HOST + "index.php/index/order/list";
+    public static String COLLECTION = HOST + "index.php/index/collection/collection";
+    public static String COLLECTIONS = HOST + "index.php/index/collection";
+    public static String CANCLE_COLLECTION = HOST + "index.php/index/collection/is_collection";
+
 
 }

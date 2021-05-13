@@ -49,7 +49,7 @@ public class BooksAdapter extends BaseAdapter {
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_book_item, parent, false);
         BookMode mode = names.get(position);
 
-        ImageLoaderUtil.loadImage(HttpApi.HOST + mode.getPath(), view.findViewById(R.id.book_img));
+        ImageLoaderUtil.loadImage(HttpApi.HOST + mode.getCovers(), view.findViewById(R.id.book_img));
 
         ((TextView) view.findViewById(R.id.book_name)).setText(mode.getGoods());
         ((TextView) view.findViewById(R.id.book_shop)).setText(mode.getName());

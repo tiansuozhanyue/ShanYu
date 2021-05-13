@@ -13,23 +13,29 @@ import android.widget.TextView;
 
 import com.example.shanyu.R;
 import com.example.shanyu.http.HttpApi;
+import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.mine.bean.MyBooksMode;
 import com.example.shanyu.main.mine.bean.ShopBook;
 import com.example.shanyu.utils.ImageLoaderUtil;
+import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.widget.MyListView;
 import com.example.shanyu.widget.ShopSumButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyBooksAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<MyBooksMode> shopBooks;
+    private DataListener dataListener;
 
-    public MyBooksAdapter(Context mContext, List<MyBooksMode> shopBooks) {
+    public MyBooksAdapter(Context mContext, List<MyBooksMode> shopBooks, DataListener dataListener) {
         this.mContext = mContext;
         this.shopBooks = shopBooks;
+        this.dataListener = dataListener;
     }
 
     public void setAllSelected(boolean allSelected) {
@@ -59,6 +65,45 @@ public class MyBooksAdapter extends BaseAdapter {
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
+//        updateMoney();
+    }
+
+    private void updateMoney() {
+        List<MyBooksMode> myBooksModes = new ArrayList<>();
+
+        if (dataListener != null) {
+            StringBuffer ids1 = new StringBuffer();
+            StringBuffer ids2 = new StringBuffer();
+            for (MyBooksMode myBooksMode : shopBooks) {
+                List<MyBooksMode.ListDTO> listDTOS = new ArrayList<>();
+                for (MyBooksMode.ListDTO listDTO : myBooksMode.getList()) {
+                    if (listDTO.getIsselected() == 1) {
+                        listDTOS.add(listDTO);
+                        ids1.append(listDTO.getId() + ",");
+
+                    } else {
+
+                        ids2.append(listDTO.getId() + ",");
+                    }
+                }
+                if (listDTOS.size() > 0) {
+                    myBooksModes.add(new MyBooksMode(myBooksMode.getShopId(), myBooksMode.getName(), listDTOS));
+                }
+            }
+            dataListener.selectExchange(myBooksModes);
+        }
+    }
+
+
+    /**
+     * 上报数量
+     */
+    private void sumBookss(String goods_id, String buy_num) {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("goods_id", goods_id);
+        map.put("buy_num", buy_num);
+        HttpUtil.doGet(HttpApi.CARTSUM, map, null);
     }
 
     @Override
@@ -83,7 +128,6 @@ public class MyBooksAdapter extends BaseAdapter {
             }
             notifyDataSetChanged();
         });
-
 
         TextView shopName = view.findViewById(R.id.shopName);
         shopName.setText(mode.getName());
@@ -120,18 +164,23 @@ public class MyBooksAdapter extends BaseAdapter {
 
                 checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     book.setIsselected(checkBox.isChecked() ? 1 : 0);
-                    notifyDataSetChanged();
                     MyBooksAdapter.this.notifyDataSetChanged();
+                    updateMoney();
                 });
 
                 checkBox.setChecked(book.getIsselected() == 1);
 
-                ImageLoaderUtil.loadImage(HttpApi.HOST + book.getPath(), view.findViewById(R.id.bookCover));
+                ImageLoaderUtil.loadImage(HttpApi.HOST + book.getCovers(), view.findViewById(R.id.bookCover));
                 bookName.setText(book.getTitle());
                 bookPrice.setText("￥" + book.getPreevent());
                 price.setText("￥" + book.getPrice());
                 price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 bookNum.setSum(book.getCount());
+                bookNum.setSumExchangeListener(sum1 -> {
+                    book.setCount(sum1);
+                    sumBookss(book.getGoodsId().toString(), sum1 + "");
+                    updateMoney();
+                });
 
                 return view;
 
@@ -139,5 +188,11 @@ public class MyBooksAdapter extends BaseAdapter {
         });
 
         return view;
+
     }
+
+    public interface DataListener {
+        void selectExchange(List<MyBooksMode> listDTOS);
+    }
+
 }

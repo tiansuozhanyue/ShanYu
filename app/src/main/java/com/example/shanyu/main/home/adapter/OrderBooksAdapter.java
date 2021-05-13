@@ -82,7 +82,7 @@ public class OrderBooksAdapter extends BaseAdapter {
                 TextView bookPrice = view.findViewById(R.id.bookPrice);
                 TextView bookNum = view.findViewById(R.id.bookNum);
 
-                ImageLoaderUtil.loadImage(HttpApi.HOST + book.getPath(), view.findViewById(R.id.bookCover));
+                ImageLoaderUtil.loadImage(HttpApi.HOST + book.getCovers(), view.findViewById(R.id.bookCover));
                 bookName.setText(book.getTitle());
                 bookPrice.setText("￥" + book.getPreevent());
                 bookNum.setText("x" + book.getCount());
