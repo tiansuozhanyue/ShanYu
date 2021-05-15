@@ -190,7 +190,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:gravity="right|center_vertical"
-                                android:text="集体购"
+                                android:text="到店自提"
                                 android:textColor="#b3000000"
                                 android:textSize="14sp" />
 
@@ -261,10 +261,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
                         android:divider="@color/color_black_12"
                         android:dividerHeight="0.5dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
                         android:scrollbars="none" />
 
 
