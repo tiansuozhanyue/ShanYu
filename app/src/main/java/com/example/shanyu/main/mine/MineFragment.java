@@ -160,6 +160,8 @@ public class MineFragment extends Fragment {
                 if (!StringUtil.isEmpty(mUserMode.getAutograph()))
                     user_sign.setText(mUserMode.getAutograph());
 
+                SharedUtil.getIntence().setMessage(mUserMode.getIsmessage());
+
             }
         });
     }

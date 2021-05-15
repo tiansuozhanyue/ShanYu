@@ -101,6 +101,16 @@ public class SharedUtil {
         return preferences.getString("uid", "");
     }
 
+
+    public boolean setMessage(int flag) {
+        editor.putInt("ismessage", flag);
+        return editor.commit();
+    }
+
+    public int isMessage() {
+        return preferences.getInt("ismessage", 0);
+    }
+
     //=============================定位信息=============================================
 
     public boolean setCity(String city) {

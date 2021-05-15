@@ -138,6 +138,7 @@
                 android:textSize="14sp" />
 
             <Switch
+                android:id="@+id/mSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:thumb="@drawable/thumb"

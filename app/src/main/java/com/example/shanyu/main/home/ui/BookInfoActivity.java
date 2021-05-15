@@ -1,10 +1,5 @@
 package com.example.shanyu.main.home.ui;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -17,44 +12,33 @@ import android.webkit.WebView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 
-import com.androidkun.xtablayout.XTabLayout;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.home.adapter.BookInfoAddressAdapter;
 import com.example.shanyu.main.home.adapter.CommentAdapter;
-import com.example.shanyu.main.home.bean.BannerMode;
 import com.example.shanyu.main.home.bean.BookInfoMode;
 import com.example.shanyu.main.home.bean.CommentBean;
-import com.example.shanyu.main.mine.adapter.AddressAdapter;
+import com.example.shanyu.main.home.bean.ShareBean;
 import com.example.shanyu.main.mine.bean.AddressMode;
 import com.example.shanyu.main.mine.bean.MyBooksMode;
-import com.example.shanyu.main.mine.bean.ShopBook;
 import com.example.shanyu.main.mine.ui.AddressActivity;
 import com.example.shanyu.utils.AppUtil;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.ToastUtil;
-import com.example.shanyu.widget.CustomViewPager;
 
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.http.HttpApi;
-import com.example.shanyu.main.MainPageAdapter;
-import com.example.shanyu.main.home.bean.BookMode;
 import com.example.shanyu.utils.ImageLoaderUtil;
 import com.example.shanyu.widget.MyListView;
 import com.example.shanyu.widget.ShopSumButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.to.aboomy.banner.Banner;
-
-import org.jetbrains.annotations.Nullable;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,6 +73,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
     TextView dialogAddress;
     String bookModeId;
     BookInfoMode bookMode;
+    ShareBean shareBean;
     AddressMode addressMode;
     List<AddressMode> addressModes;
     Dialog addressDialog;
@@ -111,6 +96,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
         getBookInfo();
         getAddress();
         getComment();
+        getShareInfo();
     }
 
     @OnClick({R.id.goback, R.id.share, R.id.shop,
@@ -310,6 +296,27 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
 
                 myListView.setAdapter(new CommentAdapter(BookInfoActivity.this, comments, true));
 
+            }
+        });
+
+    }
+
+    /**
+     * 获取分享数据
+     */
+    private void getShareInfo() {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("goods_id", bookModeId);
+        HttpUtil.doGet(HttpApi.SHARE, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                shareBean = new Gson().fromJson(resultData, ShareBean.class);
             }
         });
 
