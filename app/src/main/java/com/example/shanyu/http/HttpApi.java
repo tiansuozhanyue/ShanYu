@@ -45,6 +45,7 @@ public class HttpApi {
     public static String CANCLE_COLLECTION = HOST + "index.php/index/collection/is_collection";
     public static String SHARE = HOST + "index.php/index/share";
     public static String ISMESSAGE = HOST + "index.php/index/user/ismessage";
+    public static String SEARCH = HOST + "index.php/index/goods/search";
 
 
 }

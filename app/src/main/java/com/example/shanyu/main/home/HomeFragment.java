@@ -1,11 +1,19 @@
 package com.example.shanyu.main.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,12 +29,14 @@ import com.example.shanyu.main.home.adapter.CategoryAdapter;
 import com.example.shanyu.main.home.bean.BannerMode;
 import com.example.shanyu.main.home.bean.BookMode;
 import com.example.shanyu.main.home.ui.BookInfoActivity;
+import com.example.shanyu.main.home.ui.BookSearchActivity;
 import com.example.shanyu.main.home.ui.ShopJoinActivity1;
 import com.example.shanyu.main.home.ui.ShopJoinActivity2;
 import com.example.shanyu.main.home.ui.ShopJoinActivity3;
 import com.example.shanyu.utils.ImageLoaderUtil;
 import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.utils.StringUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.CirButton;
 import com.example.shanyu.widget.MyGridView;
@@ -47,10 +57,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick, CategoryAdapter.CategoryOnClick, MyRefreshLayout.RefreshListener {
+public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
+        CategoryAdapter.CategoryOnClick,
+        MyRefreshLayout.RefreshListener,
+        TextWatcher,
+        TextView.OnEditorActionListener {
 
     Unbinder bind;
     int type;
+    String searchInfo;
 
     @BindView(R.id.mBanner)
     public Banner mBanner;
@@ -62,6 +77,8 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick, 
     public MyRefreshLayout myRefreshLayout;
     @BindView(R.id.search)
     public CirButton search;
+    @BindView(R.id.edit_input)
+    public EditText edit_input;
 
     @Nullable
     @Override
@@ -76,15 +93,14 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick, 
     }
 
     private void initView() {
-
-        search.setSelected(true);
-
+        edit_input.addTextChangedListener(this);
+        edit_input.setOnEditorActionListener(this);
         getBanner();
         getShopStatue();
         myRefreshLayout.setRefreshListener(this);
     }
 
-    @OnClick({R.id.shop_join})
+    @OnClick({R.id.shop_join, R.id.search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -102,6 +118,16 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick, 
                 }
                 break;
 
+            case R.id.search:
+                if (!StringUtil.isEmpty(searchInfo)) {
+                    hideKeyboard(edit_input);
+                    Intent intent = new Intent(getContext(), BookSearchActivity.class);
+                    intent.putExtra("searchInfo", searchInfo);
+                    startActivity(intent);
+                    edit_input.setText("");
+                }
+                break;
+
         }
     }
 
@@ -110,7 +136,6 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick, 
         super.onDestroy();
         bind.unbind();
     }
-
 
     /**
      * 获取banner
@@ -184,6 +209,7 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick, 
 
     }
 
+
     /**
      * 获取商铺审核状态
      */
@@ -223,4 +249,39 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick, 
     public void onRefresh(MyRefreshLayout refreshLayout) {
         getBanner();
     }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        searchInfo = s.toString();
+        search.setSelected(!StringUtil.isEmpty(searchInfo));
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            hideKeyboard(edit_input);
+            Intent intent = new Intent(getContext(), BookSearchActivity.class);
+            intent.putExtra("searchInfo", searchInfo);
+            startActivity(intent);
+            edit_input.setText("");
+            return true;
+        }
+        return false;
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager manager = (InputMethodManager) view.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 }

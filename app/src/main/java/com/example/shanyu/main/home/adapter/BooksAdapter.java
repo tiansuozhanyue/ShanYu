@@ -51,7 +51,7 @@ public class BooksAdapter extends BaseAdapter {
 
         ImageLoaderUtil.loadImage(HttpApi.HOST + mode.getCovers(), view.findViewById(R.id.book_img));
 
-        ((TextView) view.findViewById(R.id.book_name)).setText(mode.getGoods());
+        ((TextView) view.findViewById(R.id.book_name)).setText(mode.getTitle());
         ((TextView) view.findViewById(R.id.book_shop)).setText(mode.getName());
 
         String[] sum = mode.getPreevent().split("\\.");
