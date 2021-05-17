@@ -79,6 +79,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
     Dialog addressDialog;
     int isselected = 0;
     int collectionStaue;
+    int shop_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,9 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
                 break;
 
             case R.id.shop:
+                Intent intent1 = new Intent(BookInfoActivity.this, ShopSearchActivity.class);
+                intent1.putExtra("shop_id", shop_id + "");
+                startActivity(intent1);
                 break;
 
             case R.id.chat:
@@ -129,9 +133,9 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
                 break;
 
             case R.id.comment_more:
-                Intent intent = new Intent(BookInfoActivity.this, BookCommentActivity.class);
-                intent.putExtra("id", bookModeId);
-                startActivity(intent);
+                Intent intent2 = new Intent(BookInfoActivity.this, BookCommentActivity.class);
+                intent2.putExtra("id", bookModeId);
+                startActivity(intent2);
                 break;
 
             case R.id.address_layout:
@@ -250,6 +254,8 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
             public void onSuccess(String resultData) {
                 dismissLoading();
                 bookMode = new Gson().fromJson(resultData, BookInfoMode.class);
+
+                shop_id = bookMode.getShop_id();
 
                 cover.setHolderCreator((context, index, o) -> {
                     ImageView banner = new ImageView(context);

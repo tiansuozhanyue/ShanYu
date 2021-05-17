@@ -28,6 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShanYu"
         android:usesCleartextTraffic="true">
+        <activity android:name=".main.home.ui.ShopSearchActivity"></activity>
         <activity
             android:name=".main.home.ui.BookSearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />

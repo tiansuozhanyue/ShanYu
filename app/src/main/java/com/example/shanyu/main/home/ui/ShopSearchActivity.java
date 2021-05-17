@@ -1,5 +1,6 @@
 package com.example.shanyu.main.home.ui;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -29,75 +30,29 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BookSearchActivity extends BaseActivity implements SearchBooksAdapter.BookOnClick, TextView.OnEditorActionListener {
+public class ShopSearchActivity extends BaseActivity implements TextView.OnEditorActionListener, SearchBooksAdapter.BookOnClick {
 
-    String searchInfo;
-
-    @BindView(R.id.mListView)
-    public ListView mListView;
+    String searchInfo = "";
+    String shop_id;
     @BindView(R.id.edit_input)
     public EditText edit_input;
+    @BindView(R.id.mListView)
+    public ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setImmersiveStatusBar(true);
-        setContentView(R.layout.activity_book_search);
+        setContentView(R.layout.activity_shop_search);
         ButterKnife.bind(this);
         initView();
     }
 
     @Override
     public void initView() {
-        searchInfo = getIntent().getStringExtra("searchInfo");
-        edit_input.setText(searchInfo);
+        shop_id = getIntent().getStringExtra("shop_id");
         edit_input.setOnEditorActionListener(this);
-        searchBooks();
-    }
-
-    @OnClick({R.id.cancle})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.cancle:
-                edit_input.setText("");
-                hideKeyboard(edit_input);
-                break;
-        }
-    }
-
-
-    /**
-     * 搜索商品
-     */
-    private void searchBooks() {
-
-        Map<String, String> map = new HashMap<>();
-        map.put("title", searchInfo);
-
-        HttpUtil.doGet(HttpApi.SEARCH, map, new HttpResultInterface() {
-            @Override
-            public void onFailure(String errorMsg) {
-                mListView.setAdapter(null);
-            }
-
-            @Override
-            public void onSuccess(String resultData) {
-
-                List<BookMode> bookModes = new Gson().fromJson(resultData, new TypeToken<List<BookMode>>() {
-                }.getType());
-
-                mListView.setAdapter(new SearchBooksAdapter(BookSearchActivity.this, bookModes, BookSearchActivity.this));
-
-            }
-        });
-
-    }
-
-    @Override
-    public void onBookClick(BookMode mode) {
-        Intent intent = new Intent(this, BookInfoActivity.class);
-        intent.putExtra("bookModeId", mode.getId().toString());
-        startActivity(intent);
+        getBooks(1);
     }
 
     @Override
@@ -109,6 +64,84 @@ public class BookSearchActivity extends BaseActivity implements SearchBooksAdapt
             return true;
         }
         return false;
+    }
+
+
+    @OnClick({R.id.goback})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.goback:
+                finish();
+                break;
+        }
+    }
+
+    /**
+     * 搜索商品
+     */
+    private void searchBooks() {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("title", searchInfo);
+        map.put("shop_id", shop_id);
+        showLoading();
+        HttpUtil.doGet(HttpApi.SEARCH, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                dismissLoading();
+                mListView.setAdapter(null);
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                dismissLoading();
+
+                List<BookMode> bookModes = new Gson().fromJson(resultData, new TypeToken<List<BookMode>>() {
+                }.getType());
+
+                mListView.setAdapter(new SearchBooksAdapter(ShopSearchActivity.this, bookModes, ShopSearchActivity.this));
+
+            }
+        });
+
+    }
+
+    /**
+     * 商铺的商铺列表
+     */
+    private void getBooks(int ty) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("ty", ty + "");
+        map.put("shop_id", shop_id);
+        showLoading();
+        HttpUtil.doGet(HttpApi.SHOPBOOKLIST, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                dismissLoading();
+                mListView.setAdapter(null);
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                dismissLoading();
+
+                List<BookMode> bookModes = new Gson().fromJson(resultData, new TypeToken<List<BookMode>>() {
+                }.getType());
+
+                mListView.setAdapter(new SearchBooksAdapter(ShopSearchActivity.this, bookModes, ShopSearchActivity.this));
+
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onBookClick(BookMode mode) {
+        Intent intent = new Intent(this, BookInfoActivity.class);
+        intent.putExtra("bookModeId", mode.getId().toString());
+        startActivity(intent);
     }
 
 }
