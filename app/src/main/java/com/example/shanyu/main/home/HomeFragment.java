@@ -1,17 +1,10 @@
 package com.example.shanyu.main.home;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.shanyu.R;
+import com.example.shanyu.base.EventBean;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
@@ -30,6 +24,8 @@ import com.example.shanyu.main.home.bean.BannerMode;
 import com.example.shanyu.main.home.bean.BookMode;
 import com.example.shanyu.main.home.ui.BookInfoActivity;
 import com.example.shanyu.main.home.ui.BookSearchActivity;
+import com.example.shanyu.main.home.ui.BookOrderActivity;
+import com.example.shanyu.main.home.ui.PaySucessActivity;
 import com.example.shanyu.main.home.ui.ShopJoinActivity1;
 import com.example.shanyu.main.home.ui.ShopJoinActivity2;
 import com.example.shanyu.main.home.ui.ShopJoinActivity3;
@@ -46,6 +42,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,6 +79,8 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
     public CirButton search;
     @BindView(R.id.edit_input)
     public EditText edit_input;
+    @BindView(R.id.address)
+    public TextView address;
 
     @Nullable
     @Override
@@ -95,6 +97,11 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
     private void initView() {
         edit_input.addTextChangedListener(this);
         edit_input.setOnEditorActionListener(this);
+
+        EventBus.getDefault().register(this);
+
+        search.setSelected(true);
+
         getBanner();
         getShopStatue();
         myRefreshLayout.setRefreshListener(this);
@@ -131,11 +138,21 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void studentEventBus(EventBean eventBean) {
+        switch (eventBean.flag) {
+            case EventBean.ADDRESS:
+                address.setText(eventBean.info);
+                break;
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         bind.unbind();
     }
+
 
     /**
      * 获取banner
@@ -283,5 +300,6 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
 
 }

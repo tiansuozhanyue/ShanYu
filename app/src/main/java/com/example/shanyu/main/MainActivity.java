@@ -1,6 +1,7 @@
 package com.example.shanyu.main;
 
 import android.Manifest;
+import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
+import com.example.shanyu.base.EventBean;
 import com.example.shanyu.login.LoginActivity;
 import com.example.shanyu.main.action.ActionFragment;
 import com.example.shanyu.main.chat.ChatFragment;
@@ -31,6 +33,8 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -235,23 +239,24 @@ public class MainActivity extends BaseActivity implements AMapLocationListener {
     public void onLocationChanged(AMapLocation amapLocation) {
         if (amapLocation != null) {
             if (amapLocation.getErrorCode() == 0) {
-//                //定位成功回调信息，设置相关消息
+                //定位成功回调信息，设置相关消息
 //                amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见官方定位类型表
 //                amapLocation.getAccuracy();//获取精度信息
 //                amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
 //                amapLocation.getCountry();//国家信息
 //                amapLocation.getProvince();//省信息
-//                amapLocation.getDistrict();//城区信息
-//                amapLocation.getStreet();//街道信息
-//                amapLocation.getStreetNum();//街道门牌号信息
 //                amapLocation.getCityCode();//城市编码
 //                amapLocation.getAdCode();//地区编码
 
+                String district = amapLocation.getDistrict();//城区信息
+                String street = amapLocation.getStreet();//街道信息
+                String streetNum = amapLocation.getStreetNum();//街道门牌号信息
                 String city = amapLocation.getCity();//城市信息
                 double latitude = amapLocation.getLatitude();//获取纬度
                 double longitude = amapLocation.getLongitude();//获取经度
 
-                LogUtil.i("====>定位：" + longitude + ":" + latitude + ":" + city);
+                EventBus.getDefault().post(new EventBean(EventBean.ADDRESS, district + street + streetNum));
+
 
             } else {
                 LogUtil.i("====>定位失败：");
