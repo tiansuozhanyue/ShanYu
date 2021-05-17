@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +44,7 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
     public TextView nickname;
     @BindView(R.id.autograph)
     public TextView autograph;
+    int REQUESTCODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +85,7 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
      */
     private void selectedAvatar() {
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-        MPermissionUtils.requestPermissionsResult(this, 1, permissions, new MPermissionUtils.OnPermissionListener() {
+        MPermissionUtils.requestPermissionsResult(this, REQUESTCODE, permissions, new MPermissionUtils.OnPermissionListener() {
             @Override
             public void onPermissionGranted() {
                 selectPhoto("请选择图片", new int[]{100, 100, 1, 1}, PersionInfoActivity.this);
@@ -94,6 +96,17 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
                 ToastUtil.shortToast("获取权限失败");
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUESTCODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                selectPhoto("请选择图片", new int[]{100, 100, 1, 1}, PersionInfoActivity.this);
+            } else {
+                MPermissionUtils.showTipsDialog(this);
+            }
+        }
     }
 
     /**
