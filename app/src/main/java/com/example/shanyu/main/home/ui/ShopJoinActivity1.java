@@ -56,6 +56,7 @@ public class ShopJoinActivity1 extends BaseActivity {
     @Override
     public void initView() {
 
+        //ceshi
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
