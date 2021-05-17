@@ -20,7 +20,7 @@ public class WxPayBean implements Serializable {
     private String appid;
     private String partnerid;
     private Integer order_id;
-    private Integer money;
+    private double money;
     private String prepayid;
     private String noncestr;
     private String timestamp;
@@ -51,7 +51,7 @@ public class WxPayBean implements Serializable {
         this.order_id = orderId;
     }
 
-    public Integer getMoney() {
+    public double getMoney() {
         return money;
     }
 

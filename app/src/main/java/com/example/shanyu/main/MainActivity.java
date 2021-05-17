@@ -27,6 +27,7 @@ import com.example.shanyu.main.mine.MineFragment;
 import com.example.shanyu.main.mine.ui.PersionInfoActivity;
 import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.MPermissionUtils;
+import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.google.android.material.tabs.TabLayout;
 
@@ -254,6 +255,10 @@ public class MainActivity extends BaseActivity implements AMapLocationListener {
                 String city = amapLocation.getCity();//城市信息
                 double latitude = amapLocation.getLatitude();//获取纬度
                 double longitude = amapLocation.getLongitude();//获取经度
+
+                SharedUtil.getIntence().setCity(city);
+                SharedUtil.getIntence().setLatitude(latitude+"");
+                SharedUtil.getIntence().setLongitude(longitude+"");
 
                 EventBus.getDefault().post(new EventBean(EventBean.ADDRESS, district + street + streetNum));
 

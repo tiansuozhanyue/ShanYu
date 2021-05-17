@@ -17,9 +17,7 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" /> <!-- 允许程序访问电话状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 允许程序开机自动运行 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- 捕获屏幕所需权限，Q后新增权限(多人音视频屏幕分享使用) -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-    <!-- 申请必要的权限-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 申请必要的权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -40,6 +38,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShanYu"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".main.home.ui.PayFaileActivity"
+            android:launchMode="singleTask" />
+        <!-- 高德定位设置key -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="9d38669401f55898710e823352d0729e" /> <!-- 声明定位service -->
+        <service android:name="com.amap.api.location.APSService" />
+
+        <activity android:name=".main.home.ui.BookCommentActivity" />
         <activity android:name=".main.home.ui.ShopSearchActivity"></activity>
         <activity
             android:name=".main.home.ui.BookSearchActivity"
@@ -74,7 +82,9 @@
         <activity android:name=".main.home.ui.ShopJoinActivity2" />
         <activity android:name=".main.home.ui.ShopJoinActivity1" />
         <activity android:name=".main.mine.ui.AboutActivity" />
-        <activity android:name=".main.home.ui.BookOrderActivity" />
+        <activity
+            android:name=".main.home.ui.BookOrderActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".main.home.ui.BookInfoActivity" />
         <activity android:name=".main.mine.ui.MyBooksActivity" />
         <activity android:name=".main.mine.ui.SelectAddressActivity" />

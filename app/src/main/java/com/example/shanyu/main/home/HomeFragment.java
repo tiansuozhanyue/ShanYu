@@ -98,7 +98,8 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
         edit_input.addTextChangedListener(this);
         edit_input.setOnEditorActionListener(this);
 
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
 
         search.setSelected(true);
 
@@ -206,6 +207,8 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
 
         Map<String, String> map = new HashMap<>();
         map.put("category_id", id);
+        map.put("longitude", SharedUtil.getIntence().getLongitude());
+        map.put("latitude", SharedUtil.getIntence().getLatitude());
 
         HttpUtil.doGet(HttpApi.BOOKS, map, new HttpResultInterface() {
             @Override

@@ -101,6 +101,7 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
     private List<OffersMode> offersModes;
     private int couponId;
     static boolean isCart;
+    WxPayBean wxPayBean;
 
     public static void start(BaseActivity activity, AddressMode addressMode, List<MyBooksMode> shopBooks) {
         isCart = false;
@@ -133,7 +134,7 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
         updataAddressView();
         showGoods();
 
-        payGroup.check(R.id.aliPay);
+        payGroup.check(R.id.wxPay);
         book_get1.setSelected(true);
         book_get1_index.setSelected(true);
         goPay.setSelected(true);
@@ -318,9 +319,11 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
                 break;
 
             case EventBean.PAY_FAILE:
-                break;
-
             case EventBean.PAY_CANCLE:
+                Intent intent = new Intent(this, PayFaileActivity.class);
+                intent.putExtra("wxPayBean", wxPayBean);
+                intent.putExtra("lacation", addressMode.getAreaname() + "  " + addressMode.getAddress());
+                startActivity(intent);
                 break;
 
         }
@@ -349,7 +352,6 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
      * 下单
      */
     private void addOrder() {
-
         Map<String, String> map = new HashMap<>();
         if (isCart) {
             StringBuffer buffer = new StringBuffer();
@@ -384,8 +386,7 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
             @Override
             public void onSuccess(String resultData) {
                 dismissLoading();
-
-                WxPayBean wxPayBean = new Gson().fromJson(resultData, WxPayBean.class);
+                wxPayBean = new Gson().fromJson(resultData, WxPayBean.class);
                 startWechatPay(wxPayBean);
 
             }
