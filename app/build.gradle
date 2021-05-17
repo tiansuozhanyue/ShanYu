@@ -42,6 +42,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
         debug {
             signingConfig signingConfigs.config
@@ -92,6 +93,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation files('libs\\pinyin4j-2.5.0.jar')
+    implementation files('libs\\AMap_Location_V5.3.1_20210331.jar')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 //    implementation files('libs\\hyphenatechat_3.8.1.jar')
     testImplementation 'junit:junit:4.+'

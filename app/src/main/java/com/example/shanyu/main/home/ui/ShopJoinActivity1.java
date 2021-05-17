@@ -56,7 +56,6 @@ public class ShopJoinActivity1 extends BaseActivity {
     @Override
     public void initView() {
 
-        //ceshi
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -119,8 +118,8 @@ public class ShopJoinActivity1 extends BaseActivity {
 
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
-        map.put("name", "");
-        map.put("phone", "");
+        map.put("name", name);
+        map.put("phone", phone);
         map.put("certificates", "");
         map.put("picture", "");
         map.put("latitude", "");

@@ -2,7 +2,9 @@ package com.example.shanyu.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -129,16 +131,11 @@ public class MPermissionUtils {
             }
         });
         dialog.show();
-        //        new AlertDialog.Builder(context)
-        //                .setTitle("提示信息")
-        //                .setMessage("当前应用缺少必要权限，该功能暂时无法使用。如若需要，请单击【确定】按钮前往设置中心进行权限授权。")
-        //                .setNegativeButton("取消", null)
-        //                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-        //                    @Override
-        //                    public void onClick(DialogInterface dialog, int which) {
-        //                        startAppSettings(context);
-        //                    }
-        //                }).show();
+                new AlertDialog.Builder(context)
+                        .setTitle("提示信息")
+                        .setMessage("当前应用缺少必要权限，该功能暂时无法使用。如若需要，请单击【确定】按钮前往设置中心进行权限授权。")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", (dialog1, which) -> startAppSettings(context)).show();
     }
 
     /**
