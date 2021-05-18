@@ -95,6 +95,7 @@ dependencies {
     implementation files('libs\\pinyin4j-2.5.0.jar')
     implementation files('libs\\AMap_Location_V5.3.1_20210331.jar')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation files('libs\\AMap_Location_V5.3.1_20210331.jar')
 //    implementation files('libs\\hyphenatechat_3.8.1.jar')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

@@ -14,14 +14,11 @@ import com.example.shanyu.R;
 /**
  * 待发货
  */
-public class MineOrderFragment2 extends Fragment {
+public class MineOrderFragment2 extends MineOrderBaseFragment {
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_mine_order2, container, false);
+    protected String getStatue() {
+        return "3";
     }
 
 }

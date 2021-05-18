@@ -1,10 +1,17 @@
 package com.example.shanyu.main.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -95,6 +102,7 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
     }
 
     private void initView() {
+
         edit_input.addTextChangedListener(this);
         edit_input.setOnEditorActionListener(this);
 
@@ -103,9 +111,12 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
 
         search.setSelected(true);
 
+        address.setText(  SharedUtil.getIntence().getAddress());
+
         getBanner();
         getShopStatue();
         myRefreshLayout.setRefreshListener(this);
+
     }
 
     @OnClick({R.id.shop_join, R.id.search})

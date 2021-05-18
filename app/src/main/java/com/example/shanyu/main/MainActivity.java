@@ -257,8 +257,9 @@ public class MainActivity extends BaseActivity implements AMapLocationListener {
                 double longitude = amapLocation.getLongitude();//获取经度
 
                 SharedUtil.getIntence().setCity(city);
-                SharedUtil.getIntence().setLatitude(latitude+"");
-                SharedUtil.getIntence().setLongitude(longitude+"");
+                SharedUtil.getIntence().setLatitude(latitude + "");
+                SharedUtil.getIntence().setLongitude(longitude + "");
+                SharedUtil.getIntence().setAddress(district + street + streetNum);
 
                 EventBus.getDefault().post(new EventBean(EventBean.ADDRESS, district + street + streetNum));
 
