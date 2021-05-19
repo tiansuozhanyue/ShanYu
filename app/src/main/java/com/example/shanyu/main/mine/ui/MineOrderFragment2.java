@@ -18,7 +18,7 @@ public class MineOrderFragment2 extends MineOrderBaseFragment {
 
     @Override
     protected String getStatue() {
-        return "3";
+        return "1";
     }
 
 }

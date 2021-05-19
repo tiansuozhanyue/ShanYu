@@ -47,6 +47,7 @@ public class HttpApi {
     public static String ISMESSAGE = HOST + "index.php/index/user/ismessage";
     public static String SEARCH = HOST + "index.php/index/goods/search";
     public static String SHOPBOOKLIST = HOST + "index.php/index/goods/list";
-
+    public static String SETORDERSTATUE = HOST + "index.php/index/order/isstatus";
+    public static String SETORDERDETAIL = HOST + "index.php/index/order/detail";
 
 }

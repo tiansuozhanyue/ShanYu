@@ -25,9 +25,9 @@ public class OrderBookAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<OrderBookBean> booksModes;
-    private AddressOnClick onClick;
+    private OrderBookAdapterOnclick onClick;
 
-    public OrderBookAdapter(Context mContext, List<OrderBookBean> booksModes) {
+    public OrderBookAdapter(Context mContext, List<OrderBookBean> booksModes, OrderBookAdapterOnclick onClick) {
         this.mContext = mContext;
         this.booksModes = booksModes;
         this.onClick = onClick;
@@ -60,48 +60,84 @@ public class OrderBookAdapter extends BaseAdapter {
         String[] p = booksMode.getPrincipal().split("\\.");
         LinearLayout layout = view.findViewById(R.id.layout);
         ((TextView) view.findViewById(R.id.price2)).setText(p[0]);
-        ((TextView) view.findViewById(R.id.price1)).setText(p[1]);
+        ((TextView) view.findViewById(R.id.price1)).setText("." + p[1]);
         TextView statue = view.findViewById(R.id.statue);
+        view.setOnClickListener(v -> onClick.onIemClick(position));
         switch (booksMode.getStatus()) {
             case 0:
                 statue.setText("待评价");
-                layout.addView(getGrayView("评价"));
+                View view1 = getGrayView("评价");
+                view1.setOnClickListener(v -> onClick.onAppraise(position));
+                layout.addView(view1);
                 break;
+
             case 1:
                 statue.setText("待发货");
-                layout.addView(getGrayView("取消订单"));
+                View view2 = getGrayView("取消订单");
+                view2.setOnClickListener(v -> onClick.onCanaleOrder(position));
+                layout.addView(view2);
                 break;
+
             case 2:
                 statue.setText("已退款");
                 break;
+
             case 3:
                 statue.setText("待收货");
-                layout.addView(getGrayView("查看物流"));
-                layout.addView(getGrayView("取消订单"));
-                layout.addView(getGrayView("确认收货"));
+                View view3 = getGrayView("查看物流");
+                View view4 = getGrayView("取消订单");
+                View view5 = getGrayView("确认收货");
+                view3.setOnClickListener(v -> onClick.onShowLogistics(position));
+                view4.setOnClickListener(v -> onClick.onCanaleOrder(position));
+                view5.setOnClickListener(v -> onClick.onGetGoods(position));
+                layout.addView(view3);
+                layout.addView(view4);
+                layout.addView(view5);
                 break;
+
             case 4:
                 statue.setText("已完成");
-                layout.addView(getGrayView("追加评论"));
-                layout.addView(getGrayView("删除订单"));
-                layout.addView(getGrayView("再来一单"));
+                View view6 = getGrayView("追加评论");
+                View view7 = getGrayView("删除订单");
+                View view8 = getGrayView("再来一单");
+                view6.setOnClickListener(v -> onClick.onSetCommit(position));
+                view7.setOnClickListener(v -> onClick.onDeletOrder(position));
+                view8.setOnClickListener(v -> onClick.onGetAgin(position));
+                layout.addView(view6);
+                layout.addView(view7);
+                layout.addView(view8);
                 break;
+
             case 5:
                 statue.setText("待付款");
-                layout.addView(getGrayView("取消订单"));
-                layout.addView(getRedView("去支付"));
-
+                View view9 = getGrayView("取消订单");
+                View view10 = getRedView("去支付");
+                view9.setOnClickListener(v -> onClick.onCanaleOrder(position));
+                view10.setOnClickListener(v -> onClick.onGoPay(position));
+                layout.addView(view9);
+                layout.addView(view10);
                 break;
+
             case 6:
                 statue.setText("已取消");
-                layout.addView(getGrayView("删除订单"));
-                layout.addView(getRedView("再来一单"));
+                View view11 = getGrayView("删除订单");
+                View view12 = getGrayView("再来一单");
+                view11.setOnClickListener(v -> onClick.onDeletOrder(position));
+                view12.setOnClickListener(v -> onClick.onGetAgin(position));
+                layout.addView(view11);
+                layout.addView(view12);
                 break;
+
             case 7:
                 statue.setText("待自提");
-                layout.addView(getGrayView("取消订单"));
-                layout.addView(getGrayView("确认收货"));
+                View view13 = getGrayView("取消订单");
+                View view14 = getGrayView("确认收货");
+                view13.setOnClickListener(v -> onClick.onCanaleOrder(position));
+                view14.setOnClickListener(v -> onClick.onGetGoods(position));
+                layout.addView(view13);
+                layout.addView(view14);
                 break;
+
         }
 
 
@@ -136,15 +172,26 @@ public class OrderBookAdapter extends BaseAdapter {
         return textView;
     }
 
-    public interface AddressOnClick {
+    public interface OrderBookAdapterOnclick {
 
-        void onAddressSet(boolean flag, String id);
+        void onAppraise(int positon);
 
-        void onAddressEdit(AddressMode mode);
+        void onCanaleOrder(int positon);
 
-        void onAddressSelet(AddressMode mode);
+        void onShowLogistics(int positon);
 
-        void onAddressDell(String id);
+        void onGetGoods(int positon);
+
+        void onDeletOrder(int positon);
+
+        void onSetCommit(int positon);
+
+        void onGetAgin(int positon);
+
+        void onGoPay(int positon);
+
+        void onIemClick(int positon);
+
     }
 
 }

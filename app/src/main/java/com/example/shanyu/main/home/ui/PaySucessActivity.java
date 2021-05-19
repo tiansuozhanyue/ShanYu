@@ -8,11 +8,13 @@ import android.widget.TextView;
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.main.MainActivity;
+import com.example.shanyu.main.mine.ui.OrderInfoActivity;
 import com.example.shanyu.widget.CirButton;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PaySucessActivity extends BaseActivity {
@@ -23,25 +25,24 @@ public class PaySucessActivity extends BaseActivity {
     public TextView price2;
     @BindView(R.id.go_home)
     public CirButton go_home;
+    String orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_sucess, "支付成功");
-        EventBus.getDefault().register(this);
+        ButterKnife.bind(this);
         initView();
     }
 
     @Override
     public void initView() {
         go_home.setSelected(true);
-
+        orderId=getIntent().getStringExtra("orderId");
         String money = getIntent().getStringExtra("money");
         String[] moneys = money.split("\\.");
-
         price1.setText(moneys[0]);
         price2.setText(moneys[1]);
-
     }
 
     @OnClick({R.id.check_order, R.id.go_home})
@@ -49,7 +50,9 @@ public class PaySucessActivity extends BaseActivity {
         switch (view.getId()) {
 
             case R.id.check_order:
-
+                Intent intent= new Intent(this, OrderInfoActivity.class);
+                intent.putExtra("orderId",orderId);
+                startActivity(intent);
                 break;
 
             case R.id.go_home:

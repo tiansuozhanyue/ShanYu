@@ -1,5 +1,6 @@
 package com.example.shanyu.main.mine.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,9 @@ import com.example.shanyu.R;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
+import com.example.shanyu.main.mine.adapter.FootAdapter;
 import com.example.shanyu.main.mine.adapter.OrderBookAdapter;
+import com.example.shanyu.main.mine.bean.FootMode;
 import com.example.shanyu.main.mine.bean.MyBooksMode;
 import com.example.shanyu.main.mine.bean.OrderBookBean;
 import com.example.shanyu.utils.SharedUtil;
@@ -29,10 +32,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public abstract class MineOrderBaseFragment extends Fragment implements MyRefreshLayout.RefreshListener, HttpResultInterface {
+public abstract class MineOrderBaseFragment extends Fragment implements MyRefreshLayout.RefreshListener, HttpResultInterface, OrderBookAdapter.OrderBookAdapterOnclick {
 
     protected ListView mListView;
     protected MyRefreshLayout myRefreshLayout;
+    private List<OrderBookBean> actionModes;
+    private OrderBookAdapter orderBookAdapter;
 
     @Nullable
     @Override
@@ -78,9 +83,122 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
     @Override
     public void onSuccess(String t) {
         myRefreshLayout.closeLoadingView();
-        List<OrderBookBean> actionModes = new Gson().fromJson(t, new TypeToken<List<OrderBookBean>>() {
+        actionModes = new Gson().fromJson(t, new TypeToken<List<OrderBookBean>>() {
         }.getType());
-        mListView.setAdapter(new OrderBookAdapter(getContext(), actionModes));
+        orderBookAdapter = new OrderBookAdapter(getContext(), actionModes, this);
+        mListView.setAdapter(orderBookAdapter);
     }
+
+    /**
+     * 评价
+     *
+     * @param positon
+     */
+    @Override
+    public void onAppraise(int positon) {
+
+    }
+
+    /**
+     * 取消订单
+     *
+     * @param positon
+     */
+    @Override
+    public void onCanaleOrder(int positon) {
+        setOrderStatue(positon, "6");
+    }
+
+    /**
+     * 查询物流
+     *
+     * @param positon
+     */
+    @Override
+    public void onShowLogistics(int positon) {
+
+    }
+
+    /**
+     * 收货
+     *
+     * @param positon
+     */
+    @Override
+    public void onGetGoods(int positon) {
+        setOrderStatue(positon, "0");
+    }
+
+    /**
+     * 删除订单
+     *
+     * @param positon
+     */
+    @Override
+    public void onDeletOrder(int positon) {
+        setOrderStatue(positon, "8");
+    }
+
+    /**
+     * 追加评论
+     *
+     * @param positon
+     */
+    @Override
+    public void onSetCommit(int positon) {
+
+    }
+
+    /**
+     * 再来一单
+     *
+     * @param positon
+     */
+    @Override
+    public void onGetAgin(int positon) {
+
+    }
+
+    /**
+     * 去支付
+     *
+     * @param positon
+     */
+    @Override
+    public void onGoPay(int positon) {
+
+    }
+
+    @Override
+    public void onIemClick(int positon) {
+        Intent intent = new Intent(getContext(), OrderInfoActivity.class);
+        intent.putExtra("orderId", actionModes.get(positon).getId() + "");
+        startActivity(intent);
+    }
+
+    /**
+     * 设置订单状态
+     *
+     * @param postion
+     * @param status  状态0|收货6|取消8|删除
+     */
+    private void setOrderStatue(int postion, String status) {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("order_id", actionModes.get(postion).getId() + "");
+        map.put("status", status);
+        HttpUtil.doPost(HttpApi.SETORDERSTATUE, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                ToastUtil.shortToast(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                getOrders();
+            }
+        });
+    }
+
 
 }

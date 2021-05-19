@@ -38,17 +38,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShanYu"
         android:usesCleartextTraffic="true">
+        <activity android:name=".main.mine.ui.OrderInfoActivity"></activity>
         <activity
             android:name=".main.home.ui.PayFaileActivity"
-            android:launchMode="singleTask" />
-        <!-- 高德定位设置key -->
+            android:launchMode="singleTask" /> <!-- 高德定位设置key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="9d38669401f55898710e823352d0729e" /> <!-- 声明定位service -->
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".main.home.ui.BookCommentActivity" />
-        <activity android:name=".main.home.ui.ShopSearchActivity"></activity>
+        <activity android:name=".main.home.ui.ShopSearchActivity" />
         <activity
             android:name=".main.home.ui.BookSearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />

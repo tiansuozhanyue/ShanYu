@@ -99,8 +99,8 @@
 
     <TextView
         android:id="@+id/price2"
-        android:layout_width="22dp"
-        android:layout_height="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/price1"
         android:layout_toLeftOf="@id/price1"
         android:text="32"

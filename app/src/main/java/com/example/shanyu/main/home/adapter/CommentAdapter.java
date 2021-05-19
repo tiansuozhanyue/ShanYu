@@ -57,7 +57,7 @@ public class CommentAdapter extends BaseAdapter {
 
         ImageLoaderUtil.loadImage(bean.getAvatar(), image);
         name.setText("…" + bean.getOrder_nickname().charAt(bean.getOrder_nickname().length() - 1));
-        time.setText(TimeUtil.stampToDate(bean.getCreated_at().toString()));
+        time.setText(TimeUtil.stampToDate(bean.getCreated_at()+""));
         comment.setText(bean.getEvaluate());
 
         return view;
