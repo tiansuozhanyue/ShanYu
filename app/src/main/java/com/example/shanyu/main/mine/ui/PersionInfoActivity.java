@@ -26,6 +26,7 @@ import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.RoundImageView;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -146,7 +147,15 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
             @Override
             public void onSuccess(String t) {
                 dismissLoading();
-//                setAvatar("");
+
+                try {
+                    JSONObject object = new JSONObject(t);
+                    String img = object.getString("img");
+                    ImageLoaderUtil.loadImage(img, avatar);
+                    setAvatar(img);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -167,4 +176,5 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
     public void selectPhotoCallback(Uri photoOutputUri, File file) {
         uploadAvatar(file);
     }
+
 }

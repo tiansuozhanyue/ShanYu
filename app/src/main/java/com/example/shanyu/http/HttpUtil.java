@@ -153,7 +153,7 @@ public class HttpUtil {
 
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("image_list", file.getName(), body)
+                .addFormDataPart("filecontent", file.getName(), body)
                 .build();
         Request request = new Request.Builder()
                 .url(HttpApi.UPLOAD)

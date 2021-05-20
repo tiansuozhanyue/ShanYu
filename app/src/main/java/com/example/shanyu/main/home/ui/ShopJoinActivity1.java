@@ -1,6 +1,9 @@
 package com.example.shanyu.main.home.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,16 +12,23 @@ import android.widget.TextView;
 
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
+import com.example.shanyu.base.GetPhotoCallBack;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
+import com.example.shanyu.main.mine.ui.PersionInfoActivity;
 import com.example.shanyu.main.mine.ui.SelectAddressActivity;
+import com.example.shanyu.utils.ImageLoaderUtil;
+import com.example.shanyu.utils.MPermissionUtils;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.slider.SortModel;
 
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShopJoinActivity1 extends BaseActivity {
+public class ShopJoinActivity1 extends BaseActivity implements GetPhotoCallBack {
 
     SortModel model0, model1, model2;
     String name, phone, code, area;
@@ -44,6 +54,8 @@ public class ShopJoinActivity1 extends BaseActivity {
     public TextView edit_code;
     @BindView(R.id.edit_are)
     public TextView edit_are;
+    int REQUESTCODE = 100;
+    String picture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +97,7 @@ public class ShopJoinActivity1 extends BaseActivity {
 
     }
 
-    @OnClick({R.id.area0, R.id.area1, R.id.area2})
+    @OnClick({R.id.area0, R.id.area1, R.id.area2, R.id.getPicture})
     public void onClickView(View view) {
 
         switch (view.getId()) {
@@ -107,6 +119,37 @@ public class ShopJoinActivity1 extends BaseActivity {
                     startActivityForResult(new Intent(ShopJoinActivity1.this, SelectAddressActivity.class).putExtra("key", model1.getKey()), 12);
                 }
                 break;
+            case R.id.getPicture:
+                break;
+        }
+    }
+
+    /**
+     * 选择头像
+     */
+    private void selectedAvatar() {
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+        MPermissionUtils.requestPermissionsResult(this, REQUESTCODE, permissions, new MPermissionUtils.OnPermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                selectPhoto("请选择图片", new int[]{100, 100, 1, 1}, ShopJoinActivity1.this);
+            }
+
+            @Override
+            public void onPermissionDenied() {
+                ToastUtil.shortToast("获取权限失败");
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUESTCODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                selectPhoto("请选择图片", new int[]{100, 100, 1, 1}, ShopJoinActivity1.this);
+            } else {
+                MPermissionUtils.showTipsDialog(this);
+            }
         }
     }
 
@@ -121,7 +164,7 @@ public class ShopJoinActivity1 extends BaseActivity {
         map.put("name", name);
         map.put("phone", phone);
         map.put("certificates", "");
-        map.put("picture", "");
+        map.put("picture", picture);
         map.put("latitude", "");
         map.put("longitude", "");
         map.put("province", "");
@@ -175,4 +218,35 @@ public class ShopJoinActivity1 extends BaseActivity {
 
     }
 
+    /**
+     * 上传印业执照
+     */
+    private void uploadPicture(File file) {
+        showLoading();
+
+        HttpUtil.upload(file, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                dismissLoading();
+            }
+
+            @Override
+            public void onSuccess(String t) {
+                dismissLoading();
+
+                try {
+                    JSONObject object = new JSONObject(t);
+                    picture = object.getString("img");
+//                    ImageLoaderUtil.loadImage(picture, avatar);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void selectPhotoCallback(Uri photoOutputUri, File file) {
+        uploadPicture(file);
+    }
 }

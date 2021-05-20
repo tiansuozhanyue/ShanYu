@@ -2,6 +2,8 @@ package com.example.shanyu.main.home.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -12,6 +14,7 @@ import android.webkit.WebView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 
+import com.bumptech.glide.util.Util;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.home.adapter.BookInfoAddressAdapter;
@@ -34,10 +37,14 @@ import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.utils.ImageLoaderUtil;
+import com.example.shanyu.utils.WeChatShareUtil;
 import com.example.shanyu.widget.MyListView;
 import com.example.shanyu.widget.ShopSumButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.to.aboomy.banner.Banner;
 
 import java.util.ArrayList;
@@ -157,9 +164,27 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
     private void showShareDialog() {
         Dialog shareDialog = new Dialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_share, null, false);
-        view.findViewById(R.id.share_weixin).setOnClickListener(v -> ToastUtil.shortToast("微信分享"));
+        view.findViewById(R.id.share_weixin).setOnClickListener(v -> {
+            WeChatShareUtil.setShare(
+                    BookInfoActivity.this,
+                    0,
+                    shareBean.getUrl(),
+                    shareBean.getTitle(),
+                    "    " + shareBean.getGoods(),
+                    HttpApi.HOST + shareBean.getCovers()
+            );
+        });
         view.findViewById(R.id.share_weibo).setOnClickListener(v -> ToastUtil.shortToast("微博分享"));
-        view.findViewById(R.id.share_pyq).setOnClickListener(v -> ToastUtil.shortToast("朋友圈分享"));
+        view.findViewById(R.id.share_pyq).setOnClickListener(v -> {
+            WeChatShareUtil.setShare(
+                    BookInfoActivity.this,
+                    1,
+                    shareBean.getUrl(),
+                    shareBean.getTitle(),
+                    "    " + shareBean.getGoods(),
+                    HttpApi.HOST + shareBean.getCovers()
+            );
+        });
         view.findViewById(R.id.share_qq).setOnClickListener(v -> ToastUtil.shortToast("QQ分享"));
         view.findViewById(R.id.share_cancle).setOnClickListener(v -> shareDialog.dismiss());
         shareDialog.setContentView(view);

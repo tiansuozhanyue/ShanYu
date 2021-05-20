@@ -105,17 +105,17 @@
         <EditText
             android:id="@+id/edit_name"
             style="@style/shop_input"
-            android:inputType="text"
-            android:hint="请填写您的姓名" />
+            android:hint="请填写您的姓名"
+            android:inputType="text" />
 
         <include layout="@layout/line_view" />
 
         <EditText
             android:id="@+id/edit_phone"
             style="@style/shop_input"
+            android:hint="请填写您的号码"
             android:inputType="phone"
-            android:maxLength="11"
-            android:hint="请填写您的号码" />
+            android:maxLength="11" />
 
         <include layout="@layout/line_view" />
 
@@ -178,6 +178,7 @@
             android:hint="请填写具体地址" />
 
         <TextView
+            android:id="@+id/getPicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
