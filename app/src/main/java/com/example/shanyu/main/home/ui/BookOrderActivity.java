@@ -218,8 +218,31 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_offers_select, null, false);
         view.findViewById(R.id.close).setOnClickListener(v -> OffersDialog.dismiss());
         ListView mListView = view.findViewById(R.id.mListView);
+        TextView title1 = view.findViewById(R.id.title1);
+        TextView title2 = view.findViewById(R.id.title2);
+        TextView titleLine1 = view.findViewById(R.id.titleLine1);
+        TextView titleLine2 = view.findViewById(R.id.titleLine2);
+
+        title1.setSelected(true);
+        titleLine1.setSelected(true);
+
+        title1.setOnClickListener(v -> {
+            title1.setSelected(true);
+            title2.setSelected(false);
+            titleLine1.setSelected(true);
+            titleLine2.setSelected(false);
+        });
+
+        title2.setOnClickListener(v -> {
+            title1.setSelected(false);
+            title2.setSelected(true);
+            titleLine1.setSelected(false);
+            titleLine2.setSelected(true);
+        });
+
         BookInOrderOfferssAdapter mAddressAdapter = new BookInOrderOfferssAdapter(this, offersModes, couponId, BookOrderActivity.this);
         mListView.setAdapter(mAddressAdapter);
+
         OffersDialog.setContentView(view);
         WindowManager.LayoutParams lp = OffersDialog.getWindow().getAttributes();
         lp.gravity = Gravity.BOTTOM;
@@ -236,9 +259,9 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
     private void getOffers(String shopIds) {
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
-        map.put("ty", "1");
-        map.put("mum", allSum);
-        map.put("shop_id", shopIds);
+//        map.put("ty", "1");
+//        map.put("mum", allSum);
+//        map.put("shop_id", shopIds);
         HttpUtil.doPost(HttpApi.OFFERS, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {

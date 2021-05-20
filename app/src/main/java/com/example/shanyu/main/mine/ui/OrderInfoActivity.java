@@ -100,16 +100,49 @@ public class OrderInfoActivity extends BaseActivity {
                 title.setText(infoBean.getTitle());
                 count.setText("X" + infoBean.getCount());
                 order_code.setText(infoBean.getOrder());
-                order_time.setText(TimeUtil.stampToDate(infoBean.getCreated_at() + ""));
-                order_money.setText(infoBean.getSum());
+                order_time.setText(TimeUtil.stampToDate2(infoBean.getCreated_at() + "000"));
+                order_money.setText("￥" + infoBean.getSum());
+                switch (infoBean.getStatus()) {
+                    case 0:
+                        statue.setText("待评价");
+                        break;
 
-                String[] p1 = infoBean.getPrice().split("\\.");
+                    case 1:
+                        statue.setText("待发货");
+                        break;
+
+                    case 2:
+                        statue.setText("已退款");
+                        break;
+
+                    case 3:
+                        statue.setText("待收货");
+                        break;
+
+                    case 4:
+                        statue.setText("已完成");
+                        break;
+
+                    case 5:
+                        statue.setText("待付款");
+                        break;
+
+                    case 6:
+                        statue.setText("已取消");
+                        break;
+
+                    case 7:
+                        statue.setText("待自提");
+                        break;
+                }
+
+                String[] p1 = infoBean.getPreevent().split("\\.");
                 price1.setText(p1[0]);
-                price2.setText("." + p1[0]);
+                price2.setText("." + p1[1]);
 
                 String[] p2 = infoBean.getPrincipal().split("\\.");
                 price3.setText(p2[0]);
-                price4.setText(p2[0]);
+                price4.setText("." + p2[1]);
 
                 ImageLoaderUtil.loadImage(HttpApi.HOST + infoBean.getCovers(), cover);
             }
