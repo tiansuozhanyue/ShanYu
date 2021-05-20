@@ -39,6 +39,18 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     public EditText edit_input;
     @BindView(R.id.mListView)
     public ListView mListView;
+    @BindView(R.id.home)
+    public TextView home;
+    @BindView(R.id.news)
+    public TextView news;
+    @BindView(R.id.action)
+    public TextView action;
+    @BindView(R.id.home_line)
+    public TextView home_line;
+    @BindView(R.id.news_line)
+    public TextView news_line;
+    @BindView(R.id.action_line)
+    public TextView action_line;
     @BindView(R.id.ratingbar)
     public RatingBar ratingbar;
 
@@ -55,7 +67,9 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     public void initView() {
         shop_id = getIntent().getStringExtra("shop_id");
         edit_input.setOnEditorActionListener(this);
-        getBooks(1);
+        home.setSelected(true);
+        home_line.setSelected(true);
+        getBooks(0);
     }
 
     @Override
@@ -70,12 +84,43 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     }
 
 
-    @OnClick({R.id.goback})
+    @OnClick({R.id.goback, R.id.home, R.id.news, R.id.action})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.goback:
                 finish();
                 break;
+
+            case R.id.home:
+                home.setSelected(true);
+                home_line.setSelected(true);
+                news.setSelected(false);
+                news_line.setSelected(false);
+                action.setSelected(false);
+                action_line.setSelected(false);
+                getBooks(0);
+                break;
+
+            case R.id.news:
+                home.setSelected(false);
+                home_line.setSelected(false);
+                news.setSelected(true);
+                news_line.setSelected(true);
+                action.setSelected(false);
+                action_line.setSelected(false);
+                getBooks(1);
+                break;
+
+            case R.id.action:
+                home.setSelected(false);
+                home_line.setSelected(false);
+                news.setSelected(false);
+                news_line.setSelected(false);
+                action.setSelected(true);
+                action_line.setSelected(true);
+                getBooks(2);
+                break;
+
         }
     }
 
@@ -98,9 +143,12 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
             @Override
             public void onSuccess(String resultData) {
                 dismissLoading();
+
                 List<BookMode> bookModes = new Gson().fromJson(resultData, new TypeToken<List<BookMode>>() {
                 }.getType());
+
                 mListView.setAdapter(new SearchBooksAdapter(ShopSearchActivity.this, bookModes, ShopSearchActivity.this));
+
             }
         });
 
@@ -112,7 +160,8 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     private void getBooks(int ty) {
 
         Map<String, String> map = new HashMap<>();
-        map.put("ty", ty + "");
+        if (ty > 0)
+            map.put("ty", ty + "");
         map.put("shop_id", shop_id);
         showLoading();
         HttpUtil.doGet(HttpApi.SHOPBOOKLIST, map, new HttpResultInterface() {
