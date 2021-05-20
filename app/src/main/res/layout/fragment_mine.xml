@@ -130,6 +130,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/num_offer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -157,6 +158,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/num_collection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"

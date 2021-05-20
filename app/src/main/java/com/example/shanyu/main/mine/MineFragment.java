@@ -32,6 +32,10 @@ import com.example.shanyu.utils.StringUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.RoundImageView;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,6 +57,10 @@ public class MineFragment extends Fragment {
     public TextView user_sign;
     @BindView(R.id.user_img)
     public RoundImageView user_img;
+    @BindView(R.id.num_offer)
+    public TextView num_offer;
+    @BindView(R.id.num_collection)
+    public TextView num_collection;
 
     @Nullable
     @Override
@@ -62,6 +70,7 @@ public class MineFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
         bind = ButterKnife.bind(this, view);
         getUserInfo();
+        getCount();
         return view;
     }
 
@@ -162,6 +171,32 @@ public class MineFragment extends Fragment {
 
                 SharedUtil.getIntence().setMessage(mUserMode.getIsmessage());
 
+            }
+        });
+    }
+
+
+    /**
+     * 获取统计数量
+     */
+    private void getCount() {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+        HttpUtil.doGet(HttpApi.COUNT, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+
+            }
+
+            @Override
+            public void onSuccess(String t) {
+                try {
+                    JSONObject object = new JSONObject(t);
+                    num_offer.setText(object.getInt("coupon") + "");
+                    num_collection.setText(object.getInt("collection") + "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

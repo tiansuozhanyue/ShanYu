@@ -21,6 +21,7 @@ public class HttpApi {
     public static String FOOTS = HOST + "index.php/index/user/history";
     public static String OFFERS = HOST + "index.php/index/user/coupon";
     public static String SET = HOST + "index.php/index/user/set";
+    public static String COUNT = HOST + "index.php/index/user/count";
     public static String PROPOSAL = HOST + "index.php/index/user/proposal";
     public static String UPLOAD = HOST + "index.php/index/evaluate/upload";
     public static String POSITION = HOST + "index.php/index/shop/position";

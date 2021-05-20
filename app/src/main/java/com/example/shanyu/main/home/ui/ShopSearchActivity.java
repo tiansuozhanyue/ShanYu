@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.shanyu.R;
@@ -38,6 +39,8 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     public EditText edit_input;
     @BindView(R.id.mListView)
     public ListView mListView;
+    @BindView(R.id.ratingbar)
+    public RatingBar ratingbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +98,9 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
             @Override
             public void onSuccess(String resultData) {
                 dismissLoading();
-
                 List<BookMode> bookModes = new Gson().fromJson(resultData, new TypeToken<List<BookMode>>() {
                 }.getType());
-
                 mListView.setAdapter(new SearchBooksAdapter(ShopSearchActivity.this, bookModes, ShopSearchActivity.this));
-
             }
         });
 
@@ -129,7 +129,13 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
                 List<BookMode> bookModes = new Gson().fromJson(resultData, new TypeToken<List<BookMode>>() {
                 }.getType());
 
-                mListView.setAdapter(new SearchBooksAdapter(ShopSearchActivity.this, bookModes, ShopSearchActivity.this));
+                if (bookModes != null && bookModes.size() > 0) {
+                    double n = Double.valueOf(bookModes.get(0).getDecimal());
+                    ratingbar.setRating((int) Math.round(n));
+                    mListView.setAdapter(new SearchBooksAdapter(ShopSearchActivity.this, bookModes, ShopSearchActivity.this));
+                } else {
+                    ratingbar.setRating(0);
+                }
 
             }
         });
