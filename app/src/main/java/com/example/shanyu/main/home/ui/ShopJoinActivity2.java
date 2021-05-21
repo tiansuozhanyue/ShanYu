@@ -12,8 +12,7 @@ public class ShopJoinActivity2 extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setImmersiveStatusBar(true);
-        setContentView(R.layout.activity_shop_join2);
+        setContentView(R.layout.activity_shop_join2,"店铺入驻");
     }
 
     @Override

@@ -96,7 +96,8 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
      */
     @Override
     public void onAppraise(int positon) {
-
+        Intent intent = new Intent(getContext(), SetCommentsActivity.class);
+        startActivity(intent);
     }
 
     /**

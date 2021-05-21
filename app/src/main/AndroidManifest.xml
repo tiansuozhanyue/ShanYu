@@ -38,7 +38,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShanYu"
         android:usesCleartextTraffic="true">
-        <activity android:name=".main.mine.ui.OrderInfoActivity"></activity>
+        <activity android:name=".main.mine.ui.SetCommentsActivity"></activity>
+        <activity android:name=".main.mine.ui.OrderInfoActivity" />
         <activity
             android:name=".main.home.ui.PayFaileActivity"
             android:launchMode="singleTask" /> <!-- 高德定位设置key -->
