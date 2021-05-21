@@ -19,9 +19,14 @@ import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.home.adapter.BooksAdapter;
 import com.example.shanyu.main.home.adapter.SearchBooksAdapter;
 import com.example.shanyu.main.home.bean.BookMode;
+import com.example.shanyu.main.mine.bean.OffersMode;
+import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.StringUtil;
+import com.example.shanyu.widget.slider.SortModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -70,6 +75,7 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
         home.setSelected(true);
         home_line.setSelected(true);
         getBooks(0);
+        getOffers(shop_id);
     }
 
     @Override
@@ -155,7 +161,7 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     }
 
     /**
-     * 商铺的商铺列表
+     * 商铺的商品列表
      */
     private void getBooks(int ty) {
 
@@ -185,6 +191,30 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
                 } else {
                     ratingbar.setRating(0);
                 }
+
+            }
+        });
+
+    }
+
+    /**
+     * 获取优惠券列表
+     */
+    private void getOffers(String shopIds) {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("shop_id", shopIds);
+        HttpUtil.doGet(HttpApi.OFFERS, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+
+                List<OffersMode> offersModes = new Gson().fromJson(resultData, new TypeToken<List<OffersMode>>() {
+                }.getType());
 
             }
         });

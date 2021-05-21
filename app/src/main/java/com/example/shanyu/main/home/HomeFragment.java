@@ -53,6 +53,9 @@ import com.to.aboomy.banner.IndicatorView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +74,7 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
         TextView.OnEditorActionListener {
 
     Unbinder bind;
-    int type;
+    int statue = -1;
     String searchInfo;
 
     @BindView(R.id.mBanner)
@@ -111,7 +114,7 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
 
         search.setSelected(true);
 
-        address.setText(  SharedUtil.getIntence().getAddress());
+        address.setText(SharedUtil.getIntence().getAddress());
 
         getBanner();
         getShopStatue();
@@ -124,14 +127,14 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
         switch (view.getId()) {
 
             case R.id.shop_join:
-                switch (type) {
-                    case 0:
+                switch (statue) {
+                    case -1:
                         startActivity(new Intent(getContext(), ShopJoinActivity1.class));
                         break;
-                    case 1:
+                    case 0:
                         startActivity(new Intent(getContext(), ShopJoinActivity2.class));
                         break;
-                    case 2:
+                    case 1:
                         startActivity(new Intent(getContext(), ShopJoinActivity3.class));
                         break;
                 }
@@ -252,12 +255,19 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
         HttpUtil.doPost(HttpApi.SHOP_STATUE, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
-                type = 0;
+                statue = -1;
             }
 
             @Override
             public void onSuccess(String resultData) {
 
+                try {
+                    JSONArray array = new JSONArray(resultData);
+                    JSONObject object = (JSONObject) array.get(0);
+                    statue = object.getInt("status");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
         });

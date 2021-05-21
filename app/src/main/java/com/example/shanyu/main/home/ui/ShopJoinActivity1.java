@@ -21,7 +21,9 @@ import com.example.shanyu.main.mine.ui.SelectAddressActivity;
 import com.example.shanyu.utils.ImageLoaderUtil;
 import com.example.shanyu.utils.MPermissionUtils;
 import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.utils.StringUtil;
 import com.example.shanyu.utils.ToastUtil;
+import com.example.shanyu.widget.CirButton;
 import com.example.shanyu.widget.slider.SortModel;
 
 import org.jetbrains.annotations.Nullable;
@@ -54,6 +56,9 @@ public class ShopJoinActivity1 extends BaseActivity implements GetPhotoCallBack 
     public TextView edit_code;
     @BindView(R.id.edit_are)
     public TextView edit_are;
+    @BindView(R.id.commmit)
+    public CirButton commmit;
+
     int REQUESTCODE = 100;
     String picture;
 
@@ -87,6 +92,8 @@ public class ShopJoinActivity1 extends BaseActivity implements GetPhotoCallBack 
                 code = edit_code.getText().toString();
                 area = edit_are.getText().toString();
 
+                setCommitStatue();
+
             }
         };
 
@@ -97,21 +104,24 @@ public class ShopJoinActivity1 extends BaseActivity implements GetPhotoCallBack 
 
     }
 
-    @OnClick({R.id.area0, R.id.area1, R.id.area2, R.id.getPicture})
+    @OnClick({R.id.area0, R.id.area1, R.id.area2,
+            R.id.getPicture, R.id.commmit})
     public void onClickView(View view) {
 
         switch (view.getId()) {
+
             case R.id.area0:
                 startActivityForResult(new Intent(ShopJoinActivity1.this, SelectAddressActivity.class).putExtra("key", 0), 10);
                 break;
+
             case R.id.area1:
                 if (model0 == null) {
                     ToastUtil.shortToast("请先选择省");
                 } else {
                     startActivityForResult(new Intent(ShopJoinActivity1.this, SelectAddressActivity.class).putExtra("key", model0.getKey()), 11);
                 }
-
                 break;
+
             case R.id.area2:
                 if (model1 == null) {
                     ToastUtil.shortToast("请先选择市");
@@ -119,15 +129,23 @@ public class ShopJoinActivity1 extends BaseActivity implements GetPhotoCallBack 
                     startActivityForResult(new Intent(ShopJoinActivity1.this, SelectAddressActivity.class).putExtra("key", model1.getKey()), 12);
                 }
                 break;
+
             case R.id.getPicture:
+                selectedPicture();
                 break;
+
+            case R.id.commmit:
+                if (commmit.isSelected())
+                    shopAdd();
+                break;
+
         }
     }
 
     /**
-     * 选择头像
+     * 请选择图片
      */
-    private void selectedAvatar() {
+    private void selectedPicture() {
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
         MPermissionUtils.requestPermissionsResult(this, REQUESTCODE, permissions, new MPermissionUtils.OnPermissionListener() {
             @Override
@@ -165,12 +183,12 @@ public class ShopJoinActivity1 extends BaseActivity implements GetPhotoCallBack 
         map.put("phone", phone);
         map.put("certificates", "");
         map.put("picture", picture);
-        map.put("latitude", "");
-        map.put("longitude", "");
-        map.put("province", "");
-        map.put("city", "");
-        map.put("area", "");
-        map.put("address", "");
+        map.put("latitude", SharedUtil.getIntence().getLatitude());
+        map.put("longitude", SharedUtil.getIntence().getLongitude());
+        map.put("province", model0.getKey() + "");
+        map.put("city", model1.getKey() + "");
+        map.put("area", model2.getKey() + "");
+        map.put("address", area);
 
         HttpUtil.doPost(HttpApi.SHOP_ADD, map, new HttpResultInterface() {
             @Override
@@ -180,8 +198,8 @@ public class ShopJoinActivity1 extends BaseActivity implements GetPhotoCallBack 
 
             @Override
             public void onSuccess(String resultData) {
-
-
+                ToastUtil.longToast("提交成功！");
+                finish();
             }
         });
 
@@ -200,6 +218,7 @@ public class ShopJoinActivity1 extends BaseActivity implements GetPhotoCallBack 
             model2 = null;
             area2.setText("请选择区");
             area2.setSelected(false);
+            setCommitStatue();
 
         } else if (requestCode == 11 && resultCode == 100) {
             model1 = (SortModel) data.getSerializableExtra("model");
@@ -208,12 +227,23 @@ public class ShopJoinActivity1 extends BaseActivity implements GetPhotoCallBack 
             model2 = null;
             area2.setText("请选择区");
             area2.setSelected(false);
+            setCommitStatue();
 
         } else if (requestCode == 12 && resultCode == 100) {
             model2 = (SortModel) data.getSerializableExtra("model");
             area2.setText(model2.getName());
             area2.setSelected(true);
+            setCommitStatue();
 
+        }
+
+    }
+
+    private void setCommitStatue() {
+        if (StringUtil.isEmpty(name) || StringUtil.isEmpty(phone) || StringUtil.isEmpty(picture) || StringUtil.isEmpty(area) || model1 == null || model1 == null || model2 == null) {
+            commmit.setSelected(false);
+        } else {
+            commmit.setSelected(true);
         }
 
     }
@@ -237,7 +267,8 @@ public class ShopJoinActivity1 extends BaseActivity implements GetPhotoCallBack 
                 try {
                     JSONObject object = new JSONObject(t);
                     picture = object.getString("img");
-//                    ImageLoaderUtil.loadImage(picture, avatar);
+                    ImageLoaderUtil.loadImage(picture, findViewById(R.id.getPicture));
+                    setCommitStatue();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -249,4 +280,6 @@ public class ShopJoinActivity1 extends BaseActivity implements GetPhotoCallBack 
     public void selectPhotoCallback(Uri photoOutputUri, File file) {
         uploadPicture(file);
     }
+
+
 }

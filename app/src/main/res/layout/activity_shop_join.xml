@@ -177,14 +177,21 @@
             style="@style/shop_input"
             android:hint="请填写具体地址" />
 
-        <TextView
+        <include layout="@layout/line_view" />
+
+        <ImageView
             android:id="@+id/getPicture"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="25dp"
+            android:src="@mipmap/detail_photo" />
+
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="40dp"
-            android:drawableTop="@mipmap/detail_photo"
-            android:drawablePadding="10dp"
             android:text="请上传营业执照"
             android:textColor="@color/color_black_4D"
             android:textSize="14sp" />
@@ -193,6 +200,7 @@
     </LinearLayout>
 
     <com.example.shanyu.widget.CirButton
+        android:id="@+id/commmit"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="16dp"

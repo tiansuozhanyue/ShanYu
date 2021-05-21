@@ -259,4 +259,5 @@ public class SetAddressActivity extends BaseActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 }
