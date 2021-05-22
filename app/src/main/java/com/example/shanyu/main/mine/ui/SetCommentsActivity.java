@@ -16,19 +16,28 @@ import android.widget.RatingBar;
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.base.GetPhotoCallBack;
+import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.home.ui.ShopJoinActivity1;
+import com.example.shanyu.main.mine.adapter.OfferAdapter;
+import com.example.shanyu.main.mine.bean.OffersMode;
 import com.example.shanyu.utils.ImageLoaderUtil;
 import com.example.shanyu.utils.MPermissionUtils;
+import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.utils.StringUtil;
 import com.example.shanyu.utils.ToastUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SetCommentsActivity extends BaseActivity implements View.OnClickListener, GetPhotoCallBack {
 
@@ -61,8 +70,52 @@ public class SetCommentsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        addEvaluate();
+    }
 
-        // TODO 发布
+    /**
+     * 发布评论
+     */
+    private void addEvaluate() {
+        String evaluate = edit.getText().toString();
+        if (StringUtil.isEmpty(evaluate)) {
+            ToastUtil.shortToast("请填写评论");
+        }
+
+        StringBuffer slide = new StringBuffer();
+        for (int i = 0; i < pictures.size() - 2; i++) {
+            if (i == 0) {
+                slide.append(pictures.get(i));
+            } else {
+                slide.append("," + pictures.get(i));
+            }
+        }
+
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("goods_id", getIntent().getStringExtra("goods_id"));
+        map.put("goods_uid", getIntent().getStringExtra("goods_uid"));
+        map.put("order_id", getIntent().getStringExtra("order_id"));
+        map.put("evaluate", evaluate);
+        map.put("slide", slide.toString());
+        map.put("decimal001", ratingbar1.getNumStars() + "");
+        map.put("decimal002", ratingbar2.getNumStars() + "");
+        map.put("decimal003", ratingbar3.getNumStars() + "");
+        showLoading();
+        HttpUtil.doPost(HttpApi.ADDEVALUATE, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                ToastUtil.shortToast(errorMsg);
+                dismissLoading();
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                dismissLoading();
+                ToastUtil.shortToast("发布成功");
+                finish();
+            }
+        });
 
     }
 
@@ -127,11 +180,11 @@ public class SetCommentsActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
-
     class PictureAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return pictures.size();
+            int size = pictures.size();
+            return size > 3 ? 3 : size;
         }
 
         @Override

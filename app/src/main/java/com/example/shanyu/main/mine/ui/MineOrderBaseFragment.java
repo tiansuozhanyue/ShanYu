@@ -96,7 +96,11 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
      */
     @Override
     public void onAppraise(int positon) {
+        OrderBookBean bookBean=actionModes.get(positon);
         Intent intent = new Intent(getContext(), SetCommentsActivity.class);
+        intent.putExtra("goods_id",bookBean.getGoodsId());
+        intent.putExtra("goods_uid",bookBean.getGoodsUid());
+        intent.putExtra("order_id",bookBean.getOrder());
         startActivity(intent);
     }
 

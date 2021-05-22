@@ -50,5 +50,6 @@ public class HttpApi {
     public static String SHOPBOOKLIST = HOST + "index.php/index/goods/list";
     public static String SETORDERSTATUE = HOST + "index.php/index/order/isstatus";
     public static String SETORDERDETAIL = HOST + "index.php/index/order/detail";
+    public static String ADDEVALUATE = HOST + "index.php/index/evaluate/add";
 
 }
