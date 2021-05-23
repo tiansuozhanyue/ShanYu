@@ -46,7 +46,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="76dp"
         android:background="@drawable/bg_home_0"
         android:orientation="vertical"
@@ -88,7 +88,7 @@
         <com.example.shanyu.widget.MyRefreshLayout
             android:id="@+id/myRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <com.scwang.smartrefresh.layout.header.ClassicsHeader
                 android:layout_width="match_parent"
