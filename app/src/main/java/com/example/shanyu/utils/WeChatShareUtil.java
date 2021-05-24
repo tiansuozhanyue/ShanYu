@@ -24,7 +24,7 @@ import java.net.URL;
 public class WeChatShareUtil {
 
     //从官网申请的合法appId
-    public static final String APP_ID = HttpApi.WxPayAppId;
+    public static final String APP_ID = HttpApi.WX_APPID;
 
     private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
 

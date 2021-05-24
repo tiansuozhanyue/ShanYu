@@ -5,7 +5,8 @@ public class HttpApi {
 
 
     //    public static String WxPayAppId = "wx20b72ab25f7f8e8e";
-    public static String WxPayAppId = "wx0a44f6b97bddac61";
+    public static String WX_APPID = "wx0a44f6b97bddac61";
+    public static String WX_SECRET = "";
 
     public static String HOST = "http://shushanyu.com/";
 
@@ -15,7 +16,7 @@ public class HttpApi {
     public static String SEND = HOST + "index.php/user/publics/send";
     public static String LOGIN = HOST + "index.php/user/publics/signin";
     public static String VERIFICATION = HOST + "index.php/user/publics/verification";
-    public static String LOGIN_WX = HOST + "index.php/user/publics/verification";
+    public static String LOGIN_WX = HOST + "index.php/user/publics/wlogin";
     public static String BANNER = HOST + "index.php/index";
     public static String BOOKS = HOST + "index.php/index/index/isrecommend";
     public static String ACTION = HOST + "index.php/index/activity";
@@ -53,5 +54,8 @@ public class HttpApi {
     public static String SETORDERSTATUE = HOST + "index.php/index/order/isstatus";
     public static String SETORDERDETAIL = HOST + "index.php/index/order/detail";
     public static String ADDEVALUATE = HOST + "index.php/index/evaluate/add";
+
+    public static String getWxInfo1 = "https://api.weixin.qq.com/sns/oauth2/access_token";
+    public static String getWxInfo2 = "https://api.weixin.qq.com/sns/userinfo";
 
 }

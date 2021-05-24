@@ -42,7 +42,6 @@ public class BindPhoneActivity extends BaseActivity implements TextWatcher {
     public TextView getCode;
     @BindView(R.id.mCirButton)
     public CirButton mCirButton;
-
     String mobile, pcaptcha;
     int timeCode;
     MHandler mHandler = new MHandler();
@@ -119,9 +118,11 @@ public class BindPhoneActivity extends BaseActivity implements TextWatcher {
      */
     private void bind() {
         Map<String, String> map = new HashMap<>();
-        map.put("uid", SharedUtil.getIntence().getUid());
         map.put("mobile", mobile);
         map.put("pcaptcha", pcaptcha);
+        map.put("openid", getIntent().getStringExtra("openid"));
+        map.put("nickname", getIntent().getStringExtra("nickname"));
+        map.put("avatar", getIntent().getStringExtra("avatar"));
 
         showLoading();
         HttpUtil.doPost(HttpApi.VERIFICATION, map, new HttpResultInterface() {
@@ -151,7 +152,6 @@ public class BindPhoneActivity extends BaseActivity implements TextWatcher {
      * 获取验证码
      */
     private void getCode() {
-
         Map<String, String> map = new HashMap<>();
         map.put("mobile", mobile);
         showLoading();

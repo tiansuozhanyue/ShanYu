@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.shanyu.base.EventBean;
 import com.example.shanyu.http.HttpApi;
@@ -19,10 +18,10 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import org.greenrobot.eventbus.EventBus;
 
 /**
- * 微信支付回调
+ * 微信登录回调
  */
-public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
-    private static final String TAG = "WXPayEntryActivity";
+public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+    private static final String TAG = "WXEntryActivity";
 
     private IWXAPI api;
 
@@ -55,23 +54,21 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onResp(BaseResp resp) {
         Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
 
-        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {//支付
-            switch (resp.errCode) {
-                case 0:
-                    EventBus.getDefault().post(new EventBean(EventBean.PAY_SUCESSS));
-                    break;
-                case -1://错误，可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等
-                    Log.d(TAG, "onResp: resp.errCode = -1  支付错误");
-                    EventBus.getDefault().post(new EventBean(EventBean.PAY_FAILE));
-                    break;
-                case -2://用户取消，无需处理。发生场景：用户不支付了，点击取消，返回APP。
-                    Log.d(TAG, "onResp: resp.errCode = -2  用户取消");
-                    EventBus.getDefault().post(new EventBean(EventBean.PAY_CANCLE));
-                    break;
+        if (resp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {//登录
+
+            if (resp.errCode == 0) {
+                SendAuth.Resp newResp = (SendAuth.Resp) resp;
+                EventBus.getDefault().post(new EventBean(EventBean.LOGIN_SUCESSS, newResp.code));
             }
 
+        } else if (resp.getType() == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX) {//分享
+
+            if (resp.errCode == 0) {
+                EventBus.getDefault().post(new EventBean(EventBean.SHARE_SUCESSS));
+            }
 
         }
+
         finish();//这里需要关闭该页面
 
     }

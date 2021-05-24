@@ -12,10 +12,15 @@ import android.widget.EditText;
 
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
+import com.example.shanyu.base.EventBean;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.MainActivity;
+import com.example.shanyu.main.home.ui.BookOrderActivity;
+import com.example.shanyu.main.home.ui.PayFaileActivity;
+import com.example.shanyu.main.home.ui.PaySucessActivity;
+import com.example.shanyu.utils.AppUtil;
 import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.StringUtil;
@@ -27,6 +32,12 @@ import com.hyphenate.exceptions.HyphenateException;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,6 +66,7 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
         setTranslucentStatus();
         setContentView(R.layout.activity_login, false);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -172,13 +184,15 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
     }
 
 
-    //发送请求唤起收起授权页
+    /**
+     * 发送请求唤起收起授权页
+     */
     public void wake() {
-        if (isWeixinAvilible(this)) {
+        if (!isWeixinAvilible(this)) {
             ToastUtil.longToastMid("您还未安装微信客户端！");
         } else {
             // send oauth request
-            IWXAPI wx_api = WXAPIFactory.createWXAPI(this, HttpApi.WxPayAppId);
+            IWXAPI wx_api = WXAPIFactory.createWXAPI(this, HttpApi.WX_APPID);
             final SendAuth.Req req = new SendAuth.Req();
             req.scope = "snsapi_userinfo";
             req.state = "wechat_sdk_demo_test";
@@ -186,19 +200,28 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void studentEventBus(EventBean eventBean) {
+        switch (eventBean.flag) {
+            case EventBean.LOGIN_SUCESSS:
+                Login_wx(eventBean.info);
+                break;
+        }
+
+    }
+
     /**
      * 微信登录
      */
-    private void Login_wx() {
+    private void Login_wx(String code) {
 
-
-        String nickName = SharedUtil.getIntence().getNickName();
-        String avatar = SharedUtil.getIntence().getAvatar();
+        final String nickName = SharedUtil.getIntence().getNickName();
+        final String avatar = SharedUtil.getIntence().getAvatar();
         if (StringUtil.isEmpty(nickName) || StringUtil.isEmpty(avatar)) {
-            startActivity(new Intent(this, BindPhoneActivity.class));
+            getWXToken(code);
         } else {
             Map<String, String> map = new HashMap<>();
-            map.put("openid", HttpApi.WxPayAppId);
+            map.put("openid", code);
             map.put("nickname", nickName);
             map.put("avatar", avatar);
             showLoading();
@@ -206,7 +229,11 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
                 @Override
                 public void onFailure(String errorMsg) {
                     dismissLoading();
-                    ToastUtil.shortToast(errorMsg);
+                    Intent intent = new Intent(LoginActivity.this, BindPhoneActivity.class);
+                    intent.putExtra("openid", code);
+                    intent.putExtra("nickname", nickName);
+                    intent.putExtra("avatar", avatar);
+                    startActivity(intent);
                 }
 
                 @Override
@@ -225,6 +252,66 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
                 }
             });
         }
+    }
+
+    /**
+     * 获取微信token
+     */
+    private void getWXToken(String code) {
+        Map<String, String> map = new HashMap<>();
+        map.put("appid", HttpApi.WX_APPID);
+        map.put("secret", HttpApi.WX_SECRET);
+        map.put("code", code);
+        map.put("grant_type", "authorization_code");
+        HttpUtil.doGet(HttpApi.getWxInfo1, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String access_token = jsonObject.getString("access_token");
+                    String openid = jsonObject.getString("openid");
+                    getWXInfo(access_token, openid);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取微信基本信息
+     *
+     * @param code
+     */
+    private void getWXInfo(String access_token, String code) {
+        Map<String, String> map = new HashMap<>();
+        map.put("access_token", access_token);
+        map.put("openid", code);
+        HttpUtil.doGet(HttpApi.getWxInfo2, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+
+                    Intent intent = new Intent(LoginActivity.this, BindPhoneActivity.class);
+                    intent.putExtra("openid", code);
+                    intent.putExtra("nickname", "");
+                    intent.putExtra("avatar", "");
+                    startActivity(intent);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     class EMThread extends Thread {
@@ -263,4 +350,11 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
     public void onProgress(int i, String s) {
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
 }

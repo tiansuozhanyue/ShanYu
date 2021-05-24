@@ -30,7 +30,7 @@ public class MyApplication extends Application {
 
         // 将该app id 注册到微信
         IWXAPI msgApi = WXAPIFactory.createWXAPI(context, null);
-        msgApi.registerApp(HttpApi.WxPayAppId);
+        msgApi.registerApp(HttpApi.WX_APPID);
 
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证

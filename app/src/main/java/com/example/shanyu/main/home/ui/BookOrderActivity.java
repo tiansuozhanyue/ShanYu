@@ -425,8 +425,8 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
     private void startWechatPay(WxPayBean wxPayBean) {
 
         //这里的appid，替换成自己的即可
-        IWXAPI api = WXAPIFactory.createWXAPI(this, HttpApi.WxPayAppId);
-        api.registerApp(HttpApi.WxPayAppId);
+        IWXAPI api = WXAPIFactory.createWXAPI(this, HttpApi.WX_APPID);
+        api.registerApp(HttpApi.WX_APPID);
 
         //这里的bean，是服务器返回的json生成的bean
         PayReq payRequest = new PayReq();

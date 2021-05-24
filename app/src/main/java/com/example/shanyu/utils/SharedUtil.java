@@ -43,8 +43,7 @@ public class SharedUtil {
     public String getMobile() {
         return preferences.getString("mobile", "");
     }
-
-
+    
     /**
      * 获取倒计时时间
      *
