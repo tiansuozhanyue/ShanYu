@@ -33,12 +33,12 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/bindPhone"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity=""
                 android:layout_weight="1"
                 android:gravity="right|center_vertical"
-                android:text="186****8888"
                 android:textColor="@color/color_black_80"
                 android:textSize="14sp" />
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
@@ -26,6 +27,7 @@ import com.example.shanyu.main.mine.ui.AboutActivity;
 import com.example.shanyu.main.mine.ui.OffersActivity;
 import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.utils.StringUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.CirButton;
 import com.example.shanyu.widget.MyCommonDialog;
@@ -48,6 +50,8 @@ public class SetingActivity extends BaseActivity implements CompoundButton.OnChe
     public CirButton btn_signout;
     @BindView(R.id.mSwitch)
     public Switch mSwitch;
+    @BindView(R.id.bindPhone)
+    public TextView bindPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,7 @@ public class SetingActivity extends BaseActivity implements CompoundButton.OnChe
 
     @Override
     public void initView() {
+        bindPhone.setText(StringUtil.mobileSecurityInfo(SharedUtil.getIntence().getMobile()));
         mSwitch.setChecked(SharedUtil.getIntence().isMessage() == 1);
         mSwitch.setOnCheckedChangeListener(this);
         btn_signout.setSelected(true);

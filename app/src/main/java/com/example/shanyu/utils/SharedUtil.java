@@ -34,14 +34,14 @@ public class SharedUtil {
     }
 
 
-    public boolean setToken(String token) {
-        editor.putString("token", token);
+    public boolean setMobile(String token) {
+        editor.putString("mobile", token);
         return editor.commit();
     }
 
 
-    public String getToken() {
-        return preferences.getString("token", "");
+    public String getMobile() {
+        return preferences.getString("mobile", "");
     }
 
 
@@ -70,16 +70,6 @@ public class SharedUtil {
 
     private int getTimeWithPhone() {
         return preferences.getInt("regist_code", 0);
-    }
-
-    public boolean setKeyWordHeight(int height) {
-        editor.putInt("KeyWordHeight", height);
-        return editor.commit();
-    }
-
-
-    public int getKeyWordHeight() {
-        return preferences.getInt("KeyWordHeight", 0);
     }
 
 
@@ -153,24 +143,6 @@ public class SharedUtil {
     //=================================================================================
 
 
-    public boolean setUserId(String userId) {
-        editor.putString("userId", userId);
-        return editor.commit();
-    }
-
-    public String getUserId() {
-        return preferences.getString("userId", "");
-    }
-
-    public boolean setPlayTeaherId(String userId) {
-        editor.putString("playTeaherId", userId);
-        return editor.commit();
-    }
-
-    public String getPlayTeaherId() {
-        return preferences.getString("playTeaherId", "");
-    }
-
     public boolean setNickName(String nickName) {
         editor.putString("nickName", nickName);
         return editor.commit();
@@ -180,79 +152,16 @@ public class SharedUtil {
         return preferences.getString("nickName", "");
     }
 
-    public boolean setHeadImg(String headImg) {
-        editor.putString("headImg" + getUserId(), headImg);
+
+    public boolean setAvatar(String avatar) {
+        editor.putString("avatar", avatar);
         return editor.commit();
     }
 
-    public int getSex() {
-        return preferences.getInt("sex" + getUserId(), 0);
+    public String getAvatar() {
+        return preferences.getString("avatar", "");
     }
 
-    public boolean setSex(int sex) {
-        editor.putInt("sex" + getUserId(), sex);
-        return editor.commit();
-    }
-
-    public String getHeadImg() {
-        return preferences.getString("headImg" + getUserId(), "");
-    }
-
-    public boolean setVerified(int level) {
-        editor.putInt("verified", level);
-        return editor.commit();
-    }
-
-    public int getVerified() {
-        return preferences.getInt("verified", 0);
-    }
-
-    public boolean isRead() {
-        return preferences.getBoolean("order" + getUserId(), true);
-    }
-
-    public void setRead(boolean flag) {
-        editor.putBoolean("order" + getUserId(), flag);
-        editor.commit();
-    }
-
-    public boolean isRead_sys() {
-        return preferences.getBoolean("msg_sys" + getUserId(), true);
-    }
-
-    public void setRead_sys(boolean flag) {
-        editor.putBoolean("msg_sys" + getUserId(), flag);
-        editor.commit();
-    }
-
-    public boolean isRead_order() {
-        return preferences.getBoolean("msg_order" + getUserId(), true);
-    }
-
-    public void setRead_order(boolean flag) {
-        editor.putBoolean("msg_order" + getUserId(), flag);
-        editor.commit();
-    }
-
-
-    /**
-     * 1表示开启新提醒；0表示关闭提醒
-     *
-     * @return
-     */
-    public int getMessageRemain() {
-        return preferences.getInt("isOpen", 0);
-    }
-
-    /**
-     * 设置消息提醒是否开启
-     *
-     * @param remainMessage
-     */
-    public void saveMessageRemain(int remainMessage) {
-        editor.putInt("isOpen", remainMessage);
-        editor.commit();
-    }
 
     /**
      * 保存震动开关

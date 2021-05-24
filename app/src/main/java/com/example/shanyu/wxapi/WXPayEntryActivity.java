@@ -7,9 +7,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.shanyu.base.EventBean;
+import com.example.shanyu.http.HttpApi;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -20,15 +22,13 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     private static final String TAG = "WXPayEntryActivity";
 
     private IWXAPI api;
-    private String app_id = "";//微信开发后台申请的app_id
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //这里可以不填写
-//        setContentView(R.layout.pay_result);
 
-        api = WXAPIFactory.createWXAPI(this, app_id);
+
+        api = WXAPIFactory.createWXAPI(this, HttpApi.WxPayAppId);
         api.handleIntent(getIntent(), this);
 
     }
@@ -56,9 +56,15 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 
             switch (resp.errCode) {
-                case 0://支付成功
-                    Log.d(TAG, "onResp: resp.errCode = 0   支付成功");
-                    EventBus.getDefault().post(new EventBean(EventBean.PAY_SUCESSS));
+                case 0:
+                    if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {//支付
+                        EventBus.getDefault().post(new EventBean(EventBean.PAY_SUCESSS));
+                    } else if (resp.getType() == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX) {//分享
+                        EventBus.getDefault().post(new EventBean(EventBean.SHARE_SUCESSS));
+                    } else if (resp.getType() == ConstantsAPI.COMMAND_SENDAUTH) {//登录
+                        EventBus.getDefault().post(new EventBean(EventBean.LOGIN_SUCESSS));
+                    }
+
                     break;
                 case -1://错误，可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等
                     Log.d(TAG, "onResp: resp.errCode = -1  支付错误");

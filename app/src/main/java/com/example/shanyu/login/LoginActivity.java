@@ -24,6 +24,9 @@ import com.example.shanyu.widget.CirButton;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -93,9 +96,8 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
     }
 
 
-    @OnClick({R.id.btn_login,
-            R.id.regist_goto,
-            R.id.bth_setPws})
+    @OnClick({R.id.btn_login, R.id.regist_goto,
+            R.id.bth_setPws, R.id.login_wx})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
@@ -109,11 +111,17 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
                 }
 
                 break;
+
             case R.id.regist_goto:
                 startActivity(new Intent(this, RegistActivity.class));
                 break;
+
             case R.id.bth_setPws:
                 startActivity(new Intent(this, PwsEditActivity.class));
+                break;
+
+            case R.id.login_wx:
+                wake();
                 break;
         }
     }
@@ -156,7 +164,7 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
                 SharedUtil.getIntence().setUid(t);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
-                new EMThread(t, t).start();
+                new EMThread().start();
 
                 finish();
             }
@@ -164,27 +172,75 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
     }
 
 
-    class EMThread extends Thread {
-        String username, password;
-
-        public EMThread(String username, String password) {
-            this.username = username;
-            this.password = password;
+    //发送请求唤起收起授权页
+    public void wake() {
+        if (isWeixinAvilible(this)) {
+            ToastUtil.longToastMid("您还未安装微信客户端！");
+        } else {
+            // send oauth request
+            IWXAPI wx_api = WXAPIFactory.createWXAPI(this, HttpApi.WxPayAppId);
+            final SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo_test";
+            wx_api.sendReq(req);
         }
+    }
 
+    /**
+     * 微信登录
+     */
+    private void Login_wx() {
+
+
+        String nickName = SharedUtil.getIntence().getNickName();
+        String avatar = SharedUtil.getIntence().getAvatar();
+        if (StringUtil.isEmpty(nickName) || StringUtil.isEmpty(avatar)) {
+            startActivity(new Intent(this, BindPhoneActivity.class));
+        } else {
+            Map<String, String> map = new HashMap<>();
+            map.put("openid", HttpApi.WxPayAppId);
+            map.put("nickname", nickName);
+            map.put("avatar", avatar);
+            showLoading();
+            HttpUtil.doPost(HttpApi.LOGIN_WX, map, new HttpResultInterface() {
+                @Override
+                public void onFailure(String errorMsg) {
+                    dismissLoading();
+                    ToastUtil.shortToast(errorMsg);
+                }
+
+                @Override
+                public void onSuccess(String t) {
+                    dismissLoading();
+
+                    //保存数据
+                    SharedUtil.getIntence().setAccount(phone);
+                    SharedUtil.getIntence().setUid(t);
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                    new EMThread().start();
+
+                    finish();
+
+                }
+            });
+        }
+    }
+
+    class EMThread extends Thread {
         @Override
         public void run() {
             super.run();
 
             try {
                 //登录注册
-                EMClient.getInstance().createAccount(username, username);//同步方法
+                EMClient.getInstance().createAccount(SharedUtil.getIntence().getUid(), SharedUtil.getIntence().getUid());//同步方法
 
-                EMClient.getInstance().login(username, username, LoginActivity.this);
+                EMClient.getInstance().login(SharedUtil.getIntence().getUid(), SharedUtil.getIntence().getUid(), LoginActivity.this);
             } catch (HyphenateException e) {
                 if (e.getErrorCode() == 203) {//用户已存在
                     //登录环信
-                    EMClient.getInstance().login(username, username, LoginActivity.this);
+                    EMClient.getInstance().login(SharedUtil.getIntence().getUid(), SharedUtil.getIntence().getUid(), LoginActivity.this);
                 } else {
                     LogUtil.i("---->环信注册失败：" + e.getErrorCode());
                 }
@@ -192,7 +248,6 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
 
         }
     }
-
 
     @Override
     public void onSuccess() {

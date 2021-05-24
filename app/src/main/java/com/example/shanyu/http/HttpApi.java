@@ -14,6 +14,8 @@ public class HttpApi {
     public static String RESET = HOST + "index.php/user/publics/reset";
     public static String SEND = HOST + "index.php/user/publics/send";
     public static String LOGIN = HOST + "index.php/user/publics/signin";
+    public static String VERIFICATION = HOST + "index.php/user/publics/verification";
+    public static String LOGIN_WX = HOST + "index.php/user/publics/verification";
     public static String BANNER = HOST + "index.php/index";
     public static String BOOKS = HOST + "index.php/index/index/isrecommend";
     public static String ACTION = HOST + "index.php/index/activity";

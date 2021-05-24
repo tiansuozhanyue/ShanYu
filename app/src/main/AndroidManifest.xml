@@ -38,7 +38,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShanYu"
         android:usesCleartextTraffic="true">
-        <activity android:name=".main.mine.ui.SetCommentsActivity"></activity>
+        <activity android:name=".login.BindPhoneActivity"></activity>
+        <activity android:name=".main.mine.ui.SetCommentsActivity" />
         <activity android:name=".main.mine.ui.OrderInfoActivity" />
         <activity
             android:name=".main.home.ui.PayFaileActivity"
@@ -53,7 +54,6 @@
         <activity
             android:name=".main.home.ui.BookSearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
-        <activity android:name=".main.home.ui.BookCommentActivity" />
         <activity android:name=".main.mine.ui.CollectionActivity" />
         <activity android:name=".main.chat.ChatActivity" /> <!-- 设置环信应用的AppKey -->
         <meta-data
