@@ -6,7 +6,7 @@ public class HttpApi {
 
     //    public static String WxPayAppId = "wx20b72ab25f7f8e8e";
     public static String WX_APPID = "wx0a44f6b97bddac61";
-    public static String WX_SECRET = "";
+    public static String WX_SECRET = "3a585930147811a58d4970b19efa177b";
 
     public static String HOST = "http://shushanyu.com/";
 

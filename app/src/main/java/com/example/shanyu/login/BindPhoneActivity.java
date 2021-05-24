@@ -32,7 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BindPhoneActivity extends BaseActivity implements TextWatcher {
+public class BindPhoneActivity extends BaseLoginActivity implements TextWatcher {
 
     @BindView(R.id.phone_input)
     public EditText phone_input;
@@ -135,15 +135,8 @@ public class BindPhoneActivity extends BaseActivity implements TextWatcher {
             @Override
             public void onSuccess(String t) {
                 dismissLoading();
-
-//                //保存数据
-//                SharedUtil.getIntence().setAccount(phone);
-//                SharedUtil.getIntence().setUid(t);
-//                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//
-//                new LoginActivity.EMThread().start();
-//
-//                finish();
+                goLogin(mobile, t);
+                finish();
             }
         });
     }
