@@ -33,6 +33,7 @@ import com.example.shanyu.main.home.ui.BookInfoActivity;
 import com.example.shanyu.main.home.ui.BookSearchActivity;
 import com.example.shanyu.main.home.ui.BookOrderActivity;
 import com.example.shanyu.main.home.ui.PaySucessActivity;
+import com.example.shanyu.main.home.ui.SearchAddressActivity;
 import com.example.shanyu.main.home.ui.ShopJoinActivity1;
 import com.example.shanyu.main.home.ui.ShopJoinActivity2;
 import com.example.shanyu.main.home.ui.ShopJoinActivity3;
@@ -122,7 +123,7 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
 
     }
 
-    @OnClick({R.id.shop_join, R.id.search})
+    @OnClick({R.id.shop_join, R.id.search, R.id.address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -148,6 +149,10 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
                     startActivity(intent);
                     edit_input.setText("");
                 }
+                break;
+
+            case R.id.address:
+                startActivity(new Intent(getContext(), SearchAddressActivity.class));
                 break;
 
         }

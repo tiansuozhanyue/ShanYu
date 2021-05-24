@@ -41,7 +41,6 @@
             android:layout_height="10dp"
             android:src="@mipmap/common_more_d" />
 
-
     </LinearLayout>
 
     <LinearLayout

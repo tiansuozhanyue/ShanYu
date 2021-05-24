@@ -37,7 +37,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShanYu"
         android:usesCleartextTraffic="true">
-        <activity android:name=".login.BindPhoneActivity"></activity>
+        <activity android:name=".main.home.ui.SearchAddressActivity"></activity>
+        <activity android:name=".login.BindPhoneActivity" />
         <activity android:name=".main.mine.ui.SetCommentsActivity" />
         <activity android:name=".main.mine.ui.OrderInfoActivity" />
         <activity
@@ -115,7 +116,6 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
-
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
