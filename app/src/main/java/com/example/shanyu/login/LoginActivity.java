@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.example.shanyu.R;
@@ -39,6 +40,8 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
     public EditText edit_pws;
     @BindView(R.id.btn_login)
     public CirButton btn_login;
+    @BindView(R.id.check)
+    public CheckBox check;
 
     String phone, pws;
 
@@ -96,8 +99,15 @@ public class LoginActivity extends BaseActivity implements EMCallBack {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                if (btn_login.isSelected())
-                    Login();
+                if (btn_login.isSelected()) {
+                    hideKeyboard(check);
+                    if (check.isChecked()) {
+                        Login();
+                    } else {
+                        ToastUtil.shortToastMid("请先同意用户协议");
+                    }
+                }
+
                 break;
             case R.id.regist_goto:
                 startActivity(new Intent(this, RegistActivity.class));
