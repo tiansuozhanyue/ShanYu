@@ -120,6 +120,15 @@ public class SharedUtil {
         return preferences.getString("address", "");
     }
 
+    public boolean setStreetNum(String streetNum) {
+        editor.putString("streetNum", streetNum);
+        return editor.commit();
+    }
+
+    public String getStreetNum() {
+        return preferences.getString("streetNum", "");
+    }
+
     public boolean setLongitude(String longitude) {
         editor.putString("longitude", longitude);
         return editor.commit();

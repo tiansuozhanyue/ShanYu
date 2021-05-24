@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.main.mine.ui.SetAddressActivity;
+import com.example.shanyu.utils.SharedUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +35,8 @@ public class SearchAddressActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void initView() {
-
+        address.setText(SharedUtil.getIntence().getCity());
+        area.setText(SharedUtil.getIntence().getStreetNum());
     }
 
     @Override
