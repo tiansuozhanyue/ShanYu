@@ -33,12 +33,16 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class LoginActivity extends BaseLoginActivity {
 
@@ -250,15 +254,17 @@ public class LoginActivity extends BaseLoginActivity {
         map.put("secret", HttpApi.WX_SECRET);
         map.put("code", code);
         map.put("grant_type", "authorization_code");
-        HttpUtil.doGet(HttpApi.getWxInfo1, map, new HttpResultInterface() {
+
+        HttpUtil.Get(HttpApi.getWxInfo1, map, new Callback() {
             @Override
-            public void onFailure(String errorMsg) {
+            public void onFailure(Call call, IOException e) {
+
             }
 
             @Override
-            public void onSuccess(String response) {
+            public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    JSONObject jsonObject = new JSONObject(response);
+                    JSONObject jsonObject = new JSONObject(response.body().string());
                     String access_token = jsonObject.getString("access_token");
                     String openid = jsonObject.getString("openid");
                     getWXInfo(access_token, openid);
@@ -278,20 +284,21 @@ public class LoginActivity extends BaseLoginActivity {
         Map<String, String> map = new HashMap<>();
         map.put("access_token", access_token);
         map.put("openid", code);
-        HttpUtil.doGet(HttpApi.getWxInfo2, map, new HttpResultInterface() {
+
+        HttpUtil.Get(HttpApi.getWxInfo2, map, new Callback() {
             @Override
-            public void onFailure(String errorMsg) {
+            public void onFailure(Call call, IOException e) {
+
             }
 
             @Override
-            public void onSuccess(String response) {
+            public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    JSONObject jsonObject = new JSONObject(response);
-
+                    JSONObject jsonObject = new JSONObject(response.body().string());
                     Intent intent = new Intent(LoginActivity.this, BindPhoneActivity.class);
                     intent.putExtra("openid", code);
-                    intent.putExtra("nickname", "");
-                    intent.putExtra("avatar", "");
+                    intent.putExtra("nickname", jsonObject.getString("nickname"));
+                    intent.putExtra("avatar", jsonObject.getString("headimgurl"));
                     startActivity(intent);
 
                 } catch (JSONException e) {

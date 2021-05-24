@@ -133,6 +133,45 @@ public class HttpUtil {
 
     }
 
+
+    public static void Get(String url, Map<String, String> map, Callback responseCallback) {
+
+
+        if (!isNetworkAvailable()) {
+            ToastUtil.shortToast("网络异常，请稍后重试！");
+            return;
+        }
+
+        String newUrl = "";
+        if (map == null) {
+            newUrl = url;
+        } else {
+            StringBuffer buffer = new StringBuffer();
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                buffer.append(entry.getKey() + "=" + entry.getValue() + "&");
+            }
+
+            newUrl = url + "?" + buffer.substring(0, buffer.length() - 1);
+
+        }
+
+        StringBuffer loginfo = new StringBuffer();
+        loginfo.append("  \r\n");
+        loginfo.append("====>doGet: " + newUrl + "\r\n");
+
+        Request.Builder builder = new Request.Builder()
+                .url(newUrl.trim())
+                .header("Content-Type", "application/json;charset=utf-8")
+                .get();
+
+        if (!StringUtil.isEmpty(session))
+            builder.addHeader("cookie", session);
+
+        Call call = getOkHttpClient().newCall(builder.build());
+        call.enqueue(responseCallback);
+
+    }
+
     public static void upload(File file, HttpResultInterface resultInterface) {
 
         if (!isNetworkAvailable()) {
