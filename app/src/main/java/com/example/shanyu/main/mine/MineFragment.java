@@ -27,12 +27,16 @@ import com.example.shanyu.main.mine.ui.MyBooksActivity;
 import com.example.shanyu.main.mine.ui.OffersActivity;
 import com.example.shanyu.main.mine.ui.PersionInfoActivity;
 import com.example.shanyu.utils.ImageLoaderUtil;
+import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.StringUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.RoundImageView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.hyphenate.EMValueCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMUserInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -174,6 +178,29 @@ public class MineFragment extends Fragment {
                 SharedUtil.getIntence().setMobile(mUserMode.getMobile());
                 SharedUtil.getIntence().setAvatar(mUserMode.getAvatar());
 
+                updateOwnInfo(mUserMode.getNickname(), mUserMode.getAvatar());
+
+            }
+        });
+    }
+
+    /**
+     * 同步信息到环信
+     */
+    private void updateOwnInfo(String nickName, String avatar) {
+        EMUserInfo userInfo = new EMUserInfo();
+        userInfo.setUserId(EMClient.getInstance().getCurrentUser());
+        userInfo.setNickName(nickName);
+        userInfo.setAvatarUrl(avatar);
+        EMClient.getInstance().userInfoManager().updateOwnInfo(userInfo, new EMValueCallBack<String>() {
+            @Override
+            public void onSuccess(String value) {
+                LogUtil.c(value);
+            }
+
+            @Override
+            public void onError(int error, String errorMsg) {
+                LogUtil.c(error + " = " + errorMsg);
             }
         });
     }

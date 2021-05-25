@@ -146,9 +146,10 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/see_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="《书善羽用户服务协议》"
+                android:text="《社优拼用户服务协议》"
                 android:textColor="@color/color_black_E6"
                 android:textSize="12sp" />
 

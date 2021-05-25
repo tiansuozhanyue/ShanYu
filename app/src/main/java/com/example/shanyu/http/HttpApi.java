@@ -54,6 +54,7 @@ public class HttpApi {
     public static String SETORDERSTATUE = HOST + "index.php/index/order/isstatus";
     public static String SETORDERDETAIL = HOST + "index.php/index/order/detail";
     public static String ADDEVALUATE = HOST + "index.php/index/evaluate/add";
+    public static String PRIVATE = HOST + "oue.html";
 
     public static String getWxInfo1 = "https://api.weixin.qq.com/sns/oauth2/access_token";
     public static String getWxInfo2 = "https://api.weixin.qq.com/sns/userinfo";

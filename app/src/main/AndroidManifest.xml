@@ -37,7 +37,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShanYu"
         android:usesCleartextTraffic="true">
-        <activity android:name=".main.home.ui.SearchAddressActivity"></activity>
+        <activity android:name=".login.WebViewActivity"></activity>
+        <activity android:name=".main.home.ui.SearchAddressActivity" />
         <activity android:name=".login.BindPhoneActivity" />
         <activity android:name=".main.mine.ui.SetCommentsActivity" />
         <activity android:name=".main.mine.ui.OrderInfoActivity" />

@@ -43,4 +43,8 @@ public class ChatFragment extends EaseConversationListFragment {
         }
     }
 
+    @Override
+    public int getLayoutId() {
+        return super.getLayoutId();
+    }
 }

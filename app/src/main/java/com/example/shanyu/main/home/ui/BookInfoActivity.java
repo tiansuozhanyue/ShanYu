@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.util.Util;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
+import com.example.shanyu.main.chat.ChatActivity;
 import com.example.shanyu.main.home.adapter.BookInfoAddressAdapter;
 import com.example.shanyu.main.home.adapter.CommentAdapter;
 import com.example.shanyu.main.home.bean.BookInfoMode;
@@ -42,6 +43,8 @@ import com.example.shanyu.widget.MyListView;
 import com.example.shanyu.widget.ShopSumButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hyphenate.easeui.constants.EaseConstant;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -127,8 +130,9 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
                 intent1.putExtra("shop_id", shop_id + "");
                 startActivity(intent1);
                 break;
-
             case R.id.chat:
+//                ChatActivity.actionStart(this, bookMode.getUid() + "", EaseConstant.CHATTYPE_SINGLE);
+                ChatActivity.actionStart(this,  "48", EaseConstant.CHATTYPE_SINGLE);
                 break;
 
             case R.id.buy:

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.shanyu.R;
 import com.example.shanyu.base.EventBean;
@@ -107,7 +108,8 @@ public class LoginActivity extends BaseLoginActivity {
 
 
     @OnClick({R.id.btn_login, R.id.regist_goto,
-            R.id.bth_setPws, R.id.login_wx})
+            R.id.bth_setPws, R.id.login_wx,
+            R.id.see_info})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
@@ -133,9 +135,13 @@ public class LoginActivity extends BaseLoginActivity {
             case R.id.login_wx:
                 wake();
                 break;
+
+            case R.id.see_info:
+                startActivity(new Intent(this, WebViewActivity.class));
+                break;
+
         }
     }
-
 
     /**
      * 登录
