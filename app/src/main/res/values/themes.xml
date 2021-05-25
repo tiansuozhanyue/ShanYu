@@ -22,6 +22,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.AppStartLoad" parent="Theme.ShanYu">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="Theme.ShanYu.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.ShanYu.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

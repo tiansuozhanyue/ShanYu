@@ -102,7 +102,9 @@
         <activity
             android:name=".login.RegistActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".login.SplashActivity">
+        <activity
+            android:name=".login.SplashActivity"
+            android:theme="@style/Theme.AppStartLoad">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
