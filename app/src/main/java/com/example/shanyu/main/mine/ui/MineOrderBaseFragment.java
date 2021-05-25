@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ import java.util.Map;
 public abstract class MineOrderBaseFragment extends Fragment implements MyRefreshLayout.RefreshListener, HttpResultInterface, OrderBookAdapter.OrderBookAdapterOnclick {
 
     protected ListView mListView;
+    private TextView empty;
     protected MyRefreshLayout myRefreshLayout;
     private List<OrderBookBean> actionModes;
     private OrderBookAdapter orderBookAdapter;
@@ -56,6 +58,7 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
     private void intView(View view) {
         mListView = view.findViewById(R.id.mListView);
         myRefreshLayout = view.findViewById(R.id.myRefreshLayout);
+        empty = view.findViewById(R.id.empty);
         myRefreshLayout.setRefreshListener(this);
         getOrders();
     }
@@ -78,6 +81,8 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
     @Override
     public void onFailure(String errorMsg) {
         myRefreshLayout.closeLoadingView();
+        mListView.setVisibility(View.GONE);
+        empty.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -85,8 +90,17 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
         myRefreshLayout.closeLoadingView();
         actionModes = new Gson().fromJson(t, new TypeToken<List<OrderBookBean>>() {
         }.getType());
-        orderBookAdapter = new OrderBookAdapter(getContext(), actionModes, this);
-        mListView.setAdapter(orderBookAdapter);
+
+        if (actionModes != null && actionModes.size() > 0) {
+            mListView.setVisibility(View.VISIBLE);
+            empty.setVisibility(View.GONE);
+            orderBookAdapter = new OrderBookAdapter(getContext(), actionModes, this);
+            mListView.setAdapter(orderBookAdapter);
+        } else {
+            mListView.setVisibility(View.GONE);
+            empty.setVisibility(View.VISIBLE);
+        }
+
     }
 
     /**
@@ -96,11 +110,11 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
      */
     @Override
     public void onAppraise(int positon) {
-        OrderBookBean bookBean=actionModes.get(positon);
+        OrderBookBean bookBean = actionModes.get(positon);
         Intent intent = new Intent(getContext(), SetCommentsActivity.class);
-        intent.putExtra("goods_id",bookBean.getGoodsId());
-        intent.putExtra("goods_uid",bookBean.getGoodsUid());
-        intent.putExtra("order_id",bookBean.getOrder());
+        intent.putExtra("goods_id", bookBean.getGoodsId());
+        intent.putExtra("goods_uid", bookBean.getGoodsUid());
+        intent.putExtra("order_id", bookBean.getOrder());
         startActivity(intent);
     }
 

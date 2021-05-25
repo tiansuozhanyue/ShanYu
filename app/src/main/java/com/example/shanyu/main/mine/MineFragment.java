@@ -129,7 +129,7 @@ public class MineFragment extends Fragment {
                 startActivity(new Intent(getContext(), MineOrderActivity.class).putExtra("index", 5));
                 break;
             case R.id.mine_collection:
-                startActivity(new Intent(getContext(), CollectionActivity.class));
+                startActivityForResult(new Intent(getContext(), CollectionActivity.class), 20);
                 break;
         }
     }
@@ -209,6 +209,8 @@ public class MineFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 100) {
             getUserInfo();
+        } else if (resultCode == 110) {
+            getCount();
         }
 
     }

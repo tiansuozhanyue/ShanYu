@@ -2,8 +2,10 @@ package com.example.shanyu.main.mine.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
@@ -35,6 +37,9 @@ public class CollectionActivity extends BaseActivity implements MyRefreshLayout.
     public MyRefreshLayout myRefreshLayout;
     @BindView(R.id.mListView)
     public ListView mListView;
+    @BindView(R.id.empty)
+    public TextView empty;
+
     List<CollectionBean> collectionBeans;
     private Set<SwipeListLayout> sets = new HashSet();
     private CollectionAdapter mCollectionAdapter;
@@ -66,6 +71,8 @@ public class CollectionActivity extends BaseActivity implements MyRefreshLayout.
             public void onFailure(String errorMsg) {
                 myRefreshLayout.closeLoadingView();
                 dismissLoading();
+                empty.setVisibility(View.VISIBLE);
+                mListView.setVisibility(View.GONE);
             }
 
             @Override
@@ -75,8 +82,13 @@ public class CollectionActivity extends BaseActivity implements MyRefreshLayout.
                 collectionBeans = new Gson().fromJson(resultData, new TypeToken<List<CollectionBean>>() {
                 }.getType());
                 if (collectionBeans != null && collectionBeans.size() > 0) {
+                    empty.setVisibility(View.GONE);
+                    mListView.setVisibility(View.VISIBLE);
                     mCollectionAdapter = new CollectionAdapter(CollectionActivity.this, collectionBeans, sets, CollectionActivity.this);
                     mListView.setAdapter(mCollectionAdapter);
+                } else {
+                    empty.setVisibility(View.VISIBLE);
+                    mListView.setVisibility(View.GONE);
                 }
             }
         });
@@ -155,6 +167,10 @@ public class CollectionActivity extends BaseActivity implements MyRefreshLayout.
             public void onSuccess(String resultData) {
                 collectionBeans.remove(p);
                 mCollectionAdapter.notifyDataSetChanged();
+                if (collectionBeans.size() == 0) {
+                    empty.setVisibility(View.VISIBLE);
+                }
+                setResult(110);
             }
         });
 
