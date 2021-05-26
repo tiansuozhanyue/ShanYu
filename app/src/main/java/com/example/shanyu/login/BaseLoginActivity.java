@@ -38,7 +38,7 @@ public abstract class BaseLoginActivity extends BaseActivity implements EMCallBa
                     //登录环信
                     EMClient.getInstance().login(SharedUtil.getIntence().getUid(), SharedUtil.getIntence().getUid(), BaseLoginActivity.this);
                 } else {
-                    LogUtil.i("---->环信注册失败：" + e.getErrorCode());
+                    LogUtil.net_i("---->环信注册失败：" + e.getErrorCode());
                 }
             }
 
@@ -47,12 +47,12 @@ public abstract class BaseLoginActivity extends BaseActivity implements EMCallBa
 
     @Override
     public void onSuccess() {
-        LogUtil.i("---->环信登录成功！");
+        LogUtil.net_i("---->环信登录成功 : "+SharedUtil.getIntence().getUid());
     }
 
     @Override
     public void onError(int i, String s) {
-        LogUtil.i("---->环信登录失败：" + s);
+        LogUtil.net_i("---->环信登录失败：" + s);
     }
 
     @Override

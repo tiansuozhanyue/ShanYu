@@ -56,10 +56,16 @@
             android:name=".main.home.ui.BookSearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan" />
         <activity android:name=".main.mine.ui.CollectionActivity" />
-        <activity android:name=".main.chat.ChatActivity" /> <!-- 设置环信应用的AppKey -->
+        <activity
+            android:name=".main.chat.ChatActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!-- 设置环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="1103210424098388#shushanyu" /> <!-- 声明SDK所需的service SDK核心功能 -->
+            android:value="1103210424098388#shushanyu" />
+        <!-- 声明SDK所需的service SDK核心功能 -->
         <service
             android:name="com.hyphenate.chat.EMChatService"
             android:exported="true" />

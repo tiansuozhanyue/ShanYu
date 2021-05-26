@@ -137,11 +137,16 @@ dependencies {
 //    //oppo push
 //    implementation (name:'oppo_push_v2.1.0',ext:'aar')
 
+    // EaseIMKit
+    //api (project(path: ':ease-im-kit'))
     implementation 'io.hyphenate:ease-im-kit:3.8.1'
+    // EaseIMKit依赖，必须添加环信IM SDK
+    //implementation project(path: ':hyphenatechatsdk')
+    implementation 'io.hyphenate:hyphenate-chat:3.8.1'
 
     //EaseCallKit依赖，必须添加环信IM SDK
-    implementation 'io.hyphenate:ease-call-kit:3.8.1'
+    //api project(':ease-call-kit')
+    implementation 'io.hyphenate:ease-call-kit:3.8.1.1'
 
-    implementation 'io.hyphenate:hyphenate-chat:3.8.1'
 
 }

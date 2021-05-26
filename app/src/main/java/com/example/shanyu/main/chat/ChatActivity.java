@@ -12,7 +12,7 @@ import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.modules.chat.EaseChatFragment;
 
 public class ChatActivity extends BaseActivity {
-    private EaseChatFragment chatFragment;
+    private MEaseChatFragment chatFragment;
 
     public static void actionStart(Context context, String conversationId, int chatType) {
         Intent intent = new Intent(context, ChatActivity.class);
@@ -31,7 +31,7 @@ public class ChatActivity extends BaseActivity {
     @Override
     public void initView() {
         //use EaseChatFratFragment
-        chatFragment = new EaseChatFragment();
+        chatFragment = new MEaseChatFragment();
         //pass parameters to chat fragment
         chatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();

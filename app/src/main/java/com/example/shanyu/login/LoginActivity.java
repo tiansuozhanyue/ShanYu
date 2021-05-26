@@ -236,16 +236,8 @@ public class LoginActivity extends BaseLoginActivity {
                 @Override
                 public void onSuccess(String t) {
                     dismissLoading();
-
-                    //保存数据
-                    SharedUtil.getIntence().setAccount(phone);
-                    SharedUtil.getIntence().setUid(t);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
-                    new EMThread().start();
-
+                    goLogin(phone, t);
                     finish();
-
                 }
             });
         }

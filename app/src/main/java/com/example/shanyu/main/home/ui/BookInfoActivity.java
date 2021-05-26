@@ -131,8 +131,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
                 startActivity(intent1);
                 break;
             case R.id.chat:
-//                ChatActivity.actionStart(this, bookMode.getUid() + "", EaseConstant.CHATTYPE_SINGLE);
-                ChatActivity.actionStart(this,  "48", EaseConstant.CHATTYPE_SINGLE);
+                ChatActivity.actionStart(this, bookMode.getUid() + "", EaseConstant.CHATTYPE_SINGLE);
                 break;
 
             case R.id.buy:

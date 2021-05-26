@@ -10,7 +10,7 @@ import com.example.shanyu.main.MainActivity;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.StringUtil;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseLoginActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class SplashActivity extends BaseActivity {
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 finish();
             } else {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                goLogin(SharedUtil.getIntence().getAccount(), SharedUtil.getIntence().getUid());
                 finish();
             }
         }, 500);
