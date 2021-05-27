@@ -153,5 +153,11 @@ public class EaseHelper {
 
     }
 
+    public EMUserInfo getUserInfo(String username) {
+        if (eMUserInfos != null)
+            return eMUserInfos.get(username);
+        return null;
+    }
+
 
 }

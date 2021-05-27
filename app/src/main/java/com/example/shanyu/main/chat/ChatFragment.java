@@ -64,7 +64,10 @@ public class ChatFragment extends EaseConversationListFragment {
 //                SystemMsgsActivity.actionStart(mContext);
             } else {
                 EMConversation emConversation = (EMConversation) item;
-                ChatActivity.actionStart(mContext, emConversation.conversationId(), EaseCommonUtils.getChatType(emConversation));
+                ChatActivity.actionStart(mContext,
+                        emConversation.conversationId(),
+                        EaseHelper.getInstance().getUserInfo(emConversation.conversationId()).getNickName(),
+                        EaseCommonUtils.getChatType(emConversation));
             }
         }
     }
