@@ -17,8 +17,7 @@
         <ImageView
             android:id="@+id/imag"
             android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:scaleType="centerCrop" />
+            android:layout_height="75dp" />
 
         <TextView
             android:id="@+id/name"

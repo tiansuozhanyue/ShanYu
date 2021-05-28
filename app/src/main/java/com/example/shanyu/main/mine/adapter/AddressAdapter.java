@@ -75,6 +75,7 @@ public class AddressAdapter extends BaseAdapter {
 
 
         if (onClick != null) {
+            view.setOnClickListener(v -> onClick.onAddressSelet(mode));
             radioButton.setOnClickListener(v -> {
                 onClick.onAddressSet(radioButton.isChecked(), mode.getId().toString());
             });
@@ -94,6 +95,8 @@ public class AddressAdapter extends BaseAdapter {
         void onAddressSet(boolean flag, String id);
 
         void onAddressEdit(AddressMode mode);
+
+        void onAddressSelet(AddressMode mode);
 
         void onAddressDell(String id);
     }

@@ -45,7 +45,7 @@ public class ActionAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_action_item, parent, false);
         ImageView mImageView = view.findViewById(R.id.mImageView);
-        ImageLoaderUtil.loadImage(HttpApi.HOST + actionModes.get(position).getPath(), mImageView);
+        ImageLoaderUtil.loadImage(HttpApi.HOST + actionModes.get(position).getCovers(), mImageView);
         if (onClick != null) {
             mImageView.setOnClickListener(v -> {
                 onClick.onActionClick(position);

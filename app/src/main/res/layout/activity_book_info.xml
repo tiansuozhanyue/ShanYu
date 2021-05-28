@@ -61,11 +61,23 @@
                 android:id="@+id/chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/shop"
                 android:drawableTop="@mipmap/tab_chat"
                 android:gravity="center"
                 android:text="聊天"
+                android:textColor="@color/color_black_80"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/collection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/chat"
+                android:drawableTop="@drawable/select_collection"
+                android:gravity="center"
+                android:text="收藏"
                 android:textColor="@color/color_black_80"
                 android:textSize="10sp" />
 
@@ -109,7 +121,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -120,11 +132,10 @@
                         android:orientation="vertical"
                         android:paddingBottom="15dp">
 
-                        <ImageView
+                        <com.to.aboomy.banner.Banner
                             android:id="@+id/cover"
                             android:layout_width="290dp"
-                            android:layout_height="290dp"
-                            android:scaleType="centerCrop" />
+                            android:layout_height="290dp" />
 
                         <TextView
                             android:id="@+id/name"
@@ -146,6 +157,7 @@
                             android:layout_marginLeft="16dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="16dp"
+                            android:gravity="center_vertical"
                             android:orientation="horizontal">
 
                             <TextView
@@ -172,6 +184,25 @@
                                 android:text="￥299"
                                 android:textColor="#4d000000"
                                 android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="right|center_vertical"
+                                android:text="到店自提"
+                                android:textColor="#b3000000"
+                                android:textSize="14sp" />
+
+                            <Switch
+                                android:id="@+id/address_select"
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="10dp"
+                                android:background="@null"
+                                android:thumb="@drawable/thumb"
+                                android:track="@drawable/track"
+                                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                         </LinearLayout>
 
@@ -213,67 +244,73 @@
 
                     </LinearLayout>
 
-
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
                         android:layout_marginTop="10dp"
                         android:background="@color/white"
-                        android:orientation="horizontal">
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:text="用户评价"
+                        android:textColor="@drawable/tab_text_color_bookinfo"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/book_detail"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="商品详情"
-                            android:textColor="@drawable/tab_text_color_bookinfo"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/book_commot"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="用户评价"
-                            android:textColor="@drawable/tab_text_color_bookinfo"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <com.example.shanyu.widget.MyListView
+                        android:id="@+id/myListView"
                         android:layout_width="match_parent"
-                        android:layout_height="1.5dp"
+                        android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:orientation="horizontal">
+                        android:divider="@color/color_black_12"
+                        android:dividerHeight="0.5dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:scrollbars="none" />
 
-                        <TextView
-                            android:id="@+id/book_detail_index"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="40dp"
-                            android:layout_marginRight="40dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/tab_text_color_bookinfo_line" />
 
-                        <TextView
-                            android:id="@+id/book_commot_index"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="40dp"
-                            android:layout_marginRight="40dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/tab_text_color_bookinfo_line" />
-
-                    </LinearLayout>
-
-                    <FrameLayout
-                        android:id="@+id/fragment_layout"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="20dp" />
+                        android:layout_height="70dp"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/color_black_12" />
+
+                        <TextView
+                            android:id="@+id/comment_more"
+                            android:layout_width="120dp"
+                            android:layout_height="35dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/shape_comment"
+                            android:gravity="center"
+                            android:text="查看全部评价"
+                            android:textColor="#e6000000"
+                            android:textSize="14sp" />
+
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:text="商品详情"
+                        android:textColor="@drawable/tab_text_color_bookinfo"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <WebView
+                        android:id="@+id/mWebView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
                 </LinearLayout>
 

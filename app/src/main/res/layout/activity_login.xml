@@ -130,7 +130,8 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <RadioButton
+            <CheckBox
+                android:id="@+id/check"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:background="@drawable/bg_login_radio"
@@ -145,9 +146,10 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/see_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="《XXX用户服务协议》"
+                android:text="《社优拼用户服务协议》"
                 android:textColor="@color/color_black_E6"
                 android:textSize="12sp" />
 
@@ -156,6 +158,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/login_wx"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

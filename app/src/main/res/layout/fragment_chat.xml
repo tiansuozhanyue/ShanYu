@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".main.action.ActionFragment">
 
+    <com.example.shanyu.widget.QyActionBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white" />
 
     <TextView
-        android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/white"
         android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/main_chat"
-        android:textSize="50sp"
+        android:text="聊天"
+        android:textColor="@color/color_black_E6"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
-
-</FrameLayout>
+</LinearLayout>

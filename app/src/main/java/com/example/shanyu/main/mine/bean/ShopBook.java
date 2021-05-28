@@ -1,9 +1,10 @@
 package com.example.shanyu.main.mine.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopBook {
+public class ShopBook implements Serializable {
 
     private String name;
     private Integer shopId;

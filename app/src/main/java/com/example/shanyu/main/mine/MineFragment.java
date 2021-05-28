@@ -20,17 +20,26 @@ import com.example.shanyu.main.MainActivity;
 import com.example.shanyu.main.mine.bean.UserMode;
 import com.example.shanyu.main.mine.ui.AddressActivity;
 import com.example.shanyu.main.mine.ui.AdviceActivity;
+import com.example.shanyu.main.mine.ui.CollectionActivity;
 import com.example.shanyu.main.mine.ui.FootActivity;
 import com.example.shanyu.main.mine.ui.MineOrderActivity;
 import com.example.shanyu.main.mine.ui.MyBooksActivity;
 import com.example.shanyu.main.mine.ui.OffersActivity;
 import com.example.shanyu.main.mine.ui.PersionInfoActivity;
 import com.example.shanyu.utils.ImageLoaderUtil;
+import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.StringUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.RoundImageView;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.hyphenate.EMValueCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMUserInfo;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +61,10 @@ public class MineFragment extends Fragment {
     public TextView user_sign;
     @BindView(R.id.user_img)
     public RoundImageView user_img;
+    @BindView(R.id.num_offer)
+    public TextView num_offer;
+    @BindView(R.id.num_collection)
+    public TextView num_collection;
 
     @Nullable
     @Override
@@ -61,6 +74,7 @@ public class MineFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
         bind = ButterKnife.bind(this, view);
         getUserInfo();
+        getCount();
         return view;
     }
 
@@ -68,7 +82,9 @@ public class MineFragment extends Fragment {
             R.id.user_img, R.id.user_name, R.id.user_sign,
             R.id.mine_order0, R.id.mine_order1, R.id.mine_order2,
             R.id.mine_order3, R.id.mine_order4, R.id.mine_order5,
-            R.id.mine_advice, R.id.mine_offers, R.id.mine_mybooks})
+            R.id.mine_advice, R.id.mine_offers, R.id.mine_mybooks,
+            R.id.mine_collection
+    })
     public void onClickView(View view) {
         switch (view.getId()) {
             case R.id.mine_set:
@@ -116,6 +132,9 @@ public class MineFragment extends Fragment {
             case R.id.mine_order5:
                 startActivity(new Intent(getContext(), MineOrderActivity.class).putExtra("index", 5));
                 break;
+            case R.id.mine_collection:
+                startActivityForResult(new Intent(getContext(), CollectionActivity.class), 20);
+                break;
         }
     }
 
@@ -154,6 +173,60 @@ public class MineFragment extends Fragment {
                 if (!StringUtil.isEmpty(mUserMode.getAutograph()))
                     user_sign.setText(mUserMode.getAutograph());
 
+                SharedUtil.getIntence().setMessage(mUserMode.getIsmessage());
+                SharedUtil.getIntence().setNickName(mUserMode.getNickname());
+                SharedUtil.getIntence().setMobile(mUserMode.getMobile());
+                SharedUtil.getIntence().setAvatar(mUserMode.getAvatar());
+
+                updateOwnInfo(mUserMode.getNickname(), mUserMode.getAvatar());
+
+            }
+        });
+    }
+
+    /**
+     * 同步信息到环信
+     */
+    private void updateOwnInfo(String nickName, String avatar) {
+        EMUserInfo userInfo = new EMUserInfo();
+        userInfo.setUserId(EMClient.getInstance().getCurrentUser());
+        userInfo.setNickName(nickName);
+        userInfo.setAvatarUrl(avatar);
+        EMClient.getInstance().userInfoManager().updateOwnInfo(userInfo, new EMValueCallBack<String>() {
+            @Override
+            public void onSuccess(String value) {
+                LogUtil.c(value);
+            }
+
+            @Override
+            public void onError(int error, String errorMsg) {
+                LogUtil.c(error + " = " + errorMsg);
+            }
+        });
+    }
+
+
+    /**
+     * 获取统计数量
+     */
+    private void getCount() {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+        HttpUtil.doGet(HttpApi.COUNT, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+
+            }
+
+            @Override
+            public void onSuccess(String t) {
+                try {
+                    JSONObject object = new JSONObject(t);
+                    num_offer.setText(object.getInt("coupon") + "");
+                    num_collection.setText(object.getInt("collection") + "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -163,6 +236,8 @@ public class MineFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 100) {
             getUserInfo();
+        } else if (resultCode == 110) {
+            getCount();
         }
 
     }

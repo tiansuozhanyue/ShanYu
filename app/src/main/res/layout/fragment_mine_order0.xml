@@ -1,20 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.shanyu.widget.MyRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".main.action.ActionFragment">
 
-
-    <TextView
-        android:id="@+id/fullscreen_content"
+    <com.scwang.smartrefresh.layout.header.ClassicsHeader
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="全部"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/mListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="16dp"
+            android:divider="@color/color_trant"
+            android:dividerHeight="8dp"
+            android:scrollbars="none" />
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="180dp"
+            android:drawableTop="@mipmap/common_kong2"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="暂无订单"
+            android:textColor="#4d000000"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+    </RelativeLayout>
 
 
-</FrameLayout>
+</com.example.shanyu.widget.MyRefreshLayout>

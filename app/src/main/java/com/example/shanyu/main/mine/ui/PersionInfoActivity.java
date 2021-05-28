@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -18,12 +19,17 @@ import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.login.PwsEditActivity;
 import com.example.shanyu.utils.ImageLoaderUtil;
+import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.MPermissionUtils;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.RoundImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +45,7 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
     public TextView nickname;
     @BindView(R.id.autograph)
     public TextView autograph;
+    int REQUESTCODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +86,7 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
      */
     private void selectedAvatar() {
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-        MPermissionUtils.requestPermissionsResult(this, 1, permissions, new MPermissionUtils.OnPermissionListener() {
+        MPermissionUtils.requestPermissionsResult(this, REQUESTCODE, permissions, new MPermissionUtils.OnPermissionListener() {
             @Override
             public void onPermissionGranted() {
                 selectPhoto("请选择图片", new int[]{100, 100, 1, 1}, PersionInfoActivity.this);
@@ -90,6 +97,17 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
                 ToastUtil.shortToast("获取权限失败");
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUESTCODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                selectPhoto("请选择图片", new int[]{100, 100, 1, 1}, PersionInfoActivity.this);
+            } else {
+                MPermissionUtils.showTipsDialog(this);
+            }
+        }
     }
 
     /**
@@ -119,6 +137,7 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
      */
     private void uploadAvatar(File file) {
         showLoading();
+
         HttpUtil.upload(file, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
@@ -128,7 +147,15 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
             @Override
             public void onSuccess(String t) {
                 dismissLoading();
-//                setAvatar("");
+
+                try {
+                    JSONObject object = new JSONObject(t);
+                    String img = object.getString("img");
+                    ImageLoaderUtil.loadImage(img, avatar);
+                    setAvatar(img);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -149,4 +176,5 @@ public class PersionInfoActivity extends BaseActivity implements GetPhotoCallBac
     public void selectPhotoCallback(Uri photoOutputUri, File file) {
         uploadAvatar(file);
     }
+
 }

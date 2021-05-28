@@ -48,7 +48,7 @@ public class BookMode implements Serializable {
     private Integer status;
     private Integer createdAt;
     private Integer updatedAt;
-    private String path;
+    private String covers;
     private String name;
     private String decimal;
 
@@ -204,12 +204,12 @@ public class BookMode implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public String getPath() {
-        return path;
+    public String getCovers() {
+        return covers;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setCovers(String covers) {
+        this.covers = covers;
     }
 
     public String getName() {

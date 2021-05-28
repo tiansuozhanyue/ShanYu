@@ -33,12 +33,12 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/bindPhone"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity=""
                 android:layout_weight="1"
                 android:gravity="right|center_vertical"
-                android:text="186****8888"
                 android:textColor="@color/color_black_80"
                 android:textSize="14sp" />
 
@@ -138,6 +138,7 @@
                 android:textSize="14sp" />
 
             <Switch
+                android:id="@+id/mSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:thumb="@drawable/thumb"
@@ -196,6 +197,38 @@
                 android:layout_marginLeft="15dp"
                 android:gravity="center"
                 android:text="检查新版本"
+                android:textColor="@color/color_black_E6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity=""
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/color_black_80"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/common_more" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mine_about"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:text="关于我们"
                 android:textColor="@color/color_black_E6"
                 android:textSize="14sp" />
 

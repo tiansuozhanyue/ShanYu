@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">善羽</string>
+    <string name="app_name">社优拼</string>
     <string name="main_home">首页</string>
     <string name="main_action">活动</string>
     <string name="main_chat">聊天</string>
@@ -26,6 +26,15 @@
     <string name="activity_pws_edit1">忘记密码</string>
     <string name="activity_pws_edit2">修改密码</string>
     <string name="title_activity_settings">SettingsActivity</string>
+
+    <string name="about_mine">&#12288;&#12288;社优拼电商是一个以实体店为基点服务社区， ‘便民惠民’为宗旨的社区电商拼购平台,
+                               打造5里以内小区的周边中小型超市,书店等线上引流线下配送给居民，快捷时效，目
+                               前已成为社区方面具有较强影响力的专业服务平台， 我们崇尚青春活力、追求快乐，
+                               热爱社区电商并致力于打造一个专业、专注、专心的个性化团队，我们注重沟通交流，
+                               倡导精诚合作，为客户创造价值则是我们团队的核心灵魂。
+                               开发出针对实体商家的贴心服务产品 --“app+小程序+pc一体化管理系统”。
+                               节省了实体店家所投入的精力、人力，帮助实体店家达到最完美的线上引流效果，
+                               真正实现了线下线上结合专业化服务平台。社优拼， 期待与您的合作。</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

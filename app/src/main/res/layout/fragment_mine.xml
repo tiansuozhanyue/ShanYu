@@ -130,6 +130,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/num_offer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -143,6 +144,34 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="优惠券"
+                    android:textColor="#cc000000"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mine_collection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/num_collection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#cc000000"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="我的收藏"
                     android:textColor="#cc000000"
                     android:textSize="10sp" />
 

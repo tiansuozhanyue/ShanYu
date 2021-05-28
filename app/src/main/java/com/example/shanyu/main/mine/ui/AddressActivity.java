@@ -81,6 +81,7 @@ public class AddressActivity extends BaseActivity implements MyRefreshLayout.Ref
     private void getAddress() {
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("isselected", "0");
         showLoading();
         HttpUtil.doGet(HttpApi.ADDRESS, map, new HttpResultInterface() {
             @Override
@@ -180,7 +181,18 @@ public class AddressActivity extends BaseActivity implements MyRefreshLayout.Ref
     public void onAddressEdit(AddressMode mode) {
         Intent intent = new Intent(AddressActivity.this, SetAddressActivity.class);
         intent.putExtra("mode", mode);
+        intent.putExtra("user", 1);
         startActivityForResult(intent, 11);
+    }
+
+    @Override
+    public void onAddressSelet(AddressMode mode) {
+        if (getIntent().getBooleanExtra("SeletAddress", false)) {
+            Intent intent = new Intent();
+            intent.putExtra("AddressMode", mode);
+            setResult(101, intent);
+            finish();
+        }
     }
 
     @Override

@@ -1,45 +1,33 @@
 package com.example.shanyu.main.mine.bean;
 
-public class MyBooksMode {
+
+import java.io.Serializable;
+import java.util.List;
+
+public class MyBooksMode implements Serializable {
 
     /**
-     * id : 229
-     * goods_id : 1
-     * name : 陆上书店
      * shop_id : 1
-     * isselected : 0
-     * count : 4
-     * preevent : 45.50
-     * price : 58.00
-     * path : uploads/images/20210401/fead1b4e1d5c9ab5279c57f939c24648.jpg
-     * title : 四大原著著小学套餐
+     * name : 陆上书店
+     * list : [{"id":240,"goods_id":2,"name":"陆上书店","shop_id":1,"isselected":0,"count":1,"preevent":"35.00","discount":"35.00","money":"115.00","price":"115.00","path":"uploads/images/20210401/b6491afe1ca68e0a7c31d4579caf528e.jpg","title":"三国演义原著"}]
      */
 
-    private Integer id;
-    private Integer goodsId;
+    private Integer shop_id;
     private String name;
-    private Integer shopId;
-    private Integer isselected;
-    private Integer count;
-    private String preevent;
-    private String price;
-    private String path;
-    private String title;
+    private List<ListDTO> list;
 
-    public Integer getId() {
-        return id;
+    public MyBooksMode(Integer shopId, String name, List<ListDTO> list) {
+        this.shop_id = shopId;
+        this.name = name;
+        this.list = list;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getShopId() {
+        return shop_id;
     }
 
-    public Integer getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Integer goodsId) {
-        this.goodsId = goodsId;
+    public void setShopId(Integer shopId) {
+        this.shop_id = shopId;
     }
 
     public String getName() {
@@ -50,59 +38,146 @@ public class MyBooksMode {
         this.name = name;
     }
 
-    public Integer getShopId() {
-        return shopId;
+    public List<ListDTO> getList() {
+        return list;
     }
 
-    public void setShopId(Integer shopId) {
-        this.shopId = shopId;
+    public void setList(List<ListDTO> list) {
+        this.list = list;
     }
 
-    public Integer getIsselected() {
-        return isselected;
-    }
+    public static class ListDTO implements Serializable {
+        /**
+         * id : 240
+         * goods_id : 2
+         * name : 陆上书店
+         * shop_id : 1
+         * isselected : 0
+         * count : 1
+         * preevent : 35.00
+         * discount : 35.00
+         * money : 115.00
+         * price : 115.00
+         * path : uploads/images/20210401/b6491afe1ca68e0a7c31d4579caf528e.jpg
+         * title : 三国演义原著
+         */
 
-    public void setIsselected(Integer isselected) {
-        this.isselected = isselected;
-    }
+        private Integer id;
+        private Integer goods_id;
+        private String name;
+        private Integer shop_id;
+        private Integer isselected;
+        private Integer count;
+        private String preevent;
+        private String discount;
+        private String money;
+        private String price;
+        private String covers;
+        private String title;
 
-    public Integer getCount() {
-        return count;
-    }
+        public ListDTO(Integer goodsId, Integer count, String preevent, String price, String path, String title) {
+            this.goods_id = goodsId;
+            this.count = count;
+            this.preevent = preevent;
+            this.price = price;
+            this.covers = path;
+            this.title = title;
+        }
 
-    public void setCount(Integer count) {
-        this.count = count;
-    }
+        public Integer getId() {
+            return id;
+        }
 
-    public String getPreevent() {
-        return preevent;
-    }
+        public void setId(Integer id) {
+            this.id = id;
+        }
 
-    public void setPreevent(String preevent) {
-        this.preevent = preevent;
-    }
+        public Integer getGoodsId() {
+            return goods_id;
+        }
 
-    public String getPrice() {
-        return price;
-    }
+        public void setGoodsId(Integer goodsId) {
+            this.goods_id = goodsId;
+        }
 
-    public void setPrice(String price) {
-        this.price = price;
-    }
+        public String getName() {
+            return name;
+        }
 
-    public String getPath() {
-        return path;
-    }
+        public void setName(String name) {
+            this.name = name;
+        }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
+        public Integer getShopId() {
+            return shop_id;
+        }
 
-    public String getTitle() {
-        return title;
-    }
+        public void setShopId(Integer shopId) {
+            this.shop_id = shopId;
+        }
 
-    public void setTitle(String title) {
-        this.title = title;
+        public Integer getIsselected() {
+            return isselected;
+        }
+
+        public void setIsselected(Integer isselected) {
+            this.isselected = isselected;
+        }
+
+        public Integer getCount() {
+            return count;
+        }
+
+        public void setCount(Integer count) {
+            this.count = count;
+        }
+
+        public String getPreevent() {
+            return preevent;
+        }
+
+        public void setPreevent(String preevent) {
+            this.preevent = preevent;
+        }
+
+        public String getDiscount() {
+            return discount;
+        }
+
+        public void setDiscount(String discount) {
+            this.discount = discount;
+        }
+
+        public String getMoney() {
+            return money;
+        }
+
+        public void setMoney(String money) {
+            this.money = money;
+        }
+
+        public String getPrice() {
+            return price;
+        }
+
+        public void setPrice(String price) {
+            this.price = price;
+        }
+
+        public String getCovers() {
+            return covers;
+        }
+
+        public void setCovers(String covers) {
+            this.covers = covers;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
     }
 }
