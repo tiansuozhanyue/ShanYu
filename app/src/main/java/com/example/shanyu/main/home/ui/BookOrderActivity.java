@@ -3,6 +3,8 @@ package com.example.shanyu.main.home.ui;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.PayTask;
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.base.EventBean;
@@ -18,19 +21,15 @@ import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.home.adapter.BookInOrderOfferssAdapter;
-import com.example.shanyu.main.home.adapter.BookInfoAddressAdapter;
 import com.example.shanyu.main.home.adapter.OrderBooksAdapter;
-import com.example.shanyu.main.home.bean.BookMode;
 import com.example.shanyu.main.home.bean.WxPayBean;
-import com.example.shanyu.main.mine.adapter.OfferAdapter;
 import com.example.shanyu.main.mine.bean.AddressMode;
 import com.example.shanyu.main.mine.bean.MyBooksMode;
 import com.example.shanyu.main.mine.bean.OffersMode;
-import com.example.shanyu.main.mine.bean.ShopBook;
 import com.example.shanyu.main.mine.ui.AddressActivity;
-import com.example.shanyu.main.mine.ui.OffersActivity;
 import com.example.shanyu.utils.AppUtil;
 import com.example.shanyu.utils.ArithUtil;
+import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.widget.CirButton;
 import com.example.shanyu.widget.MyListView;
@@ -39,15 +38,11 @@ import com.google.gson.reflect.TypeToken;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,6 +97,7 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
     private int couponId;
     static boolean isCart;
     WxPayBean wxPayBean;
+    String type;//支付方式
 
     public static void start(BaseActivity activity, AddressMode addressMode, List<MyBooksMode> shopBooks) {
         isCart = false;
@@ -135,9 +131,24 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
         showGoods();
 
         payGroup.check(R.id.wxPay);
+        type = "0";
         book_get1.setSelected(true);
         book_get1_index.setSelected(true);
         goPay.setSelected(true);
+
+        payGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.aliPay:
+                        type = "1";
+                        break;
+                    case R.id.wxPay:
+                        type = "0";
+                        break;
+                }
+            }
+        });
 
     }
 
@@ -396,6 +407,7 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
         map.put("user_id", SharedUtil.getIntence().getUid());
         map.put("coupon_id", couponId + "");
         map.put("ty", "0");
+        map.put("type", type);
         map.put("addressid", addressMode.getId() + "");
 
 
@@ -409,13 +421,53 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
             @Override
             public void onSuccess(String resultData) {
                 dismissLoading();
-                wxPayBean = new Gson().fromJson(resultData, WxPayBean.class);
-                startWechatPay(wxPayBean);
 
+                if (type == "0") {
+                    wxPayBean = new Gson().fromJson(resultData, WxPayBean.class);
+                    startWechatPay(wxPayBean);
+                } else {
+                    LogUtil.i(resultData);
+                    startAliPay(resultData);
+                }
             }
         });
 
     }
+
+
+    /**
+     * 调用支付宝本地支付
+     *
+     * @param orderInfo
+     */
+    private void startAliPay(String orderInfo) {
+        Runnable payRunnable = () -> {
+            PayTask alipay = new PayTask(BookOrderActivity.this);
+            Map<String, String> result = alipay.payV2(orderInfo, true);
+
+            Message msg = new Message();
+            msg.what = 11;
+            msg.obj = result;
+            mHandler.sendMessage(msg);
+        };
+        // 必须异步调用
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+    }
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+
+            LogUtil.i((String) msg.obj);
+
+//            Result result = new Result((String) msg.obj);
+//            Toast.makeText(DemoActivity.this, result.getResult(),
+//                    Toast.LENGTH_LONG).show();
+        }
+
+        ;
+    };
+
 
     /**
      * 调起本地微信支付
