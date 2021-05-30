@@ -38,11 +38,11 @@ public class PaySucessActivity extends BaseActivity {
     @Override
     public void initView() {
         go_home.setSelected(true);
-        orderId=getIntent().getStringExtra("orderId");
+        orderId = getIntent().getStringExtra("orderId");
         String money = getIntent().getStringExtra("money");
         String[] moneys = money.split("\\.");
         price1.setText(moneys[0]);
-        price2.setText(moneys[1]);
+        price2.setText("." + moneys[1]);
     }
 
     @OnClick({R.id.check_order, R.id.go_home})
@@ -50,8 +50,8 @@ public class PaySucessActivity extends BaseActivity {
         switch (view.getId()) {
 
             case R.id.check_order:
-                Intent intent= new Intent(this, OrderInfoActivity.class);
-                intent.putExtra("orderId",orderId);
+                Intent intent = new Intent(this, OrderInfoActivity.class);
+                intent.putExtra("orderId", orderId);
                 startActivity(intent);
                 break;
 

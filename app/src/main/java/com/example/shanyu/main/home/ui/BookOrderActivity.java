@@ -12,6 +12,9 @@ import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.alipay.sdk.app.PayTask;
 import com.example.shanyu.R;
@@ -34,14 +37,18 @@ import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.widget.CirButton;
 import com.example.shanyu.widget.MyListView;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +58,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class BookOrderActivity extends BaseActivity implements BookInOrderOfferssAdapter.OffersOnClick {
+public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOfferssAdapter.OffersOnClick {
 
     @BindView(R.id.book_get1)
     public TextView book_get1;
@@ -96,13 +103,15 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
     private List<OffersMode> offersModes;
     private int couponId;
     static boolean isCart;
-    WxPayBean wxPayBean;
-    String type;//支付方式
+    Map<String, String> payMap = new HashMap<>();
+    String type = "1";//支付方式
+    static String ty;
 
-    public static void start(BaseActivity activity, AddressMode addressMode, List<MyBooksMode> shopBooks) {
+    public static void start(BaseActivity activity, AddressMode addressMode, List<MyBooksMode> shopBooks, String t) {
         isCart = false;
         BookOrderActivity.addressMode = addressMode;
         BookOrderActivity.shopBooks = shopBooks;
+        BookOrderActivity.ty = t;
         Intent intent = new Intent(activity, BookOrderActivity.class);
         activity.startActivity(intent);
     }
@@ -119,7 +128,6 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_order, "提交订单");
         ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -130,8 +138,7 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
         updataAddressView();
         showGoods();
 
-        payGroup.check(R.id.wxPay);
-        type = "0";
+        payGroup.check(R.id.aliPay);
         book_get1.setSelected(true);
         book_get1_index.setSelected(true);
         goPay.setSelected(true);
@@ -163,6 +170,7 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
                 book_get1_index.setSelected(true);
                 book_get2.setSelected(false);
                 book_get2_index.setSelected(false);
+                ty = "0";
                 break;
 
             case R.id.book_get2:
@@ -170,6 +178,7 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
                 book_get1_index.setSelected(false);
                 book_get2.setSelected(true);
                 book_get2_index.setSelected(true);
+                ty = "1";
                 break;
 
             case R.id.address:
@@ -341,29 +350,6 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void studentEventBus(EventBean eventBean) {
-        switch (eventBean.flag) {
-
-            case EventBean.PAY_SUCESSS:
-                Intent intent_s = new Intent(BookOrderActivity.this, PaySucessActivity.class);
-                intent_s.putExtra("orderId", orderId);
-                intent_s.putExtra("money", allSum);
-                startActivity(intent_s);
-                break;
-
-            case EventBean.PAY_FAILE:
-            case EventBean.PAY_CANCLE:
-                Intent intent = new Intent(this, PayFaileActivity.class);
-                intent.putExtra("wxPayBean", wxPayBean);
-                intent.putExtra("lacation", addressMode.getAreaname() + "  " + addressMode.getAddress());
-                startActivity(intent);
-                break;
-
-        }
-
-    }
-
     /**
      * 显示商品列表
      */
@@ -386,7 +372,7 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
      * 下单
      */
     private void addOrder() {
-        Map<String, String> map = new HashMap<>();
+
         if (isCart) {
             StringBuffer buffer = new StringBuffer();
             for (MyBooksMode myBooksMode : shopBooks) {
@@ -394,113 +380,23 @@ public class BookOrderActivity extends BaseActivity implements BookInOrderOffers
                     buffer.append(listDTO.getId() + ",");
                 }
             }
-            MyBooksMode.ListDTO dto = shopBooks.get(0).getList().get(0);
-            map.put("is_cart", "1");
-            map.put("cart_id", buffer.substring(0, buffer.length() - 1));
+            payMap.put("is_cart", "1");
+            payMap.put("cart_id", buffer.substring(0, buffer.length() - 1));
 
         } else {
             MyBooksMode.ListDTO dto = shopBooks.get(0).getList().get(0);
-            map.put("is_cart", "0");
-            map.put("goods_id", dto.getGoodsId() + "");
-            map.put("count", dto.getCount() + "");
+            payMap.put("is_cart", "0");
+            payMap.put("goods_id", dto.getGoodsId() + "");
+            payMap.put("count", dto.getCount() + "");
         }
-        map.put("user_id", SharedUtil.getIntence().getUid());
-        map.put("coupon_id", couponId + "");
-        map.put("ty", "0");
-        map.put("type", type);
-        map.put("addressid", addressMode.getId() + "");
+        payMap.put("user_id", SharedUtil.getIntence().getUid());
+        payMap.put("coupon_id", couponId + "");
+        payMap.put("ty", ty);
+        payMap.put("type", type);
+        payMap.put("addressid", addressMode.getId() + "");
 
+        setOrder(payMap, addressMode.getAreaname() + "  " + addressMode.getAddress());
 
-        showLoading();
-        HttpUtil.doPost(HttpApi.ORDER_ADD, map, new HttpResultInterface() {
-            @Override
-            public void onFailure(String errorMsg) {
-                dismissLoading();
-            }
-
-            @Override
-            public void onSuccess(String resultData) {
-                dismissLoading();
-
-                if (type == "0") {
-                    wxPayBean = new Gson().fromJson(resultData, WxPayBean.class);
-                    startWechatPay(wxPayBean);
-                } else {
-                    LogUtil.i(resultData);
-                    startAliPay(resultData);
-                }
-            }
-        });
-
-    }
-
-
-    /**
-     * 调用支付宝本地支付
-     *
-     * @param orderInfo
-     */
-    private void startAliPay(String orderInfo) {
-        Runnable payRunnable = () -> {
-            PayTask alipay = new PayTask(BookOrderActivity.this);
-            Map<String, String> result = alipay.payV2(orderInfo, true);
-
-            Message msg = new Message();
-            msg.what = 11;
-            msg.obj = result;
-            mHandler.sendMessage(msg);
-        };
-        // 必须异步调用
-        Thread payThread = new Thread(payRunnable);
-        payThread.start();
-    }
-
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-
-            LogUtil.i((String) msg.obj);
-
-//            Result result = new Result((String) msg.obj);
-//            Toast.makeText(DemoActivity.this, result.getResult(),
-//                    Toast.LENGTH_LONG).show();
-        }
-
-        ;
-    };
-
-
-    /**
-     * 调起本地微信支付
-     *
-     * @param wxPayBean
-     */
-    private void startWechatPay(WxPayBean wxPayBean) {
-
-        //这里的appid，替换成自己的即可
-        IWXAPI api = WXAPIFactory.createWXAPI(this, HttpApi.WX_APPID);
-        api.registerApp(HttpApi.WX_APPID);
-
-        //这里的bean，是服务器返回的json生成的bean
-        PayReq payRequest = new PayReq();
-        payRequest.appId = wxPayBean.getAppid();
-        payRequest.partnerId = wxPayBean.getPartnerid();
-        payRequest.prepayId = wxPayBean.getPrepayid();
-        payRequest.packageValue = "Sign=WXPay";//固定值
-        payRequest.nonceStr = wxPayBean.getNoncestr();
-        payRequest.timeStamp = wxPayBean.getTimestamp();
-        payRequest.sign = wxPayBean.getSign();
-
-        orderId = wxPayBean.getOrderId().toString();
-
-        //发起请求，调起微信前去支付
-        api.sendReq(payRequest);
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override

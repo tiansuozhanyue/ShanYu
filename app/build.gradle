@@ -148,7 +148,7 @@ dependencies {
     //api project(':ease-call-kit')
     implementation 'io.hyphenate:ease-call-kit:3.8.1.1'
 
-    compile (name: 'alipaysdk-15.8.03.210428205839', ext: 'aar')
+    implementation (name: 'alipaysdk-15.8.03.210428205839', ext: 'aar')
 
 
 }

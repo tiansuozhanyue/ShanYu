@@ -7,26 +7,26 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
-import com.example.shanyu.main.home.adapter.BooksAdapter;
 import com.example.shanyu.main.home.adapter.SearchBooksAdapter;
 import com.example.shanyu.main.home.bean.BookMode;
-import com.example.shanyu.main.mine.bean.OffersMode;
-import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.main.home.bean.ShopOfferBean;
+import com.example.shanyu.utils.ImageLoaderUtil;
 import com.example.shanyu.utils.StringUtil;
-import com.example.shanyu.widget.slider.SortModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.jetbrains.annotations.Nullable;
+import com.to.aboomy.banner.Banner;
+import com.to.aboomy.banner.IndicatorView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +58,8 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     public TextView action_line;
     @BindView(R.id.ratingbar)
     public RatingBar ratingbar;
+    @BindView(R.id.mBanner)
+    public Banner mBanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,9 +204,8 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
      */
     private void getOffers(String shopIds) {
         Map<String, String> map = new HashMap<>();
-        map.put("uid", SharedUtil.getIntence().getUid());
-        map.put("shop_id", shopIds);
-        HttpUtil.doGet(HttpApi.OFFERS, map, new HttpResultInterface() {
+        map.put("uid", shopIds);
+        HttpUtil.doGet(HttpApi.OFFERS_SHOP, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
 
@@ -213,8 +214,24 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
             @Override
             public void onSuccess(String resultData) {
 
-                List<OffersMode> offersModes = new Gson().fromJson(resultData, new TypeToken<List<OffersMode>>() {
+                List<ShopOfferBean> offersModes = new Gson().fromJson(resultData, new TypeToken<List<ShopOfferBean>>() {
                 }.getType());
+
+                if (offersModes != null && offersModes.size() > 0) {
+                    mBanner.setVisibility(View.VISIBLE);
+                    IndicatorView qyIndicator = new IndicatorView(ShopSearchActivity.this)
+                            .setIndicatorColor(getResources().getColor(R.color.white))
+                            .setIndicatorSelectorColor(getResources().getColor(R.color.color_black_4D));
+                    mBanner.setIndicator(qyIndicator)
+                            .setAutoTurningTime(3000)
+                            .setHolderCreator((context, index, o) -> {
+                                TextView banner = new TextView(context);
+                                ShopOfferBean offerBean = (ShopOfferBean) o;
+                                banner.setText(offerBean.getExplain());
+                                return banner;
+                            })
+                            .setPages(offersModes);
+                }
 
             }
         });

@@ -127,7 +127,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
 
             case R.id.shop:
                 Intent intent1 = new Intent(BookInfoActivity.this, ShopSearchActivity.class);
-                intent1.putExtra("shop_id", shop_id + "");
+                intent1.putExtra("shop_id", bookMode.getUid() + "");
                 startActivity(intent1);
                 break;
             case R.id.chat:
@@ -247,7 +247,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
             List<MyBooksMode.ListDTO> listDTOS = new ArrayList<>();
             listDTOS.add(new MyBooksMode.ListDTO(bookMode.getId(), num, bookMode.getPreevent(), bookMode.getPrice(), bookMode.getCovers(), bookMode.getTitle()));
             myBooksModes.add(new MyBooksMode(bookMode.getShop_id(), bookMode.getName(), listDTOS));
-            BookOrderActivity.start(BookInfoActivity.this, addressMode, myBooksModes);
+            BookOrderActivity.start(BookInfoActivity.this, addressMode, myBooksModes, isselected + "");
         });
         view.findViewById(R.id.address_layout).setOnClickListener(v -> {
             Intent intent = new Intent(BookInfoActivity.this, AddressActivity.class);
