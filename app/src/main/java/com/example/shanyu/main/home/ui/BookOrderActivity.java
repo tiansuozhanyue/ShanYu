@@ -113,9 +113,9 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
         isCart = false;
         BookOrderActivity.addressMode = addressMode;
         BookOrderActivity.shopBooks = shopBooks;
-        BookOrderActivity.ty = t;
-        BookOrderActivity.uid = id;
         Intent intent = new Intent(activity, BookOrderActivity.class);
+        intent.putExtra("ty", t);
+        intent.putExtra("uid", id);
         activity.startActivity(intent);
     }
 
@@ -123,6 +123,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
         isCart = true;
         BookOrderActivity.shopBooks = shopBooks;
         Intent intent = new Intent(activity, BookOrderActivity.class);
+        intent.putExtra("ty", "0");
         activity.startActivity(intent);
     }
 
@@ -137,6 +138,9 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
     @Override
     public void initView() {
 
+        ty = getIntent().getStringExtra("ty");
+        uid = getIntent().getStringExtra("uid");
+
         updataSumView();
         updataAddressView();
         showGoods();
@@ -144,7 +148,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
         payGroup.check(R.id.aliPay);
         goPay.setSelected(true);
 
-        if (!StringUtil.isEmpty(ty)) {
+        if (!StringUtil.isEmpty(uid)) {
             switch (ty) {
                 case "0":
                     book_get1.setSelected(true);
@@ -405,7 +409,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
             phone.setText(addressMode.getPhone());
         }
 
-        if (StringUtil.isEmpty(ty)) {
+        if (StringUtil.isEmpty(uid)) {
             book_get2.setTextColor(getResources().getColor(R.color.color_black_4D));
             hasTy = false;
         } else {

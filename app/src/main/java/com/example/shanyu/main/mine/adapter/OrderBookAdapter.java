@@ -18,6 +18,7 @@ import com.example.shanyu.main.mine.bean.MyBooksMode;
 import com.example.shanyu.main.mine.bean.OrderBookBean;
 import com.example.shanyu.utils.AppUtil;
 import com.example.shanyu.utils.ImageLoaderUtil;
+import com.example.shanyu.widget.MyListView;
 
 import java.util.List;
 
@@ -52,11 +53,37 @@ public class OrderBookAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         OrderBookBean booksMode = booksModes.get(position);
         View view = LayoutInflater.from(mContext).inflate(R.layout.adpater_bookorder_item, parent, false);
-        ImageLoaderUtil.loadImage(HttpApi.HOST + booksMode.getCovers(), view.findViewById(R.id.cover));
         ((TextView) view.findViewById(R.id.shopName)).setText(booksMode.getName());
-        ((TextView) view.findViewById(R.id.title)).setText(booksMode.getTitle());
-        ((TextView) view.findViewById(R.id.price)).setText("￥" + booksMode.getPreevent());
-        ((TextView) view.findViewById(R.id.count)).setText(booksMode.getCount() + "件");
+        MyListView myListView = view.findViewById(R.id.mMyListView);
+        List<OrderBookBean.GoodsListBean> goods = booksMode.getGoods_list();
+        myListView.setAdapter(new BaseAdapter() {
+            @Override
+            public int getCount() {
+                return goods.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return goods.get(position);
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.adpater_bookorder_item_2, parent, false);
+                OrderBookBean.GoodsListBean goodsListBean = goods.get(position);
+                ImageLoaderUtil.loadImage(HttpApi.HOST + booksMode.getCovers(), view.findViewById(R.id.cover));
+                ((TextView) view.findViewById(R.id.title)).setText(goodsListBean.getTitle());
+                ((TextView) view.findViewById(R.id.price)).setText("￥" + goodsListBean.getPreevent());
+//                ((TextView) view.findViewById(R.id.count)).setText(goodsListBean.getCount() + "件");
+                return view;
+            }
+        });
+
         String[] p = booksMode.getPrincipal().split("\\.");
         LinearLayout layout = view.findViewById(R.id.layout);
         ((TextView) view.findViewById(R.id.price2)).setText(p[0]);
@@ -142,6 +169,36 @@ public class OrderBookAdapter extends BaseAdapter {
 
 
         return view;
+    }
+
+    private String getStatueInfo(int statue) {
+        switch (statue) {
+            case 0:
+                return "待评价";
+
+            case 1:
+                return "待发货";
+
+            case 2:
+                return "已退款";
+
+            case 3:
+                return "待收货";
+
+            case 4:
+                return "已完成";
+
+            case 5:
+                return "待付款";
+
+            case 6:
+                return "已取消";
+
+            case 7:
+                return "待自提";
+
+        }
+        return "";
     }
 
     private View getGrayView(String info) {

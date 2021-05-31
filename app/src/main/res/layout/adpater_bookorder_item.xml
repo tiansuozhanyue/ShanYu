@@ -38,93 +38,100 @@
         android:textColor="#ffff570b"
         android:textSize="14sp" />
 
-
-    <ImageView
-        android:id="@+id/cover"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_below="@id/shopName"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:src="@mipmap/shop_dianpu" />
-
-    <TextView
-        android:id="@+id/title"
+    <com.example.shanyu.widget.MyListView
+        android:id="@+id/mMyListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/shopName"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_toRightOf="@id/cover"
-        android:text="四大名著全套小学生版全4册"
-        android:textColor="#e6000000"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        android:layout_below="@id/statue"
+        android:layout_marginTop="15dp" />
 
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/cover"
-        android:text="￥32.23"
-        android:textColor="#e6000000"
-        android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/price"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
-        android:text="1件"
-        android:textColor="#4d000000"
-        android:textSize="10sp" />
+    <!--    <ImageView-->
+    <!--        android:id="@+id/cover"-->
+    <!--        android:layout_width="75dp"-->
+    <!--        android:layout_height="75dp"-->
+    <!--        android:layout_below="@id/shopName"-->
+    <!--        android:layout_marginLeft="15dp"-->
+    <!--        android:layout_marginTop="15dp"-->
+    <!--        android:src="@mipmap/shop_dianpu" />-->
 
-    <TextView
-        android:id="@+id/price1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cover"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="23dp"
-        android:layout_marginRight="15dp"
-        android:text=".23"
-        android:textColor="#e6000000"
-        android:textSize="10sp" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/title"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/shopName"-->
+    <!--        android:layout_marginLeft="10dp"-->
+    <!--        android:layout_marginTop="15dp"-->
+    <!--        android:layout_marginRight="15dp"-->
+    <!--        android:layout_toRightOf="@id/cover"-->
+    <!--        android:text="四大名著全套小学生版全4册"-->
+    <!--        android:textColor="#e6000000"-->
+    <!--        android:textSize="14sp"-->
+    <!--        android:textStyle="bold" />-->
 
-    <TextView
-        android:id="@+id/price2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/price1"
-        android:layout_toLeftOf="@id/price1"
-        android:text="32"
-        android:textColor="#e6000000"
-        android:textSize="18sp" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/price"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/title"-->
+    <!--        android:layout_marginLeft="10dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_toRightOf="@id/cover"-->
+    <!--        android:text="￥32.23"-->
+    <!--        android:textColor="#e6000000"-->
+    <!--        android:textSize="14sp" />-->
 
-    <TextView
-        android:id="@+id/text1"
-        android:layout_width="10dp"
-        android:layout_height="14dp"
-        android:layout_alignBaseline="@id/price1"
-        android:layout_toLeftOf="@id/price2"
-        android:text="￥"
-        android:textColor="#e6000000"
-        android:textSize="10sp" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/count"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignBaseline="@id/price"-->
+    <!--        android:layout_alignParentRight="true"-->
+    <!--        android:layout_marginRight="15dp"-->
+    <!--        android:text="1件"-->
+    <!--        android:textColor="#4d000000"-->
+    <!--        android:textSize="10sp" />-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/price1"
-        android:layout_toLeftOf="@id/text1"
-        android:text="合计："
-        android:textColor="#e6000000"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/price1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mMyListView"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="23dp"
+            android:layout_marginRight="15dp"
+            android:text=".23"
+            android:textColor="#e6000000"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/price2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/price1"
+            android:layout_toLeftOf="@id/price1"
+            android:text="32"
+            android:textColor="#e6000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="10dp"
+            android:layout_height="14dp"
+            android:layout_alignBaseline="@id/price1"
+            android:layout_toLeftOf="@id/price2"
+            android:text="￥"
+            android:textColor="#e6000000"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/price1"
+            android:layout_toLeftOf="@id/text1"
+            android:text="合计："
+            android:textColor="#e6000000"
+            android:textSize="14sp" />
 
     <LinearLayout
         android:id="@+id/layout"
@@ -137,6 +144,5 @@
         android:orientation="horizontal"
         android:paddingLeft="15dp"
         android:paddingRight="15dp" />
-
 
 </RelativeLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@drawable/bg_pws_white"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/cover"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:src="@mipmap/shop_dianpu" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@id/cover"
+        android:text="四大名著全套小学生版全4册"
+        android:textColor="#e6000000"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/cover"
+        android:text="￥32.23"
+        android:textColor="#e6000000"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/price"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:text="1件"
+        android:textColor="#4d000000"
+        android:textSize="10sp" />
+
+
+</RelativeLayout>
