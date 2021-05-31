@@ -273,7 +273,7 @@
                         android:layout_height="40dp"
                         android:layout_weight="1"
                         android:gravity="right|center_vertical"
-                        android:text="-￥32.23"
+                        android:text="请选择优惠券"
                         android:textColor="@color/color_black_E6"
                         android:textSize="14sp" />
 

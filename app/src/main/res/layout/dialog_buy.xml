@@ -140,6 +140,8 @@
 
     </RelativeLayout>
 
+    <include layout="@layout/line_view" />
+
     <com.example.shanyu.widget.CirButton
         android:id="@+id/commit"
         android:layout_width="match_parent"

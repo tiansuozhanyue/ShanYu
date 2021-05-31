@@ -88,18 +88,18 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
     @Override
     public void onSuccess(String t) {
         myRefreshLayout.closeLoadingView();
-        actionModes = new Gson().fromJson(t, new TypeToken<List<OrderBookBean>>() {
-        }.getType());
+//        actionModes = new Gson().fromJson(t, new TypeToken<List<OrderBookBean>>() {
+//        }.getType());
 
-        if (actionModes != null && actionModes.size() > 0) {
-            mListView.setVisibility(View.VISIBLE);
-            empty.setVisibility(View.GONE);
-            orderBookAdapter = new OrderBookAdapter(getContext(), actionModes, this);
-            mListView.setAdapter(orderBookAdapter);
-        } else {
-            mListView.setVisibility(View.GONE);
-            empty.setVisibility(View.VISIBLE);
-        }
+//        if (actionModes != null && actionModes.size() > 0) {
+//            mListView.setVisibility(View.VISIBLE);
+//            empty.setVisibility(View.GONE);
+//            orderBookAdapter = new OrderBookAdapter(getContext(), actionModes, this);
+//            mListView.setAdapter(orderBookAdapter);
+//        } else {
+//            mListView.setVisibility(View.GONE);
+//            empty.setVisibility(View.VISIBLE);
+//        }
 
     }
 

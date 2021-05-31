@@ -108,7 +108,8 @@
         <com.example.shanyu.widget.MyRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/layout3">
+            android:layout_above="@id/layout3"
+            android:layout_marginBottom="0.6dp">
 
             <com.scwang.smartrefresh.layout.header.ClassicsHeader
                 android:layout_width="match_parent"
@@ -186,6 +187,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/switch_text"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -231,7 +233,9 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:ellipsize="end"
                             android:gravity="center_vertical|right"
+                            android:lines="1"
                             android:text="请填写地址"
                             android:textColor="@drawable/address_text_bookinfo"
                             android:textSize="14sp" />
@@ -320,6 +324,5 @@
 
 
     </RelativeLayout>
-
 
 </LinearLayout>

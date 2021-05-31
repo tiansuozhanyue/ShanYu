@@ -53,6 +53,8 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
     public TextView all_money;
     @BindView(R.id.all_money_small)
     public TextView all_money_small;
+    @BindView(R.id.empty)
+    public TextView empty;
 
     boolean isEdit;
     boolean isAllSelected;
@@ -116,15 +118,20 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
         HttpUtil.doGet(HttpApi.CARTLIST, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
-                ToastUtil.shortToast(errorMsg);
                 dismissLoading();
+                myRefreshLayout.closeLoadingView();
+                empty.setVisibility(View.VISIBLE);
+                mListView.setVisibility(View.GONE);
             }
 
             @Override
             public void onSuccess(String resultData) {
                 dismissLoading();
-
+                myRefreshLayout.closeLoadingView();
                 try {
+
+                    empty.setVisibility(View.GONE);
+                    mListView.setVisibility(View.VISIBLE);
 
                     List<MyBooksMode> actionModes = new Gson().fromJson(resultData, new TypeToken<List<MyBooksMode>>() {
                     }.getType());

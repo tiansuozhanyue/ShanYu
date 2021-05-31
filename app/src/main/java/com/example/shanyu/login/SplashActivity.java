@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.shanyu.R;
-import com.example.shanyu.base.BaseActivity;
-import com.example.shanyu.main.MainActivity;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.StringUtil;
 
@@ -14,8 +12,8 @@ public class SplashActivity extends BaseLoginActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setTranslucentStatus();
+        super.onCreate(savedInstanceState);
         setImmersiveStatusBar(true);
         setContentView(R.layout.activity_splash);
         initView();

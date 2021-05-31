@@ -133,7 +133,11 @@ public class LoginActivity extends BaseLoginActivity {
                 break;
 
             case R.id.login_wx:
-                wake();
+                if (check.isChecked()) {
+                    wake();
+                } else {
+                    ToastUtil.shortToastMid("请先同意用户协议");
+                }
                 break;
 
             case R.id.see_info:

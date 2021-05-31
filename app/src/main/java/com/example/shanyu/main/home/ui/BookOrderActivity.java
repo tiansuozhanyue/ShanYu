@@ -34,6 +34,7 @@ import com.example.shanyu.utils.AppUtil;
 import com.example.shanyu.utils.ArithUtil;
 import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.utils.StringUtil;
 import com.example.shanyu.widget.CirButton;
 import com.example.shanyu.widget.MyListView;
 import com.google.gson.Gson;
@@ -105,13 +106,15 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
     static boolean isCart;
     Map<String, String> payMap = new HashMap<>();
     String type = "1";//支付方式
-    static String ty;
+    static String ty, uid;
+    boolean hasTy;
 
-    public static void start(BaseActivity activity, AddressMode addressMode, List<MyBooksMode> shopBooks, String t) {
+    public static void start(BaseActivity activity, AddressMode addressMode, List<MyBooksMode> shopBooks, String t, String id) {
         isCart = false;
         BookOrderActivity.addressMode = addressMode;
         BookOrderActivity.shopBooks = shopBooks;
         BookOrderActivity.ty = t;
+        BookOrderActivity.uid = id;
         Intent intent = new Intent(activity, BookOrderActivity.class);
         activity.startActivity(intent);
     }
@@ -139,21 +142,29 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
         showGoods();
 
         payGroup.check(R.id.aliPay);
-        book_get1.setSelected(true);
-        book_get1_index.setSelected(true);
         goPay.setSelected(true);
 
-        payGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.aliPay:
-                        type = "1";
-                        break;
-                    case R.id.wxPay:
-                        type = "0";
-                        break;
-                }
+        if (!StringUtil.isEmpty(ty)) {
+            switch (ty) {
+                case "0":
+                    book_get1.setSelected(true);
+                    book_get1_index.setSelected(true);
+                    break;
+                case "1":
+                    book_get2.setSelected(true);
+                    book_get2_index.setSelected(true);
+                    break;
+            }
+        }
+
+        payGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.aliPay:
+                    type = "1";
+                    break;
+                case R.id.wxPay:
+                    type = "0";
+                    break;
             }
         });
 
@@ -171,14 +182,18 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
                 book_get2.setSelected(false);
                 book_get2_index.setSelected(false);
                 ty = "0";
+                getAddress1();
                 break;
 
             case R.id.book_get2:
-                book_get1.setSelected(false);
-                book_get1_index.setSelected(false);
-                book_get2.setSelected(true);
-                book_get2_index.setSelected(true);
-                ty = "1";
+                if (hasTy) {
+                    book_get1.setSelected(false);
+                    book_get1_index.setSelected(false);
+                    book_get2.setSelected(true);
+                    book_get2_index.setSelected(true);
+                    ty = "1";
+                    getAddress2(true);
+                }
                 break;
 
             case R.id.address:
@@ -203,9 +218,10 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
     /**
      * 获取默认地址
      */
-    private void getAddress() {
+    private void getAddress1() {
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("isselected", "0");
         HttpUtil.doGet(HttpApi.ADDRESS, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
@@ -225,6 +241,41 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
                     }
                 }
 
+            }
+        });
+
+    }
+
+    /**
+     * 获取默认地址（商铺）
+     */
+    private void getAddress2(boolean flag) {
+
+        if (StringUtil.isEmpty(uid)) {
+            return;
+        }
+
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", uid);
+        map.put("isselected", "1");
+        HttpUtil.doGet(HttpApi.ADDRESS, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                book_get2.setTextColor(getResources().getColor(R.color.color_black_4D));
+                hasTy = false;
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                hasTy = true;
+                List<AddressMode> addressModes = new Gson().fromJson(resultData, new TypeToken<List<AddressMode>>() {
+                }.getType());
+                if (flag) {
+                    addressMode = addressModes.get(0);
+                    address.setText(addressMode.getAreaname() + addressMode.getAddress());
+                    name.setText(addressMode.getName());
+                    phone.setText(addressMode.getPhone());
+                }
             }
         });
 
@@ -279,9 +330,6 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
     private void getOffers(String shopIds) {
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
-//        map.put("ty", "1");
-//        map.put("mum", allSum);
-//        map.put("shop_id", shopIds);
         HttpUtil.doPost(HttpApi.OFFERS, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
@@ -325,7 +373,15 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
         finalSum = ArithUtil.sub(allSum, offersSum);
 
         all_sum.setText("￥" + allSum);
-        offers_sum.setText("-￥" + offersSum);
+
+        if (offersSum == "0.00") {
+            offers_sum.setTextColor(getResources().getColor(R.color.color_black_4D));
+            offers_sum.setText("请选择优惠券");
+        } else {
+            offers_sum.setTextColor(getResources().getColor(R.color.color_black_E6));
+            offers_sum.setText("-￥" + offersSum);
+        }
+
 
         String[] sum = finalSum.split("\\.");
 
@@ -342,12 +398,20 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
      */
     private void updataAddressView() {
         if (addressMode == null) {
-            getAddress();
+            getAddress1();
         } else {
             address.setText(addressMode.getAreaname() + addressMode.getAddress());
             name.setText(addressMode.getName());
             phone.setText(addressMode.getPhone());
         }
+
+        if (StringUtil.isEmpty(ty)) {
+            book_get2.setTextColor(getResources().getColor(R.color.color_black_4D));
+            hasTy = false;
+        } else {
+            getAddress2(false);
+        }
+
     }
 
     /**

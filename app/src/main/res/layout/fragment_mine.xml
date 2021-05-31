@@ -37,28 +37,8 @@
             android:src="@mipmap/ic_launcher"
             app:radius="90" />
 
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
-            android:layout_toRightOf="@id/user_img"
-            android:text="爱哭鬼0909"
-            android:textColor="@color/color_black_E6"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/user_sign"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/user_name"
-            android:layout_marginLeft="14dp"
-            android:layout_toRightOf="@id/user_img"
-            android:text="点击设置个性签名"
-            android:textColor="@color/color_black_E6"
-            android:textSize="12sp" />
-
         <LinearLayout
+            android:id="@+id/layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -85,6 +65,36 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/layout"
+            android:layout_toRightOf="@id/user_img"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="爱哭鬼0909"
+            android:textColor="@color/color_black_E6"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/user_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_name"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/layout"
+            android:layout_toRightOf="@id/user_img"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="点击设置个性签名"
+            android:textColor="@color/color_black_E6"
+            android:textSize="12sp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"

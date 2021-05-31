@@ -26,6 +26,8 @@ import com.example.shanyu.main.home.bean.ShareBean;
 import com.example.shanyu.main.mine.bean.AddressMode;
 import com.example.shanyu.main.mine.bean.MyBooksMode;
 import com.example.shanyu.main.mine.ui.AddressActivity;
+import com.example.shanyu.main.mine.ui.SelectAddressActivity;
+import com.example.shanyu.main.mine.ui.SetAddressActivity;
 import com.example.shanyu.utils.AppUtil;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.ToastUtil;
@@ -50,6 +52,8 @@ import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.to.aboomy.banner.Banner;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +77,8 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
     public TextView def_address;
     @BindView(R.id.address_select)
     public Switch address_select;
+    @BindView(R.id.switch_text)
+    public TextView switch_text;
     @BindView(R.id.collection)
     public TextView collection;
     @BindView(R.id.mWebView)
@@ -105,7 +111,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
         bookModeId = getIntent().getStringExtra("bookModeId");
         address_select.setOnCheckedChangeListener(this);
         getBookInfo();
-        getAddress();
+        getAddress1();
         getComment();
         getShareInfo();
     }
@@ -149,8 +155,13 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
                 break;
 
             case R.id.address_layout:
-                addressSelctDialog();
+                if (addressModes == null) {
+                    startActivityForResult(new Intent(this, SetAddressActivity.class), 10);
+                } else {
+                    addressSelctDialog();
+                }
                 break;
+
             case R.id.collection:
                 if (collectionStaue == 0) {
                     collection();
@@ -206,7 +217,19 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
     private void addressSelctDialog() {
         addressDialog = new Dialog(this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_address_select, null, false);
+
         ListView mListView = view.findViewById(R.id.mListView);
+        TextView title = view.findViewById(R.id.title);
+        title.setText(isselected == 0 ? "选择收货地址" : "选择自提地址");
+
+        for (int i = 0; i < addressModes.size(); i++) {
+            if (addressModes.get(i).getId() == addressMode.getId()) {
+                addressModes.get(i).setIsselected(1);
+            } else {
+                addressModes.get(i).setIsselected(0);
+            }
+        }
+
         BookInfoAddressAdapter mAddressAdapter = new BookInfoAddressAdapter(this, addressModes, BookInfoActivity.this);
         mListView.setAdapter(mAddressAdapter);
         addressDialog.setContentView(view);
@@ -247,7 +270,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
             List<MyBooksMode.ListDTO> listDTOS = new ArrayList<>();
             listDTOS.add(new MyBooksMode.ListDTO(bookMode.getId(), num, bookMode.getPreevent(), bookMode.getPrice(), bookMode.getCovers(), bookMode.getTitle()));
             myBooksModes.add(new MyBooksMode(bookMode.getShop_id(), bookMode.getName(), listDTOS));
-            BookOrderActivity.start(BookInfoActivity.this, addressMode, myBooksModes, isselected + "");
+            BookOrderActivity.start(BookInfoActivity.this, addressMode, myBooksModes, isselected + "", bookMode.getUid() + "");
         });
         view.findViewById(R.id.address_layout).setOnClickListener(v -> {
             Intent intent = new Intent(BookInfoActivity.this, AddressActivity.class);
@@ -304,6 +327,8 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
                 //设置字符编码，避免乱码
                 mWebView.getSettings().setDefaultTextEncodingName("utf-8");
                 mWebView.loadDataWithBaseURL(null, bookMode.getDetails(), "text/html", "utf-8", null);
+
+                getAddress2();
 
             }
         });
@@ -401,12 +426,12 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
     }
 
     /**
-     * 获取默认地址
+     * 获取默认地址(个人)
      */
-    private void getAddress() {
+    private void getAddress1() {
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
-        map.put("isselected", isselected + "");
+        map.put("isselected", "0");
         HttpUtil.doGet(HttpApi.ADDRESS, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
@@ -432,9 +457,48 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
     }
 
     /**
+     * 获取默认地址（商铺）
+     */
+    private void getAddress2() {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", bookMode.getUid() + "");
+        map.put("isselected", "1");
+        HttpUtil.doGet(HttpApi.ADDRESS, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                address_select.setVisibility(View.GONE);
+                switch_text.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                address_select.setVisibility(View.VISIBLE);
+                switch_text.setVisibility(View.VISIBLE);
+                if (isselected == 0)
+                    return;
+                addressModes = new Gson().fromJson(resultData, new TypeToken<List<AddressMode>>() {
+                }.getType());
+                addressMode = addressModes.get(0);
+                if (addressMode != null) {
+                    def_address.setSelected(true);
+                    def_address.setText(addressMode.getAreaname() + addressMode.getAddress());
+                }
+
+            }
+        });
+
+    }
+
+    /**
      * 加入购物车
      */
     private void addCart() {
+
+        if (addressMode == null) {
+            ToastUtil.shortToastMid("请先填写收货地址");
+            return;
+        }
+
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
         map.put("goods_id", bookMode.getId() + "");
@@ -477,7 +541,20 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         isselected = isChecked ? 1 : 0;
-        getAddress();
+        if (isChecked) {
+            getAddress2();
+        } else {
+            getAddress1();
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10 && resultCode == 200) {
+            getAddress1();
+        }
     }
 
 }
