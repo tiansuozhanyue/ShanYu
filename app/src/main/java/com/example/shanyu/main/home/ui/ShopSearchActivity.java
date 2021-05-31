@@ -4,6 +4,7 @@ package com.example.shanyu.main.home.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -225,10 +226,11 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
                     mBanner.setIndicator(qyIndicator)
                             .setAutoTurningTime(3000)
                             .setHolderCreator((context, index, o) -> {
+                                View view = LayoutInflater.from(ShopSearchActivity.this).inflate(R.layout.layout_shop_banner, null, false);
                                 TextView banner = new TextView(context);
                                 ShopOfferBean offerBean = (ShopOfferBean) o;
                                 banner.setText(offerBean.getExplain());
-                                return banner;
+                                return view;
                             })
                             .setPages(offersModes);
                 }
