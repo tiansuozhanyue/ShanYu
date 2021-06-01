@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
@@ -23,6 +24,7 @@ import com.example.shanyu.main.action.ActionFragment;
 import com.example.shanyu.main.chat.ChatFragment;
 import com.example.shanyu.main.home.HomeFragment;
 import com.example.shanyu.main.mine.MineFragment;
+import com.example.shanyu.main.mine.ui.MineOrderActivity;
 import com.example.shanyu.main.mine.ui.PersionInfoActivity;
 import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.MPermissionUtils;
@@ -63,6 +65,17 @@ public class MainActivity extends BaseActivity implements AMapLocationListener {
         tabLayout = findViewById(R.id.tabLayout);
 
         initView();
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (intent.getIntExtra("code", 0) == 11) {
+            viewPager.setCurrentItem(3);
+            startActivity(new Intent(this, MineOrderActivity.class).putExtra("index", 1));
+        }
 
     }
 

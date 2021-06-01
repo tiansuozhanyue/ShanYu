@@ -85,7 +85,9 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver> <!-- 设置环信应用的AppKey -->
-        <activity android:name=".main.home.ui.PaySucessActivity" />
+        <activity
+            android:name=".main.home.ui.PaySucessActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".main.home.ui.ShopJoinActivity3" />
         <activity android:name=".main.home.ui.ShopJoinActivity2" />
         <activity android:name=".main.home.ui.ShopJoinActivity1" />

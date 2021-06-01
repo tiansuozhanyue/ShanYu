@@ -69,14 +69,17 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
 
         View view = inflater.inflate(R.layout.fragment_mine_order0, container, false);
         intView(view);
-        EventBus.getDefault().register(this);
+
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
         return view;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        if (EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().unregister(this);
     }
 
     protected abstract String getStatue();
@@ -301,7 +304,7 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
     }
 
     private void goPayFaile() {
-        startActivity(new Intent(getActivity(), MineOrderActivity.class).putExtra("index", 1));
+        startActivity(new Intent(getActivity(), MainActivity.class).putExtra("code", 11));
     }
 
     /**

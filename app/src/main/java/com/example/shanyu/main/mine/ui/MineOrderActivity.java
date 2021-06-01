@@ -13,6 +13,8 @@ import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.main.MainPageAdapter;
 import com.google.android.material.tabs.TabLayout;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 

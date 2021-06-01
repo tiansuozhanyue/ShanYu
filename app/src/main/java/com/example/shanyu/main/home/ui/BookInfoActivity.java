@@ -222,15 +222,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
         TextView title = view.findViewById(R.id.title);
         title.setText(isselected == 0 ? "选择收货地址" : "选择自提地址");
 
-        for (int i = 0; i < addressModes.size(); i++) {
-            if (addressModes.get(i).getId() == addressMode.getId()) {
-                addressModes.get(i).setIsselected(1);
-            } else {
-                addressModes.get(i).setIsselected(0);
-            }
-        }
-
-        BookInfoAddressAdapter mAddressAdapter = new BookInfoAddressAdapter(this, addressModes, BookInfoActivity.this);
+        BookInfoAddressAdapter mAddressAdapter = new BookInfoAddressAdapter(this, addressMode.getId(),addressModes, BookInfoActivity.this);
         mListView.setAdapter(mAddressAdapter);
         addressDialog.setContentView(view);
         WindowManager.LayoutParams lp = addressDialog.getWindow().getAttributes();
@@ -554,6 +546,14 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 10 && resultCode == 200) {
             getAddress1();
+        } else if (requestCode == 100 && resultCode == 101) {
+            addressMode = (AddressMode) data.getSerializableExtra("AddressMode");
+            if (addressMode != null) {
+                def_address.setSelected(true);
+                def_address.setText(addressMode.getAreaname() + addressMode.getAddress());
+                dialogAddress.setSelected(true);
+                dialogAddress.setText(addressMode.getAreaname() + addressMode.getAddress());
+            }
         }
     }
 

@@ -20,11 +20,13 @@ public class BookInfoAddressAdapter extends BaseAdapter {
     private Context mContext;
     private List<AddressMode> addressModes;
     private AddressOnClick onClick;
+    private int selectId;
 
-    public BookInfoAddressAdapter(Context mContext, List<AddressMode> actionModes, AddressOnClick onClick) {
+    public BookInfoAddressAdapter(Context mContext, int selectId, List<AddressMode> actionModes, AddressOnClick onClick) {
         this.mContext = mContext;
         this.addressModes = actionModes;
         this.onClick = onClick;
+        this.selectId = selectId;
     }
 
     @Override
@@ -53,7 +55,7 @@ public class BookInfoAddressAdapter extends BaseAdapter {
         LinearLayout set_layout = view.findViewById(R.id.set_layout);
         Switch radioButton = view.findViewById(R.id.radioButton);
 
-        selectView.setVisibility(mode.getIsselected() == 1 ? View.VISIBLE : View.GONE);
+        selectView.setVisibility(mode.getId() == selectId ? View.VISIBLE : View.GONE);
         radioButton.setChecked(mode.getIsselected() == 1);
         address.setText(mode.getAreaname() + mode.getAddress());
         name.setText(mode.getName());

@@ -14,6 +14,7 @@ import com.example.shanyu.base.EventBean;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
+import com.example.shanyu.main.MainActivity;
 import com.example.shanyu.main.home.bean.WxPayBean;
 import com.example.shanyu.main.mine.ui.MineOrderActivity;
 import com.example.shanyu.utils.ToastUtil;
@@ -142,7 +143,7 @@ public abstract class PayBaseAvtivity extends BaseActivity {
     }
 
     private void goPayFaile() {
-        startActivity(new Intent(this, MineOrderActivity.class).putExtra("index", 1));
+        startActivity(new Intent(this, MainActivity.class).putExtra("code", 11));
     }
 
     /**

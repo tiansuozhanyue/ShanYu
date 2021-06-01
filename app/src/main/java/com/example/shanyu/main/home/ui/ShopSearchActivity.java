@@ -227,7 +227,7 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
                             .setAutoTurningTime(3000)
                             .setHolderCreator((context, index, o) -> {
                                 View view = LayoutInflater.from(ShopSearchActivity.this).inflate(R.layout.layout_shop_banner, null, false);
-                                TextView banner = new TextView(context);
+                                TextView banner = view.findViewById(R.id.info);
                                 ShopOfferBean offerBean = (ShopOfferBean) o;
                                 banner.setText(offerBean.getExplain());
                                 return view;
