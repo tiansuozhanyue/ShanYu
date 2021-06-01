@@ -99,7 +99,7 @@ public class PayFaileActivity extends PayBaseAvtivity implements RadioGroup.OnCh
         switch (view.getId()) {
 
             case R.id.goPay:
-                setOrder(payMap, lacation);
+                setOrder(payMap);
                 break;
         }
     }

@@ -124,69 +124,14 @@
             android:textColor="#ffff570b"
             android:textSize="14sp" />
 
-        <ImageView
-            android:id="@+id/cover"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_below="@id/shopName"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
+        <com.example.shanyu.widget.MyListView
+            android:id="@+id/mMyListView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/shopName"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@id/cover"
-            android:text="四大名著全套小学生版全4册"
-            android:textColor="#e6000000"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_toRightOf="@id/cover"
-            android:text="￥"
-            android:textColor="#ffff570b"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/price1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/text"
-            android:layout_toRightOf="@id/text"
-            android:text="32"
-            android:textColor="#ffff570b"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/price2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/text"
-            android:layout_toRightOf="@id/price1"
-            android:text=".23"
-            android:textColor="#ffff570b"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/text"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
-            android:text="×1"
-            android:textColor="#4d000000"
-            android:textSize="14sp" />
+            android:layout_below="@id/statue"
+            android:layout_marginTop="10dp"
+            android:divider="@color/white"
+            android:dividerHeight="1dp" />
 
     </RelativeLayout>
 

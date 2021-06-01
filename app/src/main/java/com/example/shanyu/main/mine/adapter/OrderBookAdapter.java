@@ -76,10 +76,11 @@ public class OrderBookAdapter extends BaseAdapter {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = LayoutInflater.from(mContext).inflate(R.layout.adpater_bookorder_item_2, parent, false);
                 OrderBookBean.GoodsListBean goodsListBean = goods.get(position);
-                ImageLoaderUtil.loadImage(HttpApi.HOST + booksMode.getCovers(), view.findViewById(R.id.cover));
+                ImageLoaderUtil.loadImage(HttpApi.HOST + goodsListBean.getCovers(), view.findViewById(R.id.cover));
                 ((TextView) view.findViewById(R.id.title)).setText(goodsListBean.getTitle());
                 ((TextView) view.findViewById(R.id.price)).setText("￥" + goodsListBean.getPreevent());
-//                ((TextView) view.findViewById(R.id.count)).setText(goodsListBean.getCount() + "件");
+                ((TextView) view.findViewById(R.id.count)).setText(goodsListBean.getCount() + "件");
+                view.setOnClickListener(v -> onClick.onIemClick(position));
                 return view;
             }
         });
@@ -169,36 +170,6 @@ public class OrderBookAdapter extends BaseAdapter {
 
 
         return view;
-    }
-
-    private String getStatueInfo(int statue) {
-        switch (statue) {
-            case 0:
-                return "待评价";
-
-            case 1:
-                return "待发货";
-
-            case 2:
-                return "已退款";
-
-            case 3:
-                return "待收货";
-
-            case 4:
-                return "已完成";
-
-            case 5:
-                return "待付款";
-
-            case 6:
-                return "已取消";
-
-            case 7:
-                return "待自提";
-
-        }
-        return "";
     }
 
     private View getGrayView(String info) {

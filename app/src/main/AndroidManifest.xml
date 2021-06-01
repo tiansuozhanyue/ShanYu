@@ -98,7 +98,9 @@
         <activity android:name=".main.mine.ui.SelectAddressActivity" />
         <activity android:name=".main.mine.ui.SetAddressActivity" />
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".main.mine.ui.MineOrderActivity" />
+        <activity
+            android:name=".main.mine.ui.MineOrderActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".main.mine.ui.PersionInfoActivity" />
         <activity android:name=".main.mine.ui.AdviceActivity" />
         <activity android:name=".main.mine.ui.OffersActivity" />

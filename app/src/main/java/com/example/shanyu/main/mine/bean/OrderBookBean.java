@@ -179,10 +179,19 @@ public class OrderBookBean implements Serializable {
          */
 
         private int id;
+        private int count;
         private String title;
         private String price;
         private String preevent;
         private String covers;
+
+        public int getCount() {
+            return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
 
         public int getId() {
             return id;

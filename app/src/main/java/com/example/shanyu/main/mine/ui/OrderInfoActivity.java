@@ -1,9 +1,10 @@
 package com.example.shanyu.main.mine.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.widget.GridView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,15 +13,16 @@ import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
-import com.example.shanyu.main.home.bean.BannerMode;
 import com.example.shanyu.main.mine.bean.OrderInfoBean;
 import com.example.shanyu.utils.ImageLoaderUtil;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.TimeUtil;
 import com.example.shanyu.utils.ToastUtil;
+import com.example.shanyu.widget.MyListView;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -36,18 +38,18 @@ public class OrderInfoActivity extends BaseActivity {
     public TextView address;
     @BindView(R.id.shopName)
     public TextView shopName;
-    @BindView(R.id.cover)
-    public ImageView cover;
+    //    @BindView(R.id.cover)
+//    public ImageView cover;
     @BindView(R.id.statue)
     public TextView statue;
-    @BindView(R.id.title)
-    public TextView title;
-    @BindView(R.id.price2)
-    public TextView price2;
-    @BindView(R.id.price1)
-    public TextView price1;
-    @BindView(R.id.count)
-    public TextView count;
+    //    @BindView(R.id.title)
+//    public TextView title;
+//    @BindView(R.id.price2)
+//    public TextView price2;
+//    @BindView(R.id.price1)
+//    public TextView price1;
+//    @BindView(R.id.count)
+//    public TextView count;
     @BindView(R.id.order_code)
     public TextView order_code;
     @BindView(R.id.order_time)
@@ -60,6 +62,8 @@ public class OrderInfoActivity extends BaseActivity {
     public TextView price3;
     @BindView(R.id.price4)
     public TextView price4;
+    @BindView(R.id.mMyListView)
+    public MyListView mMyListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +101,7 @@ public class OrderInfoActivity extends BaseActivity {
                 phone.setText(infoBean.getMobile());
                 address.setText(infoBean.getAddress());
                 shopName.setText(infoBean.getName());
-                title.setText(infoBean.getTitle());
-                count.setText("X" + infoBean.getCount());
+                mMyListView.setAdapter(new MyAdapter(infoBean.getGoods_list()));
                 order_code.setText(infoBean.getOrder());
                 order_time.setText(TimeUtil.stampToDate2(infoBean.getCreated_at() + "000"));
                 order_money.setText("￥" + infoBean.getSum());
@@ -136,17 +139,56 @@ public class OrderInfoActivity extends BaseActivity {
                         break;
                 }
 
-                String[] p1 = infoBean.getPreevent().split("\\.");
-                price1.setText(p1[0]);
-                price2.setText("." + p1[1]);
-
                 String[] p2 = infoBean.getPrincipal().split("\\.");
                 price3.setText(p2[0]);
                 price4.setText("." + p2[1]);
-
-                ImageLoaderUtil.loadImage(HttpApi.HOST + infoBean.getCovers(), cover);
             }
         });
+    }
+
+
+    class MyAdapter extends BaseAdapter {
+
+        private List<OrderInfoBean.GoodsListBean> goods_list;
+
+        public MyAdapter(List<OrderInfoBean.GoodsListBean> goods_list) {
+            this.goods_list = goods_list;
+        }
+
+        @Override
+        public int getCount() {
+            return goods_list.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return goods_list.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = LayoutInflater.from(OrderInfoActivity.this).inflate(R.layout.adapter_info_item, parent, false);
+            OrderInfoBean.GoodsListBean goodsBean = goods_list.get(position);
+            ImageView cover = view.findViewById(R.id.cover);
+            TextView title = view.findViewById(R.id.title);
+            TextView count = view.findViewById(R.id.count);
+            TextView price1 = view.findViewById(R.id.price1);
+            TextView price2 = view.findViewById(R.id.price2);
+
+            ImageLoaderUtil.loadImage(HttpApi.HOST + goodsBean.getCovers(), cover);
+            title.setText(goodsBean.getTitle());
+            count.setText("x" + goodsBean.getCount());
+            String[] p1 = goodsBean.getPreevent().split("\\.");
+            price1.setText(p1[0]);
+            price2.setText("." + p1[1]);
+
+            return view;
+        }
     }
 
 }

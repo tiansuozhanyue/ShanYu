@@ -1,47 +1,43 @@
 package com.example.shanyu.main.mine.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class OrderInfoBean implements Serializable {
+
+
     /**
-     * id : 542
+     * id : 683
      * name : 陆上书店
-     * title : 四大原著著小学套餐
-     * count : 3
-     * preevent : 45.50
-     * price : 58.00
-     * principal : 136.50
+     * title : 商品试卷
+     * principal : 0.01
      * status : 5
      * coupon_id : 0
      * money : 0.00
-     * created_at : 1621241400
+     * created_at : 1622527176
      * addressid : 7
      * shop_id : 1
-     * covers : uploads/images/20210401/fead1b4e1d5c9ab5279c57f939c24648.jpg
-     * sum : 136.50
+     * sum : 0.01
      * business : 09:40:19
      * rest : 23:30:12
      * address : 麓谷小镇
      * nickname : 虹猫
-     * order : N2021051741400678833297
+     * order : N2021060127176904504361
      * mobile : 18868026919
-     * goods_id : 1
+     * type : 1
+     * goods_list : [{"goods_id":7,"title":"商品试卷","count":1,"price":"25.00","preevent":"0.01","covers":"uploads/images/20210401/b6491afe1ca68e0a7c31d4579caf528e.jpg"}]
      */
 
-    private Integer id;
+    private int id;
     private String name;
     private String title;
-    private Integer count;
-    private String preevent;
-    private String price;
     private String principal;
-    private Integer status;
-    private Integer coupon_id;
+    private int status;
+    private int coupon_id;
     private String money;
-    private Integer created_at;
-    private Integer addressid;
-    private Integer shop_id;
-    private String covers;
+    private int created_at;
+    private int addressid;
+    private int shop_id;
     private String sum;
     private String business;
     private String rest;
@@ -49,13 +45,14 @@ public class OrderInfoBean implements Serializable {
     private String nickname;
     private String order;
     private String mobile;
-    private Integer goods_id;
+    private int type;
+    private List<GoodsListBean> goods_list;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -75,30 +72,6 @@ public class OrderInfoBean implements Serializable {
         this.title = title;
     }
 
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
-
-    public String getPreevent() {
-        return preevent;
-    }
-
-    public void setPreevent(String preevent) {
-        this.preevent = preevent;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
     public String getPrincipal() {
         return principal;
     }
@@ -107,19 +80,19 @@ public class OrderInfoBean implements Serializable {
         this.principal = principal;
     }
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    public Integer getCoupon_id() {
+    public int getCoupon_id() {
         return coupon_id;
     }
 
-    public void setCoupon_id(Integer coupon_id) {
+    public void setCoupon_id(int coupon_id) {
         this.coupon_id = coupon_id;
     }
 
@@ -131,36 +104,28 @@ public class OrderInfoBean implements Serializable {
         this.money = money;
     }
 
-    public Integer getCreated_at() {
+    public int getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Integer created_at) {
+    public void setCreated_at(int created_at) {
         this.created_at = created_at;
     }
 
-    public Integer getAddressid() {
+    public int getAddressid() {
         return addressid;
     }
 
-    public void setAddressid(Integer addressid) {
+    public void setAddressid(int addressid) {
         this.addressid = addressid;
     }
 
-    public Integer getShop_id() {
+    public int getShop_id() {
         return shop_id;
     }
 
-    public void setShop_id(Integer shop_id) {
+    public void setShop_id(int shop_id) {
         this.shop_id = shop_id;
-    }
-
-    public String getCovers() {
-        return covers;
-    }
-
-    public void setCovers(String covers) {
-        this.covers = covers;
     }
 
     public String getSum() {
@@ -219,11 +184,85 @@ public class OrderInfoBean implements Serializable {
         this.mobile = mobile;
     }
 
-    public Integer getGoods_id() {
-        return goods_id;
+    public int getType() {
+        return type;
     }
 
-    public void setGoods_id(Integer goods_id) {
-        this.goods_id = goods_id;
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public List<GoodsListBean> getGoods_list() {
+        return goods_list;
+    }
+
+    public void setGoods_list(List<GoodsListBean> goods_list) {
+        this.goods_list = goods_list;
+    }
+
+    public static class GoodsListBean implements Serializable {
+        /**
+         * goods_id : 7
+         * title : 商品试卷
+         * count : 1
+         * price : 25.00
+         * preevent : 0.01
+         * covers : uploads/images/20210401/b6491afe1ca68e0a7c31d4579caf528e.jpg
+         */
+
+        private int goods_id;
+        private String title;
+        private int count;
+        private String price;
+        private String preevent;
+        private String covers;
+
+        public int getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(int goods_id) {
+            this.goods_id = goods_id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
+
+        public String getPrice() {
+            return price;
+        }
+
+        public void setPrice(String price) {
+            this.price = price;
+        }
+
+        public String getPreevent() {
+            return preevent;
+        }
+
+        public void setPreevent(String preevent) {
+            this.preevent = preevent;
+        }
+
+        public String getCovers() {
+            return covers;
+        }
+
+        public void setCovers(String covers) {
+            this.covers = covers;
+        }
     }
 }

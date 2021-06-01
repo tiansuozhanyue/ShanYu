@@ -15,6 +15,8 @@ import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.home.bean.WxPayBean;
+import com.example.shanyu.main.mine.ui.MineOrderActivity;
+import com.example.shanyu.utils.ToastUtil;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -32,9 +34,8 @@ import java.util.Map;
 public abstract class PayBaseAvtivity extends BaseActivity {
 
     final int SDK_PAY_FLAG = 100;
-    String orderId, allSum, address;
+    String orderId, allSum;
     MyHandler myHandler = new MyHandler();
-    Map<String, String> payMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +52,7 @@ public abstract class PayBaseAvtivity extends BaseActivity {
     /**
      * 下单
      */
-    protected void setOrder(Map<String, String> payMap, String address) {
-        this.address = address;
-        this.payMap = payMap;
+    protected void setOrder(Map<String, String> payMap) {
         showLoading();
         HttpUtil.doPost(HttpApi.ORDER_ADD, payMap, new HttpResultInterface() {
             @Override
@@ -143,7 +142,7 @@ public abstract class PayBaseAvtivity extends BaseActivity {
     }
 
     private void goPayFaile() {
-        PayFaileActivity.start(this, payMap, orderId, allSum, address);
+        startActivity(new Intent(this, MineOrderActivity.class).putExtra("index", 1));
     }
 
     /**

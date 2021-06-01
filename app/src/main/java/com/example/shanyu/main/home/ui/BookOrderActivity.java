@@ -463,7 +463,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
         payMap.put("type", type);
         payMap.put("addressid", addressMode.getId() + "");
 
-        setOrder(payMap, addressMode.getAreaname() + "  " + addressMode.getAddress());
+        setOrder(payMap);
 
     }
 
