@@ -23,6 +23,7 @@ public class HttpApi {
     public static String ADDRESS = HOST + "index.php/index/address";
     public static String FOOTS = HOST + "index.php/index/user/history";
     public static String OFFERS = HOST + "index.php/index/user/coupon";
+    public static String OFFERS_ADD = HOST + "index.php/index/user/addcoupon";
     public static String OFFERS_SHOP = HOST + "index.php/index/shop/coupon";
     public static String SET = HOST + "index.php/index/user/set";
     public static String COUNT = HOST + "index.php/index/user/count";

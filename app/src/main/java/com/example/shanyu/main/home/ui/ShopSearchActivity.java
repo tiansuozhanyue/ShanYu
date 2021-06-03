@@ -19,6 +19,8 @@ import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
+import com.example.shanyu.main.chat.ChatActivity;
+import com.example.shanyu.main.chat.EaseHelper;
 import com.example.shanyu.main.home.adapter.SearchBooksAdapter;
 import com.example.shanyu.main.home.bean.BookMode;
 import com.example.shanyu.main.home.bean.ShopOfferBean;
@@ -26,6 +28,7 @@ import com.example.shanyu.utils.ImageLoaderUtil;
 import com.example.shanyu.utils.StringUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hyphenate.easeui.constants.EaseConstant;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
 
@@ -61,6 +64,10 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     public RatingBar ratingbar;
     @BindView(R.id.mBanner)
     public Banner mBanner;
+    @BindView(R.id.shop_name)
+    public TextView shop_name;
+    private String name, covers;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +100,17 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     }
 
 
-    @OnClick({R.id.goback, R.id.home, R.id.news, R.id.action})
+    @OnClick({R.id.goback, R.id.home, R.id.news, R.id.action, R.id.goChat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+
             case R.id.goback:
                 finish();
+                break;
+
+            case R.id.goChat:
+                EaseHelper.getInstance().setUserInfo(shop_id, name, HttpApi.HOST + covers);
+                ChatActivity.actionStart(this, shop_id, name, EaseConstant.CHATTYPE_SINGLE);
                 break;
 
             case R.id.home:
@@ -191,6 +204,9 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
                     double n = Double.valueOf(bookModes.get(0).getDecimal());
                     ratingbar.setRating((int) Math.round(n));
                     mListView.setAdapter(new SearchBooksAdapter(ShopSearchActivity.this, bookModes, ShopSearchActivity.this));
+                    name = bookModes.get(0).getName();
+                    covers = bookModes.get(0).getCovers();
+                    shop_name.setText(name);
                 } else {
                     ratingbar.setRating(0);
                 }
@@ -229,7 +245,15 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
                                 View view = LayoutInflater.from(ShopSearchActivity.this).inflate(R.layout.layout_shop_banner, null, false);
                                 TextView banner = view.findViewById(R.id.info);
                                 ShopOfferBean offerBean = (ShopOfferBean) o;
-                                banner.setText(offerBean.getExplain());
+                                banner.setText(offerBean.getMoney() + "");
+                                banner.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(ShopSearchActivity.this, ShopGetOfferActivity.class);
+                                        intent.putExtra("ShopOfferBean", offerBean);
+                                        startActivity(intent);
+                                    }
+                                });
                                 return view;
                             })
                             .setPages(offersModes);

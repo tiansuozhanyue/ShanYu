@@ -3,7 +3,10 @@ package com.example.shanyu.main.chat;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.shanyu.MyApplication;
+import com.example.shanyu.db.UserDBHelper;
 import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.utils.StringUtil;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -22,6 +25,7 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.manager.EaseMessageTypeSetManager;
 import com.hyphenate.easeui.provider.EaseUserProfileProvider;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,12 +34,11 @@ import java.util.Set;
  */
 public class EaseHelper {
     private static final String TAG = EaseHelper.class.getSimpleName();
-
+    private UserDBHelper userDBHelper;
     private static EaseHelper mInstance;
 
-    Map<String, EMUserInfo> eMUserInfos;
-
     private EaseHelper() {
+        userDBHelper = UserDBHelper.getInstance(MyApplication.context);
     }
 
     public static EaseHelper getInstance() {
@@ -128,8 +131,21 @@ public class EaseHelper {
         EMClient.getInstance().userInfoManager().fetchUserInfoByUserId(userId,
                 new EMValueCallBack<Map<String, EMUserInfo>>() {
                     @Override
-                    public void onSuccess(Map<String, EMUserInfo> value) {
-                        eMUserInfos = value;
+                    public void onSuccess(Map<String, EMUserInfo> map) {
+
+                        ArrayList<EMUserInfo> infoArray = new ArrayList<>();
+                        for (Map.Entry<String, EMUserInfo> entry : map.entrySet()) {
+                            EMUserInfo info = entry.getValue();
+                            if (!StringUtil.isEmpty(info.getAvatarUrl()))
+                                infoArray.add(info);
+                        }
+
+                        if (infoArray.size() > 0) {
+                            userDBHelper.openWriteLink();
+                            userDBHelper.insert(infoArray);
+                            userDBHelper.closeLink();
+                        }
+
                     }
 
                     @Override
@@ -145,19 +161,33 @@ public class EaseHelper {
                 user.setNickname(SharedUtil.getIntence().getNickName());
                 user.setAvatar(SharedUtil.getIntence().getAvatar());
             } else {
-                user.setNickname(eMUserInfos.get(username).getNickName());
-                user.setAvatar(eMUserInfos.get(username).getAvatarUrl());
+                EMUserInfo emUserInfo = getUserInfo(username);
+                user.setNickname(emUserInfo.getNickName());
+                user.setAvatar(emUserInfo.getAvatarUrl());
             }
             return user;
         });
 
     }
 
-    public EMUserInfo getUserInfo(String username) {
-        if (eMUserInfos != null)
-            return eMUserInfos.get(username);
-        return null;
+    public void setUserInfo(String userId, String nickName, String avatarUrl) {
+        EMUserInfo emUserInfo = new EMUserInfo();
+        emUserInfo.setUserId(userId);
+        emUserInfo.setNickName(nickName);
+        emUserInfo.setAvatarUrl(avatarUrl);
+        userDBHelper.openReadLink();
+        userDBHelper.insert(emUserInfo);
+        userDBHelper.closeLink();
     }
 
+    public EMUserInfo getUserInfo(String username) {
+        userDBHelper.openReadLink();
+        ArrayList<EMUserInfo> emUserInfos = userDBHelper.query(username);
+        userDBHelper.closeLink();
+        if (emUserInfos != null && emUserInfos.size() > 0) {
+            return emUserInfos.get(0);
+        }
+        return null;
+    }
 
 }

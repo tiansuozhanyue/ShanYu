@@ -17,9 +17,11 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.util.Util;
+import com.example.shanyu.db.HistoryDBHelper;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.chat.ChatActivity;
+import com.example.shanyu.main.chat.EaseHelper;
 import com.example.shanyu.main.home.adapter.BookInfoAddressAdapter;
 import com.example.shanyu.main.home.adapter.CommentAdapter;
 import com.example.shanyu.main.home.bean.BookInfoMode;
@@ -88,6 +90,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
     @BindView(R.id.myListView)
     public MyListView myListView;
 
+    HistoryDBHelper historyDBHelper;
     TextView dialogAddress;
     String bookModeId;
     BookInfoMode bookMode;
@@ -110,6 +113,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
 
     @Override
     public void initView() {
+        historyDBHelper = HistoryDBHelper.getInstance(this);
         bookModeId = getIntent().getStringExtra("bookModeId");
         address_select.setOnCheckedChangeListener(this);
         getBookInfo();
@@ -139,6 +143,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
                 startActivity(intent1);
                 break;
             case R.id.chat:
+                EaseHelper.getInstance().setUserInfo(bookMode.getUid() + "", bookMode.getName(), HttpApi.HOST + bookMode.getCovers());
                 ChatActivity.actionStart(this, bookMode.getUid() + "", bookMode.getName(), EaseConstant.CHATTYPE_SINGLE);
                 break;
 
@@ -299,6 +304,10 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
             public void onSuccess(String resultData) {
                 dismissLoading();
                 bookMode = new Gson().fromJson(resultData, BookInfoMode.class);
+
+                historyDBHelper.openWriteLink();
+                historyDBHelper.insert(bookMode.getId() + "", bookMode.getCovers(), bookMode.getPrice());
+                historyDBHelper.closeLink();
 
                 shop_id = bookMode.getShop_id();
 

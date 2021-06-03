@@ -13,6 +13,15 @@ public class ShopOfferBean implements Serializable {
     private Integer id;
     private String explain;
     private String rule;
+    private int money;
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
 
     public Integer getId() {
         return id;
