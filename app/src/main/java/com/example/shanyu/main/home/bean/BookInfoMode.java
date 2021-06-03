@@ -53,7 +53,16 @@ public class BookInfoMode {
     private Integer collection;
     private String covers;
     private String decimal;
+    private String url;
     private List<PathListDTO> path_list;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public Integer getCollection() {
         return collection;

@@ -298,19 +298,6 @@
 
                     </RelativeLayout>
 
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="44dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@color/white"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="16dp"
-                        android:text="商品详情"
-                        android:textColor="@drawable/tab_text_color_bookinfo"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
                     <WebView
                         android:id="@+id/mWebView"
                         android:layout_width="match_parent"
