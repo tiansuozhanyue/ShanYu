@@ -10,7 +10,6 @@
         android:id="@+id/mImageView"
         android:layout_width="match_parent"
         android:layout_height="115dp"
-        android:background="@color/color_red_login"
         android:scaleType="centerCrop"
         app:radius="8" />
 
@@ -30,15 +29,17 @@
             android:textSize="10sp" />
 
         <TextView
-            android:layout_width="22dp"
-            android:layout_height="25dp"
+            android:id="@+id/price1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="32"
             android:textColor="#ffff570b"
             android:textSize="18sp" />
 
         <TextView
-            android:layout_width="15dp"
-            android:layout_height="14dp"
+            android:id="@+id/price2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text=".23"
             android:textColor="#ffff570b"
             android:textSize="10sp" />

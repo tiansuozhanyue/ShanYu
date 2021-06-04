@@ -12,11 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.shanyu.R;
+import com.example.shanyu.db.HistoryDBHelper;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.login.LoginActivity;
 import com.example.shanyu.main.MainActivity;
+import com.example.shanyu.main.mine.bean.HistoryBean;
 import com.example.shanyu.main.mine.bean.UserMode;
 import com.example.shanyu.main.mine.ui.AddressActivity;
 import com.example.shanyu.main.mine.ui.AdviceActivity;
@@ -41,6 +43,7 @@ import com.hyphenate.chat.EMUserInfo;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +66,8 @@ public class MineFragment extends Fragment {
     public RoundImageView user_img;
     @BindView(R.id.num_offer)
     public TextView num_offer;
+    @BindView(R.id.num_foot)
+    public TextView num_foot;
     @BindView(R.id.num_collection)
     public TextView num_collection;
 
@@ -73,9 +78,18 @@ public class MineFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
         bind = ButterKnife.bind(this, view);
+        showFoots();
         getUserInfo();
         getCount();
         return view;
+    }
+
+    private void showFoots() {
+        HistoryDBHelper historyDBHelper = HistoryDBHelper.getInstance(getContext());
+        historyDBHelper.openReadLink();
+        ArrayList<HistoryBean> beans = historyDBHelper.query(SharedUtil.getIntence().getUid());
+        historyDBHelper.closeLink();
+        num_foot.setText(beans.size() + "");
     }
 
     @OnClick({R.id.mine_set, R.id.set_address, R.id.mine_foot,

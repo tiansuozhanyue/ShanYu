@@ -178,18 +178,46 @@ public class HistoryDBHelper extends SQLiteOpenHelper {
      * @param bookid
      * @return
      */
-    public ArrayList<EMUserInfo> query(String uid, String bookid) {
-        String sql = String.format("select nickName,avatarUrl,email,phoneNumber,userId from %s where uid=%s and where bookid=%s;", TABLE_NAME, uid, bookid);
-        ArrayList<EMUserInfo> infoArray = new ArrayList<>();
+    public ArrayList<HistoryBean> query(String uid, String bookid) {
+        String sql = String.format("select uid,cover,price,time,bookid from %s where uid=%s and bookid=%s;", TABLE_NAME, uid, bookid);
+        ArrayList<HistoryBean> infoArray = new ArrayList<>();
         Cursor cursor = mDB.rawQuery(sql, null);
         if (cursor.moveToNext()) {
             for (; ; cursor.moveToNext()) {
-                EMUserInfo info = new EMUserInfo();
-                info.setNickName(cursor.getString(0));
-                info.setAvatarUrl(cursor.getString(1));
-                info.setEmail(cursor.getString(2));
-                info.setPhoneNumber(cursor.getString(3));
-                info.setUserId(cursor.getString(4));
+                HistoryBean info = new HistoryBean();
+                info.setUid(cursor.getString(0));
+                info.setCover(cursor.getString(1));
+                info.setPrice(cursor.getString(2));
+                info.setTime(cursor.getLong(3));
+                info.setBookid(cursor.getString(4));
+                infoArray.add(info);
+                if (cursor.isLast() == true) {
+                    break;
+                }
+            }
+        }
+        cursor.close();
+        return infoArray;
+    }
+
+    /**
+     * 根据条件进行查询
+     *
+     * @param uid
+     * @return
+     */
+    public ArrayList<HistoryBean> query(String uid) {
+        String sql = String.format("select uid,cover,price,time,bookid from %s where uid=%s;", TABLE_NAME, uid);
+        ArrayList<HistoryBean> infoArray = new ArrayList<>();
+        Cursor cursor = mDB.rawQuery(sql, null);
+        if (cursor.moveToNext()) {
+            for (; ; cursor.moveToNext()) {
+                HistoryBean info = new HistoryBean();
+                info.setUid(cursor.getString(0));
+                info.setCover(cursor.getString(1));
+                info.setPrice(cursor.getString(2));
+                info.setTime(cursor.getLong(3));
+                info.setBookid(cursor.getString(4));
                 infoArray.add(info);
                 if (cursor.isLast() == true) {
                     break;
@@ -213,7 +241,7 @@ public class HistoryDBHelper extends SQLiteOpenHelper {
         cv.put("price", info.getPrice());
         cv.put("time", info.getTime());
         cv.put("bookid", info.getBookid());
-        String condition = String.format("uid='%s' and bookid='%s'", info.getBookid());
+        String condition = String.format("uid='%s' and bookid='%s'", info.getUid(), info.getBookid());
         int count = mDB.update(TABLE_NAME, cv, condition, null);
         return count;
     }
@@ -241,7 +269,7 @@ public class HistoryDBHelper extends SQLiteOpenHelper {
             HistoryBean info = infoArray.get(i);
             //如果存在同名记录，就更新记录。注意条件语句的等号后面要用单引号括起来
             if (info.getBookid() != null && info.getBookid().length() > 0) {
-                ArrayList<EMUserInfo> tempArray = query(info.getUid(), info.getBookid());
+                ArrayList<HistoryBean> tempArray = query(info.getUid(), info.getBookid());
                 if (tempArray.size() > 0) {
                     update(info);
 //                    result = tempArray.get(0).getRowid();
