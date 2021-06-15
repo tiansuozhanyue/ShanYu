@@ -25,6 +25,7 @@ import com.example.shanyu.main.mine.bean.OffersMode;
 import com.example.shanyu.main.mine.bean.UserMode;
 import com.example.shanyu.main.mine.ui.AboutActivity;
 import com.example.shanyu.main.mine.ui.OffersActivity;
+import com.example.shanyu.utils.AppUtil;
 import com.example.shanyu.utils.LogUtil;
 import com.example.shanyu.utils.SharedUtil;
 import com.example.shanyu.utils.StringUtil;
@@ -52,6 +53,8 @@ public class SetingActivity extends BaseActivity implements CompoundButton.OnChe
     public Switch mSwitch;
     @BindView(R.id.bindPhone)
     public TextView bindPhone;
+    @BindView(R.id.vistion_code)
+    public TextView vistion_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,7 @@ public class SetingActivity extends BaseActivity implements CompoundButton.OnChe
         mSwitch.setChecked(SharedUtil.getIntence().isMessage() == 1);
         mSwitch.setOnCheckedChangeListener(this);
         btn_signout.setSelected(true);
+        vistion_code.setText("V " + AppUtil.getAppVersionName(this));
     }
 
     @OnClick({R.id.reset_pws, R.id.btn_signout, R.id.mine_about})

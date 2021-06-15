@@ -298,6 +298,8 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
         TextView titleLine1 = view.findViewById(R.id.titleLine1);
         TextView titleLine2 = view.findViewById(R.id.titleLine2);
 
+        title1.setText("可用优惠券("+offersModes.size()+")");
+
         title1.setSelected(true);
         titleLine1.setSelected(true);
 
@@ -331,7 +333,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
     /**
      * 获取优惠券列表
      */
-    private void getOffers(String shopIds) {
+    private void getOffers() {
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
         HttpUtil.doPost(HttpApi.OFFERS, map, new HttpResultInterface() {
@@ -433,7 +435,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
             }
         }
 
-        getOffers(buffer.toString());
+        getOffers();
     }
 
     /**

@@ -136,8 +136,7 @@ public class EaseHelper {
                         ArrayList<EMUserInfo> infoArray = new ArrayList<>();
                         for (Map.Entry<String, EMUserInfo> entry : map.entrySet()) {
                             EMUserInfo info = entry.getValue();
-                            if (!StringUtil.isEmpty(info.getAvatarUrl()))
-                                infoArray.add(info);
+                            infoArray.add(info);
                         }
 
                         if (infoArray.size() > 0) {
@@ -162,8 +161,10 @@ public class EaseHelper {
                 user.setAvatar(SharedUtil.getIntence().getAvatar());
             } else {
                 EMUserInfo emUserInfo = getUserInfo(username);
-                user.setNickname(emUserInfo.getNickName());
-                user.setAvatar(emUserInfo.getAvatarUrl());
+                if (emUserInfo != null) {
+                    user.setNickname(emUserInfo.getNickName());
+                    user.setAvatar(emUserInfo.getAvatarUrl());
+                }
             }
             return user;
         });

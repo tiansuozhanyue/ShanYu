@@ -2,9 +2,11 @@ package com.example.shanyu.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.DisplayCutout;
 import android.view.inputmethod.InputMethodManager;
 
@@ -331,5 +333,35 @@ public class AppUtil {
         }
     }
 
+    /**
+     * 返回当前程序版本号
+     */
+    public static String getAppVersionCode(Context context) {
+        int versioncode = 0;
+        try {
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            // versionName = pi.versionName;
+            versioncode = pi.versionCode;
+        } catch (Exception e) {
+            Log.e("VersionInfo", "Exception", e);
+        }
+        return versioncode + "";
+    }
+
+    /**
+     * 返回当前程序版本名
+     */
+    public static String getAppVersionName(Context context) {
+        String versionName=null;
+        try {
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            versionName = pi.versionName;
+        } catch (Exception e) {
+            Log.e("VersionInfo", "Exception", e);
+        }
+        return versionName;
+    }
 
 }
