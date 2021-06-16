@@ -136,7 +136,8 @@ public class EaseHelper {
                         ArrayList<EMUserInfo> infoArray = new ArrayList<>();
                         for (Map.Entry<String, EMUserInfo> entry : map.entrySet()) {
                             EMUserInfo info = entry.getValue();
-                            infoArray.add(info);
+                            if (!StringUtil.isEmpty(info.getAvatarUrl()))
+                                infoArray.add(info);
                         }
 
                         if (infoArray.size() > 0) {

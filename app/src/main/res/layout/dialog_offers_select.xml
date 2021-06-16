@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="可用优惠券(2)"
+            android:text="可用优惠券(0)"
             android:textColor="@drawable/tab_text_color_offers"
             android:textSize="14sp" />
 
@@ -48,7 +48,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="不可用优惠券(4)"
+            android:text="不可用优惠券(0)"
             android:textColor="@drawable/tab_text_color_offers"
             android:textSize="14sp" />
 

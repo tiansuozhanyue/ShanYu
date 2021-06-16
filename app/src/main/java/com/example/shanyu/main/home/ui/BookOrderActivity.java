@@ -51,6 +51,7 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -297,8 +298,18 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
         TextView title2 = view.findViewById(R.id.title2);
         TextView titleLine1 = view.findViewById(R.id.titleLine1);
         TextView titleLine2 = view.findViewById(R.id.titleLine2);
+        TextView tipInfo1 = view.findViewById(R.id.tipInfo1);
+        TextView tipInfo2 = view.findViewById(R.id.tipInfo2);
 
-        title1.setText("可用优惠券("+offersModes.size()+")");
+        if ("0.00".equals(offersSum)) {
+            tipInfo1.setText("已选中推荐优惠，使用优惠券0张，共抵扣");
+            tipInfo2.setText("￥0.00");
+        } else {
+            tipInfo1.setText("已选中推荐优惠，使用优惠券1张，共抵扣");
+            tipInfo2.setText("￥" + offersSum);
+        }
+
+        title1.setText("可用优惠券(" + offersModes.size() + ")");
 
         title1.setSelected(true);
         titleLine1.setSelected(true);
@@ -339,7 +350,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
         HttpUtil.doPost(HttpApi.OFFERS, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
-
+                offersModes = new ArrayList<>();
             }
 
             @Override
