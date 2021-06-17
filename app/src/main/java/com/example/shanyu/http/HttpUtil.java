@@ -90,6 +90,34 @@ public class HttpUtil {
 
     }
 
+    public static void doPost(String url, JSONObject json, HttpResultInterface resultInterface) {
+
+        StringBuffer loginfo = new StringBuffer();
+
+        loginfo.append("  \r\n");
+        loginfo.append("====>doPost : " + url + " >>> " + json.toString() + "\r\n");
+
+        if (!isNetworkAvailable()) {
+            ToastUtil.shortToast("网络异常，请稍后重试！");
+            return;
+        }
+
+        RequestBody requestBody = FormBody.create(MediaType.parse("application/json; charset=utf-8")
+                , String.valueOf(json));
+
+        Request.Builder builder = new Request.Builder()
+                .url(url.trim())
+                .header("Content-Type", "application/json;charset=utf-8")
+                .post(requestBody);
+
+        if (!StringUtil.isEmpty(session))
+            builder.addHeader("cookie", session);
+
+        Call call = getOkHttpClient().newCall(builder.build());
+        call.enqueue(getCallback(resultInterface, loginfo));
+
+    }
+
     public static void doGet(String url, HttpResultInterface resultInterface) {
         doGet(url, null, resultInterface);
     }

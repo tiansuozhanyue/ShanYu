@@ -25,6 +25,7 @@ import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.home.adapter.BookInOrderOfferssAdapter;
 import com.example.shanyu.main.home.adapter.OrderBooksAdapter;
+import com.example.shanyu.main.home.bean.OrderOfferBean;
 import com.example.shanyu.main.home.bean.WxPayBean;
 import com.example.shanyu.main.mine.bean.AddressMode;
 import com.example.shanyu.main.mine.bean.MyBooksMode;
@@ -103,7 +104,8 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
     private String finalSum = "0.00";      //合计金额
     private String orderId;
     private Dialog OffersDialog;
-    private List<OffersMode> offersModes;
+    //    private List<OffersMode> offersModes;
+    private OrderOfferBean offerBean;
     private int couponId;
     static boolean isCart;
     Map<String, String> payMap = new HashMap<>();
@@ -310,7 +312,10 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
             tipInfo2.setText("￥" + offersSum);
         }
 
-        title1.setText("可用优惠券(" + offersModes.size() + ")");
+        title1.setText("可用优惠券(" + offerBean.getEffective().size() + ")");
+        title2.setText("不可用优惠券(" + offerBean.getInvalid().size() + ")");
+
+        mListView.setAdapter(new BookInOrderOfferssAdapter(this, offerBean.getEffective(), couponId, BookOrderActivity.this));
 
         title1.setSelected(true);
         titleLine1.setSelected(true);
@@ -320,6 +325,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
             title2.setSelected(false);
             titleLine1.setSelected(true);
             titleLine2.setSelected(false);
+            mListView.setAdapter(new BookInOrderOfferssAdapter(this, offerBean.getEffective(), couponId, BookOrderActivity.this));
         });
 
         title2.setOnClickListener(v -> {
@@ -327,10 +333,9 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
             title2.setSelected(true);
             titleLine1.setSelected(false);
             titleLine2.setSelected(true);
+            mListView.setAdapter(new BookInOrderOfferssAdapter(this, offerBean.getInvalid(), couponId, BookOrderActivity.this));
         });
 
-        BookInOrderOfferssAdapter mAddressAdapter = new BookInOrderOfferssAdapter(this, offersModes, couponId, BookOrderActivity.this);
-        mListView.setAdapter(mAddressAdapter);
 
         OffersDialog.setContentView(view);
         WindowManager.LayoutParams lp = OffersDialog.getWindow().getAttributes();
@@ -349,14 +354,15 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
 
         try {
 
+            JSONObject obj = new JSONObject();
             JSONArray array = new JSONArray();
             for (MyBooksMode mode : shopBooks) {
                 JSONObject object = new JSONObject();
-                object.put("shop_id", mode.getShopId());
+                object.put("shop_id", mode.getShopId() + "");
                 JSONArray array2 = new JSONArray();
                 for (MyBooksMode.ListDTO dto : mode.getList()) {
                     JSONObject object2 = new JSONObject();
-                    object2.put("goods_id", dto.getGoodsId());
+                    object2.put("goods_id", dto.getGoodsId() + "");
                     object2.put("count", dto.getCount());
                     array2.put(object2);
                 }
@@ -364,21 +370,21 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
                 array.put(object);
             }
 
-            Map<String, String> map = new HashMap<>();
-            map.put("uid", SharedUtil.getIntence().getUid());
-            map.put("list", array.toString());
-            HttpUtil.doPost(HttpApi.OFFERS_ORDER, map, new HttpResultInterface() {
+            obj.put("uid", SharedUtil.getIntence().getUid());
+            obj.put("list", array);
+
+            HttpUtil.doPost(HttpApi.OFFERS_ORDER, obj, new HttpResultInterface() {
                 @Override
                 public void onFailure(String errorMsg) {
-                    offersModes = new ArrayList<>();
+                    offerBean = new OrderOfferBean();
+                    List<OffersMode> offersModes = new ArrayList<>();
+                    offerBean.setEffective(offersModes);
+                    offerBean.setInvalid(offersModes);
                 }
 
                 @Override
                 public void onSuccess(String resultData) {
-
-                    offersModes = new Gson().fromJson(resultData, new TypeToken<List<OffersMode>>() {
-                    }.getType());
-
+                    offerBean = new Gson().fromJson(resultData, OrderOfferBean.class);
                 }
             });
 
