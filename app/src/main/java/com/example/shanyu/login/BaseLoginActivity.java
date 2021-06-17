@@ -19,6 +19,9 @@ public abstract class BaseLoginActivity extends BaseActivity implements EMCallBa
         startActivity(new Intent(BaseLoginActivity.this, MainActivity.class));
 
         new EMThread().start();
+
+        finish();
+
     }
 
 
