@@ -48,6 +48,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -345,22 +346,45 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
      * 获取优惠券列表
      */
     private void getOffers() {
-        Map<String, String> map = new HashMap<>();
-        map.put("uid", SharedUtil.getIntence().getUid());
-        HttpUtil.doPost(HttpApi.OFFERS, map, new HttpResultInterface() {
-            @Override
-            public void onFailure(String errorMsg) {
-                offersModes = new ArrayList<>();
+
+        try {
+
+            JSONArray array = new JSONArray();
+            for (MyBooksMode mode : shopBooks) {
+                JSONObject object = new JSONObject();
+                object.put("shop_id", mode.getShopId());
+                JSONArray array2 = new JSONArray();
+                for (MyBooksMode.ListDTO dto : mode.getList()) {
+                    JSONObject object2 = new JSONObject();
+                    object2.put("goods_id", dto.getGoodsId());
+                    object2.put("count", dto.getCount());
+                    array2.put(object2);
+                }
+                object.put("list", array2);
+                array.put(object);
             }
 
-            @Override
-            public void onSuccess(String resultData) {
+            Map<String, String> map = new HashMap<>();
+            map.put("uid", SharedUtil.getIntence().getUid());
+            map.put("list", array.toString());
+            HttpUtil.doPost(HttpApi.OFFERS_ORDER, map, new HttpResultInterface() {
+                @Override
+                public void onFailure(String errorMsg) {
+                    offersModes = new ArrayList<>();
+                }
 
-                offersModes = new Gson().fromJson(resultData, new TypeToken<List<OffersMode>>() {
-                }.getType());
+                @Override
+                public void onSuccess(String resultData) {
 
-            }
-        });
+                    offersModes = new Gson().fromJson(resultData, new TypeToken<List<OffersMode>>() {
+                    }.getType());
+
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 

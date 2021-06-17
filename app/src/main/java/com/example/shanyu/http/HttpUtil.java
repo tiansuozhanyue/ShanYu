@@ -56,11 +56,10 @@ public class HttpUtil {
 
     public static void doPost(String url, Map<String, String> map, HttpResultInterface resultInterface) {
 
-        JSONObject json = new JSONObject(map);
         StringBuffer loginfo = new StringBuffer();
 
         loginfo.append("  \r\n");
-        loginfo.append("====>doPost : " + url + " >>> " + json + "\r\n");
+        loginfo.append("====>doPost : " + url + " >>> " + map.toString() + "\r\n");
 
         if (!isNetworkAvailable()) {
             ToastUtil.shortToast("网络异常，请稍后重试！");

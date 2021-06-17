@@ -8,7 +8,7 @@ public class HttpApi {
     public static String WX_APPID = "wx0a44f6b97bddac61";
     public static String WX_SECRET = "3a585930147811a58d4970b19efa177b";
 
-    public static String HOST = "http://shushanyu.com/";
+    public static String HOST = "https://shushanyu.com/";
 
     public static String REGIST = HOST + "index.php/user/publics/signup";
     public static String SIGNOUT = HOST + "index.php/user//publics/signout";
@@ -23,6 +23,7 @@ public class HttpApi {
     public static String ADDRESS = HOST + "index.php/index/address";
     public static String FOOTS = HOST + "index.php/index/user/history";
     public static String OFFERS = HOST + "index.php/index/user/coupon";
+    public static String OFFERS_ORDER = HOST + "index.php/index/user/couponchoice";
     public static String OFFERS_ADD = HOST + "index.php/index/user/addcoupon";
     public static String OFFERS_SHOP = HOST + "index.php/index/shop/coupon";
     public static String SET = HOST + "index.php/index/user/set";
