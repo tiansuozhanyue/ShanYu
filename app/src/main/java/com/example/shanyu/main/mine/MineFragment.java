@@ -191,6 +191,7 @@ public class MineFragment extends Fragment {
                 SharedUtil.getIntence().setNickName(mUserMode.getNickname());
                 SharedUtil.getIntence().setMobile(mUserMode.getMobile());
                 SharedUtil.getIntence().setAvatar(mUserMode.getAvatar());
+                SharedUtil.getIntence().setMobileBindStatue(mUserMode.getMobileBind());
 
                 updateOwnInfo(mUserMode.getNickname(), mUserMode.getAvatar());
 

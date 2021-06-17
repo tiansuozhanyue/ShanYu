@@ -55,6 +55,8 @@ public class SetingActivity extends BaseActivity implements CompoundButton.OnChe
     public TextView bindPhone;
     @BindView(R.id.vistion_code)
     public TextView vistion_code;
+    @BindView(R.id.bindStatue)
+    public TextView bindStatue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class SetingActivity extends BaseActivity implements CompoundButton.OnChe
 
     @Override
     public void initView() {
+        bindStatue.setText(SharedUtil.getIntence().getMobileBindStatue() == 0 ? "未绑定" : "已绑定");
         bindPhone.setText(StringUtil.mobileSecurityInfo(SharedUtil.getIntence().getMobile()));
         mSwitch.setChecked(SharedUtil.getIntence().isMessage() == 1);
         mSwitch.setOnCheckedChangeListener(this);

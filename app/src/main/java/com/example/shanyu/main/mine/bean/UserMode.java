@@ -14,7 +14,7 @@ public class UserMode {
      */
 
     private Integer id;
-    private Integer mobileBind;
+    private Integer mobile_bind;
     private String mobile;
     private String autograph;
     private Integer ismessage;
@@ -40,11 +40,11 @@ public class UserMode {
     }
 
     public Integer getMobileBind() {
-        return mobileBind;
+        return mobile_bind;
     }
 
     public void setMobileBind(Integer mobileBind) {
-        this.mobileBind = mobileBind;
+        this.mobile_bind = mobileBind;
     }
 
     public String getMobile() {

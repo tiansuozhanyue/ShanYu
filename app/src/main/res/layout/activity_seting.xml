@@ -65,6 +65,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/bindStatue"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity=""

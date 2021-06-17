@@ -43,7 +43,7 @@ public class SharedUtil {
     public String getMobile() {
         return preferences.getString("mobile", "");
     }
-    
+
     /**
      * 获取倒计时时间
      *
@@ -168,6 +168,15 @@ public class SharedUtil {
 
     public String getAvatar() {
         return preferences.getString("avatar", "");
+    }
+
+    public boolean setMobileBindStatue(int statue) {
+        editor.putInt("MobileBindStatue", statue);
+        return editor.commit();
+    }
+
+    public int getMobileBindStatue() {
+        return preferences.getInt("MobileBindStatue", 0);
     }
 
 
