@@ -9,6 +9,8 @@ import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.main.MainActivity;
 import com.example.shanyu.main.mine.ui.OrderInfoActivity;
+import com.example.shanyu.utils.ArithUtil;
+import com.example.shanyu.utils.StringUtil;
 import com.example.shanyu.widget.CirButton;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,7 +42,8 @@ public class PaySucessActivity extends BaseActivity {
         go_home.setSelected(true);
         orderId = getIntent().getStringExtra("orderId");
         String money = getIntent().getStringExtra("money");
-        String[] moneys = money.split("\\.");
+        String sum = ArithUtil.doubleSum(money);
+        String[] moneys = sum.split("\\.");
         price1.setText(moneys[0]);
         price2.setText("." + moneys[1]);
     }

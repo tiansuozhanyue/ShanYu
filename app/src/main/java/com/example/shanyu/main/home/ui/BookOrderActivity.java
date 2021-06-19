@@ -112,6 +112,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
     String type = "1";//支付方式
     static String ty, uid;
     boolean hasTy;
+    boolean flag;
 
     public static void start(BaseActivity activity, AddressMode addressMode, List<MyBooksMode> shopBooks, String t, String id) {
         isCart = false;
@@ -321,6 +322,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
         titleLine1.setSelected(true);
 
         title1.setOnClickListener(v -> {
+            flag = true;
             title1.setSelected(true);
             title2.setSelected(false);
             titleLine1.setSelected(true);
@@ -329,6 +331,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
         });
 
         title2.setOnClickListener(v -> {
+            flag = false;
             title1.setSelected(false);
             title2.setSelected(true);
             titleLine1.setSelected(false);
@@ -521,10 +524,12 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
 
     @Override
     public void onOffersSelet(OffersMode mode) {
-        OffersDialog.dismiss();
-        couponId = mode.getId();
-        offersSum = mode.getMoney() + "";
-        updataSumView();
+        if(flag){
+            OffersDialog.dismiss();
+            couponId = mode.getId();
+            offersSum = mode.getMoney() + "";
+            updataSumView();
+        }
     }
 
 }

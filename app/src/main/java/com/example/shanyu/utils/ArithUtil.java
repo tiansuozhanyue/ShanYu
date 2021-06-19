@@ -1,6 +1,7 @@
 package com.example.shanyu.utils;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 /**
  * 由于Java的简单类型不能够精确的对浮点数进行运算，这个工具类提供精
@@ -67,6 +68,12 @@ public class ArithUtil { //默认除法运算精度
         BigDecimal b1 = new BigDecimal(v1);
         BigDecimal b2 = new BigDecimal(v2);
         return b1.multiply(b2).toString();
+    }
+
+    public static String doubleSum(String s) {
+        BigDecimal b = new BigDecimal(s);
+        String result = b.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+        return result;
     }
 
     /**

@@ -246,13 +246,10 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
                                 TextView banner = view.findViewById(R.id.info);
                                 ShopOfferBean offerBean = (ShopOfferBean) o;
                                 banner.setText(offerBean.getMoney() + "");
-                                banner.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent = new Intent(ShopSearchActivity.this, ShopGetOfferActivity.class);
-                                        intent.putExtra("ShopOfferBean", offerBean);
-                                        startActivity(intent);
-                                    }
+                                view.setOnClickListener(v -> {
+                                    Intent intent = new Intent(ShopSearchActivity.this, ShopGetOfferActivity.class);
+                                    intent.putExtra("ShopOfferBean", offerBean);
+                                    startActivity(intent);
                                 });
                                 return view;
                             })
