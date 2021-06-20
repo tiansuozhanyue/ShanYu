@@ -73,9 +73,9 @@ public class OrderBookAdapter extends BaseAdapter {
             }
 
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int p, View convertView, ViewGroup parent) {
                 View view = LayoutInflater.from(mContext).inflate(R.layout.adpater_bookorder_item_2, parent, false);
-                OrderBookBean.GoodsListBean goodsListBean = goods.get(position);
+                OrderBookBean.GoodsListBean goodsListBean = goods.get(p);
                 ImageLoaderUtil.loadImage(HttpApi.HOST + goodsListBean.getCovers(), view.findViewById(R.id.cover));
                 ((TextView) view.findViewById(R.id.title)).setText(goodsListBean.getTitle());
                 ((TextView) view.findViewById(R.id.price)).setText("￥" + goodsListBean.getPreevent());
@@ -101,8 +101,8 @@ public class OrderBookAdapter extends BaseAdapter {
 
             case 1:
                 statue.setText("待发货");
-                View view2 = getGrayView("取消订单");
-                view2.setOnClickListener(v -> onClick.onCanaleOrder(position));
+                View view2 = getGrayView("申请退款");
+                view2.setOnClickListener(v -> onClick.payBack(position));
                 layout.addView(view2);
                 break;
 
@@ -113,10 +113,10 @@ public class OrderBookAdapter extends BaseAdapter {
             case 3:
                 statue.setText("待收货");
                 View view3 = getGrayView("查看物流");
-                View view4 = getGrayView("取消订单");
+                View view4 = getGrayView("申请退款");
                 View view5 = getGrayView("确认收货");
                 view3.setOnClickListener(v -> onClick.onShowLogistics(position));
-                view4.setOnClickListener(v -> onClick.onCanaleOrder(position));
+                view4.setOnClickListener(v -> onClick.payBack(position));
                 view5.setOnClickListener(v -> onClick.onGetGoods(position));
                 layout.addView(view3);
                 layout.addView(view4);
@@ -138,7 +138,7 @@ public class OrderBookAdapter extends BaseAdapter {
 
             case 5:
                 statue.setText("待付款");
-                View view9 = getGrayView("取消订单");
+                View view9 = getGrayView("取消支付");
                 View view10 = getRedView("去支付");
                 view9.setOnClickListener(v -> onClick.onCanaleOrder(position));
                 view10.setOnClickListener(v -> onClick.onGoPay(position));
@@ -158,9 +158,9 @@ public class OrderBookAdapter extends BaseAdapter {
 
             case 7:
                 statue.setText("待自提");
-                View view13 = getGrayView("取消订单");
+                View view13 = getGrayView("申请退款");
                 View view14 = getGrayView("确认收货");
-                view13.setOnClickListener(v -> onClick.onCanaleOrder(position));
+                view13.setOnClickListener(v -> onClick.payBack(position));
                 view14.setOnClickListener(v -> onClick.onGetGoods(position));
                 layout.addView(view13);
                 layout.addView(view14);
@@ -219,6 +219,8 @@ public class OrderBookAdapter extends BaseAdapter {
         void onGoPay(int positon);
 
         void onIemClick(int positon);
+
+        void payBack(int positon);
 
     }
 

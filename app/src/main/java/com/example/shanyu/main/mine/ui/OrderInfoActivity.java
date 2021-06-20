@@ -38,18 +38,8 @@ public class OrderInfoActivity extends BaseActivity {
     public TextView address;
     @BindView(R.id.shopName)
     public TextView shopName;
-    //    @BindView(R.id.cover)
-//    public ImageView cover;
     @BindView(R.id.statue)
     public TextView statue;
-    //    @BindView(R.id.title)
-//    public TextView title;
-//    @BindView(R.id.price2)
-//    public TextView price2;
-//    @BindView(R.id.price1)
-//    public TextView price1;
-//    @BindView(R.id.count)
-//    public TextView count;
     @BindView(R.id.order_code)
     public TextView order_code;
     @BindView(R.id.order_time)

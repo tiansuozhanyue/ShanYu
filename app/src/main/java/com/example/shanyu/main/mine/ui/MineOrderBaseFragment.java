@@ -22,6 +22,7 @@ import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.MainActivity;
 import com.example.shanyu.main.home.bean.WxPayBean;
+import com.example.shanyu.main.home.ui.BookInfoActivity;
 import com.example.shanyu.main.home.ui.PayBaseAvtivity;
 import com.example.shanyu.main.home.ui.PaySucessActivity;
 import com.example.shanyu.main.mine.adapter.FootAdapter;
@@ -139,12 +140,12 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
      */
     @Override
     public void onAppraise(int positon) {
-//        OrderBookBean bookBean = actionModes.get(positon);
-//        Intent intent = new Intent(getContext(), SetCommentsActivity.class);
-//        intent.putExtra("goods_id", bookBean.getGoodsId());
-//        intent.putExtra("goods_uid", bookBean.getGoodsUid());
-//        intent.putExtra("order_id", bookBean.getOrder());
-//        startActivity(intent);
+        OrderBookBean bookBean = actionModes.get(positon);
+        Intent intent = new Intent(getContext(), SetCommentsActivity.class);
+        intent.putExtra("goods_id", bookBean.getGoods_id());
+        intent.putExtra("goods_uid", bookBean.getGoods_uid()+"");
+        intent.putExtra("order_id", bookBean.getId()+"");
+        startActivity(intent);
     }
 
     /**
@@ -187,6 +188,33 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
         setOrderStatue(positon, "8");
     }
 
+
+    /**
+     * 申请退款
+     *
+     * @param positon
+     */
+    @Override
+    public void payBack(int positon) {
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+        map.put("order_id", actionModes.get(positon).getId()+"");
+        map.put("ty", "1");
+        map.put("type", actionModes.get(positon).getType() + "");
+        HttpUtil.doPost(actionModes.get(positon).getType() == 0 ? HttpApi.PAY_BACK_W : HttpApi.PAY_BACK_Z, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                ToastUtil.shortToast(errorMsg);
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                getOrders();
+            }
+        });
+    }
+
+
     /**
      * 追加评论
      *
@@ -204,7 +232,9 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
      */
     @Override
     public void onGetAgin(int positon) {
-
+        Intent intent = new Intent(getContext(), BookInfoActivity.class);
+        intent.putExtra("bookModeId", actionModes.get(positon).getGoods_id());
+        startActivity(intent);
     }
 
     /**

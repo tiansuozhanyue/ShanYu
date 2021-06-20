@@ -45,6 +45,8 @@ public class HttpApi {
     public static String ORDER_ADD = HOST + "index.php/index/order/add";
     public static String PAY_W = HOST + "index.php/index/wechat_pay/is_now";
     public static String PAY_Z = HOST + "index.php/index/Alibpay/is_now";
+    public static String PAY_BACK_W = HOST + "index.php/index/wechat_pay/refund";
+    public static String PAY_BACK_Z = HOST + "index.php/index/Alibpay/refund";
     public static String SHOP_STATUE = HOST + "index.php/index/shop";
     public static String SHOP_ADD = HOST + "index.php/index/shop/add";
     public static String ORDER_LIST = HOST + "index.php/index/order/list";
