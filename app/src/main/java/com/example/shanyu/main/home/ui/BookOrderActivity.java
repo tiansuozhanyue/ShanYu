@@ -112,7 +112,7 @@ public class BookOrderActivity extends PayBaseAvtivity implements BookInOrderOff
     String type = "1";//支付方式
     static String ty, uid;
     boolean hasTy;
-    boolean flag;
+    boolean flag=true;
 
     public static void start(BaseActivity activity, AddressMode addressMode, List<MyBooksMode> shopBooks, String t, String id) {
         isCart = false;

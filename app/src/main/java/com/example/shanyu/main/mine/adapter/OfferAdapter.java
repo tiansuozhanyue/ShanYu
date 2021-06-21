@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.shanyu.R;
 import com.example.shanyu.main.mine.bean.FootMode;
 import com.example.shanyu.main.mine.bean.OffersMode;
+import com.example.shanyu.utils.TimeUtil;
 
 import java.util.List;
 
@@ -41,7 +44,25 @@ public class OfferAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_offer_item, parent, false);
+//        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_offer_item, parent, false);
+
+        OffersMode mode = actionModes.get(position);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_order_offers_item, parent, false);
+        ImageView selectView = view.findViewById(R.id.select);
+        TextView sum = view.findViewById(R.id.sum);
+        TextView time = view.findViewById(R.id.time);
+        TextView info1 = view.findViewById(R.id.info1);
+        TextView rule = view.findViewById(R.id.rule);
+
+        selectView.setVisibility( View.GONE);
+        sum.setText(mode.getMoney() + "");
+
+        time.setText(TimeUtil.stampToDate3(mode.getBusiness()) + " - " + TimeUtil.stampToDate3(mode.getRest()));
+        info1.setText(mode.getExplain());
+        rule.setText(mode.getRule());
+
+        return view;
+
 //        ImageView mImageView = view.findViewById(R.id.mImageView);
 //        ImageLoaderUtil.loadImage(HttpApi.HOST + actionModes.get(position).getPath(), mImageView);
 //        if (onClick != null) {
@@ -49,8 +70,6 @@ public class OfferAdapter extends BaseAdapter {
 //                onClick.onActionClick(position);
 //            });
 //        }
-
-        return view;
     }
 
     public interface OfferOnClick {

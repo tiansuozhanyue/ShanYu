@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.example.shanyu.R;
 import com.example.shanyu.main.mine.bean.AddressMode;
 import com.example.shanyu.main.mine.bean.OffersMode;
+import com.example.shanyu.utils.StringUtil;
+import com.example.shanyu.utils.TimeUtil;
 
 import java.util.List;
 
@@ -57,7 +59,8 @@ public class BookInOrderOfferssAdapter extends BaseAdapter {
 
         selectView.setVisibility(mode.getId() == couponId ? View.VISIBLE : View.GONE);
         sum.setText(mode.getMoney() + "");
-        time.setText(mode.getBusiness() + "-" + mode.getRest());
+
+        time.setText(TimeUtil.stampToDate3(mode.getBusiness()) + " - " + TimeUtil.stampToDate3(mode.getRest()));
         info1.setText(mode.getExplain());
         rule.setText(mode.getRule());
 
