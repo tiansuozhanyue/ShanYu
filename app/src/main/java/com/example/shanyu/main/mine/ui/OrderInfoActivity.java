@@ -50,6 +50,8 @@ public class OrderInfoActivity extends BaseActivity {
     public TextView order_offers;
     @BindView(R.id.price3)
     public TextView price3;
+    @BindView(R.id.pay_type)
+    public TextView pay_type;
     @BindView(R.id.price4)
     public TextView price4;
     @BindView(R.id.mMyListView)
@@ -94,7 +96,14 @@ public class OrderInfoActivity extends BaseActivity {
                 mMyListView.setAdapter(new MyAdapter(infoBean.getGoods_list()));
                 order_code.setText(infoBean.getOrder());
                 order_time.setText(TimeUtil.stampToDate2(infoBean.getCreated_at() + "000"));
-                order_money.setText("￥" + infoBean.getSum());
+                order_money.setText("￥" + infoBean.getPrincipal());
+
+                if ("0.00".equals(infoBean.getMoney())) {
+                    order_offers.setText("末使用优惠券");
+                } else {
+                    order_offers.setText("-￥" + infoBean.getMoney());
+                }
+
                 switch (infoBean.getStatus()) {
                     case 0:
                         statue.setText("待评价");
@@ -129,7 +138,9 @@ public class OrderInfoActivity extends BaseActivity {
                         break;
                 }
 
-                String[] p2 = infoBean.getPrincipal().split("\\.");
+                pay_type.setText(infoBean.getType() == 1 ? "支付宝" : "微信");
+
+                String[] p2 = infoBean.getSum().split("\\.");
                 price3.setText(p2[0]);
                 price4.setText("." + p2[1]);
             }

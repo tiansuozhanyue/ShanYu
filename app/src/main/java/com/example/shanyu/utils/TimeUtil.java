@@ -38,7 +38,7 @@ public class TimeUtil {
     public static String stampToDate2(String s) {
         String res = "";
         try {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             long lt = new Long(s);
             Date date = new Date(lt);
             res = simpleDateFormat.format(date);
