@@ -73,10 +73,11 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_books, "我的书包", "管理", v -> {
+            isEdit = !isEdit;
             rightView.setText(isEdit ? "完成" : "管理");
             pay_layout.setVisibility(isEdit ? View.GONE : View.VISIBLE);
             delet_bth.setVisibility(isEdit ? View.VISIBLE : View.GONE);
-            isEdit = !isEdit;
+
         });
         ButterKnife.bind(this);
         initView();
@@ -147,6 +148,8 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
                         }
                     }
 
+                    showSumInfo();
+
                     myBooksAdapter = new MyBooksAdapter(MyBooksActivity.this, actionModes, selectIds, MyBooksActivity.this);
                     mListView.setAdapter(myBooksAdapter);
 
@@ -177,6 +180,7 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
         } else {
             selectIds.clear();
         }
+        showSumInfo();
         myBooksAdapter.notifyDataSetChanged();
     }
 
@@ -233,19 +237,13 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
      */
     private void deletBookss() {
 
-        if (listDTOS == null)
+        if (selectIds.size() == 0)
             return;
 
-        List<Integer> ids = new ArrayList<>();
-        for (MyBooksMode mode : listDTOS) {
-            for (MyBooksMode.ListDTO listDTO : mode.getList()) {
-                ids.add(listDTO.getId());
-            }
-        }
-
         StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < ids.size(); i++) {
-            buffer.append(i == ids.size() - 1 ? ids.get(i) : ids.get(i) + ",");
+
+        for (Integer id : selectIds) {
+            buffer.append(id + ",");
         }
 
         Map<String, String> map = new HashMap<>();
@@ -278,59 +276,7 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
     @Override
     public void selectExchange() {
 
-
-        mCirButton.setSelected(selectIds.size() > 0);
-
-        listDTOS = new ArrayList<>();
-
-        for (MyBooksMode booksMode : actionModes) {
-            for (MyBooksMode.ListDTO book : booksMode.getList()) {
-
-            }
-
-        }
-
-        if (!isEdit) {
-            String allMoney = "0.00";
-            for (MyBooksMode mode : listDTOS) {
-
-                List<MyBooksMode.ListDTO> list = new ArrayList<>();
-                for (MyBooksMode.ListDTO listDTO : mode.getList()) {
-                    if (selectIds.contains(listDTO.getId())) {
-                        list.add(listDTO);
-                        allMoney = ArithUtil.add(allMoney, ArithUtil.mul(listDTO.getPreevent(), listDTO.getCount().toString()));
-                        editSelectIds.add(listDTO.getId());
-                    }
-                }
-
-                if (list.size() > 0) {
-                    mode.setList(list);
-                    listDTOS.add(mode);
-                }
-            }
-            String[] money = allMoney.split("\\.");
-            all_money.setText(money[0]);
-            all_money_small.setText("." + money[1]);
-        }
-
-
-//        this.listDTOS = listDTOS;
-//        editSelectIds.clear();
-//
-//        mCirButton.setSelected(listDTOS != null && listDTOS.size() > 0);
-//
-//        if (!isEdit) {
-//            String allMoney = "0.00";
-//            for (MyBooksMode mode : listDTOS) {
-//                for (MyBooksMode.ListDTO listDTO : mode.getList()) {
-//                    allMoney = ArithUtil.add(allMoney, ArithUtil.mul(listDTO.getPreevent(), listDTO.getCount().toString()));
-//                    editSelectIds.add(listDTO.getId());
-//                }
-//            }
-//            String[] money = allMoney.split("\\.");
-//            all_money.setText(money[0]);
-//            all_money_small.setText("." + money[1]);
-//        }
+        showSumInfo();
 
         if (allSelectIds.size() == selectIds.size()) {
             isAllSelected = true;
@@ -342,6 +288,21 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
 
         myBooksAdapter.notifyDataSetChanged();
 
+    }
+
+    private void showSumInfo() {
+        mCirButton.setSelected(selectIds.size() > 0);
+        String allMoney = "0.00";
+        for (MyBooksMode mode : actionModes) {
+            for (MyBooksMode.ListDTO listDTO : mode.getList()) {
+                if (selectIds.contains(listDTO.getId())) {
+                    allMoney = ArithUtil.add(allMoney, ArithUtil.mul(listDTO.getPreevent(), listDTO.getCount().toString()));
+                }
+            }
+        }
+        String[] money = allMoney.split("\\.");
+        all_money.setText(money[0]);
+        all_money_small.setText("." + money[1]);
     }
 
     @Override
