@@ -1,6 +1,7 @@
 package com.example.shanyu.main.mine.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -13,6 +14,7 @@ import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
+import com.example.shanyu.main.home.ui.BookInfoActivity;
 import com.example.shanyu.main.home.ui.BookOrderActivity;
 import com.example.shanyu.main.mine.adapter.MyBooksAdapter;
 import com.example.shanyu.main.mine.bean.MyBooksMode;
@@ -28,8 +30,10 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,8 +64,9 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
     boolean isAllSelected;
     MyBooksAdapter myBooksAdapter;
     List<MyBooksMode> listDTOS;
-    List<Integer> allSelectIds = new ArrayList<>();//所有id集合
-    List<Integer> selectIds = new ArrayList<>();//原始选中id集合
+    List<MyBooksMode> actionModes;
+    Set<Integer> allSelectIds = new HashSet<>();//所有id集合
+    Set<Integer> selectIds = new HashSet<>();//选中id集合
     List<Integer> editSelectIds = new ArrayList<>();//编辑后的选中id集合
 
     @Override
@@ -85,9 +90,7 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
 
             case R.id.allCheckBox:
             case R.id.allCheckBox_text:
-                isAllSelected = !isAllSelected;
-                allCheckBox.setChecked(isAllSelected);
-                myBooksAdapter.setAllSelected(isAllSelected);
+                selectAllorNot();
                 break;
 
             case R.id.delet_bth:
@@ -133,7 +136,7 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
                     empty.setVisibility(View.GONE);
                     mListView.setVisibility(View.VISIBLE);
 
-                    List<MyBooksMode> actionModes = new Gson().fromJson(resultData, new TypeToken<List<MyBooksMode>>() {
+                    actionModes = new Gson().fromJson(resultData, new TypeToken<List<MyBooksMode>>() {
                     }.getType());
 
                     for (MyBooksMode myBooksMode : actionModes) {
@@ -144,7 +147,7 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
                         }
                     }
 
-                    myBooksAdapter = new MyBooksAdapter(MyBooksActivity.this, actionModes, MyBooksActivity.this);
+                    myBooksAdapter = new MyBooksAdapter(MyBooksActivity.this, actionModes, selectIds, MyBooksActivity.this);
                     mListView.setAdapter(myBooksAdapter);
 
                 } catch (Exception e) {
@@ -164,6 +167,17 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
         map.put("id", id);
         map.put("isselected", flag);
         HttpUtil.doGet(HttpApi.CARTSELECT, map, null);
+    }
+
+    private void selectAllorNot() {
+        isAllSelected = !isAllSelected;
+        allCheckBox.setChecked(isAllSelected);
+        if (isAllSelected) {
+            selectIds.addAll(allSelectIds);
+        } else {
+            selectIds.clear();
+        }
+        myBooksAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -262,25 +276,79 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
     }
 
     @Override
-    public void selectExchange(List<MyBooksMode> listDTOS) {
+    public void selectExchange() {
 
-        this.listDTOS = listDTOS;
-        editSelectIds.clear();
 
-        mCirButton.setSelected(listDTOS != null && listDTOS.size() > 0);
+        mCirButton.setSelected(selectIds.size() > 0);
+
+        listDTOS = new ArrayList<>();
+
+        for (MyBooksMode booksMode : actionModes) {
+            for (MyBooksMode.ListDTO book : booksMode.getList()) {
+
+            }
+
+        }
 
         if (!isEdit) {
             String allMoney = "0.00";
             for (MyBooksMode mode : listDTOS) {
+
+                List<MyBooksMode.ListDTO> list = new ArrayList<>();
                 for (MyBooksMode.ListDTO listDTO : mode.getList()) {
-                    allMoney = ArithUtil.add(allMoney, ArithUtil.mul(listDTO.getPreevent(), listDTO.getCount().toString()));
-                    editSelectIds.add(listDTO.getId());
+                    if (selectIds.contains(listDTO.getId())) {
+                        list.add(listDTO);
+                        allMoney = ArithUtil.add(allMoney, ArithUtil.mul(listDTO.getPreevent(), listDTO.getCount().toString()));
+                        editSelectIds.add(listDTO.getId());
+                    }
+                }
+
+                if (list.size() > 0) {
+                    mode.setList(list);
+                    listDTOS.add(mode);
                 }
             }
             String[] money = allMoney.split("\\.");
             all_money.setText(money[0]);
             all_money_small.setText("." + money[1]);
         }
+
+
+//        this.listDTOS = listDTOS;
+//        editSelectIds.clear();
+//
+//        mCirButton.setSelected(listDTOS != null && listDTOS.size() > 0);
+//
+//        if (!isEdit) {
+//            String allMoney = "0.00";
+//            for (MyBooksMode mode : listDTOS) {
+//                for (MyBooksMode.ListDTO listDTO : mode.getList()) {
+//                    allMoney = ArithUtil.add(allMoney, ArithUtil.mul(listDTO.getPreevent(), listDTO.getCount().toString()));
+//                    editSelectIds.add(listDTO.getId());
+//                }
+//            }
+//            String[] money = allMoney.split("\\.");
+//            all_money.setText(money[0]);
+//            all_money_small.setText("." + money[1]);
+//        }
+
+        if (allSelectIds.size() == selectIds.size()) {
+            isAllSelected = true;
+            allCheckBox.setChecked(true);
+        } else {
+            isAllSelected = false;
+            allCheckBox.setChecked(false);
+        }
+
+        myBooksAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void bookOnclick(String id) {
+        Intent intent = new Intent(this, BookInfoActivity.class);
+        intent.putExtra("bookModeId", id);
+        startActivity(intent);
     }
 
 }

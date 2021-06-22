@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,26 +26,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class MyBooksAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<MyBooksMode> shopBooks;
     private DataListener dataListener;
+    private Set<Integer> selectIds;
 
-    public MyBooksAdapter(Context mContext, List<MyBooksMode> shopBooks, DataListener dataListener) {
+    public MyBooksAdapter(Context mContext, List<MyBooksMode> shopBooks, Set<Integer> selectIds, DataListener dataListener) {
         this.mContext = mContext;
         this.shopBooks = shopBooks;
         this.dataListener = dataListener;
-    }
-
-    public void setAllSelected(boolean allSelected) {
-        for (MyBooksMode booksMode : shopBooks) {
-            for (MyBooksMode.ListDTO listDTO : booksMode.getList()) {
-                listDTO.setIsselected(allSelected ? 1 : 0);
-            }
-        }
-        notifyDataSetChanged();
+        this.selectIds = selectIds;
     }
 
     @Override
@@ -62,37 +57,31 @@ public class MyBooksAdapter extends BaseAdapter {
         return position;
     }
 
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-//        updateMoney();
-    }
-
-    private void updateMoney() {
-        List<MyBooksMode> myBooksModes = new ArrayList<>();
-
-        if (dataListener != null) {
-            StringBuffer ids1 = new StringBuffer();
-            StringBuffer ids2 = new StringBuffer();
-            for (MyBooksMode myBooksMode : shopBooks) {
-                List<MyBooksMode.ListDTO> listDTOS = new ArrayList<>();
-                for (MyBooksMode.ListDTO listDTO : myBooksMode.getList()) {
-                    if (listDTO.getIsselected() == 1) {
-                        listDTOS.add(listDTO);
-                        ids1.append(listDTO.getId() + ",");
-
-                    } else {
-
-                        ids2.append(listDTO.getId() + ",");
-                    }
-                }
-                if (listDTOS.size() > 0) {
-                    myBooksModes.add(new MyBooksMode(myBooksMode.getShopId(), myBooksMode.getName(), listDTOS));
-                }
-            }
-            dataListener.selectExchange(myBooksModes);
-        }
-    }
+//    private void updateMoney() {
+//        List<MyBooksMode> myBooksModes = new ArrayList<>();
+//
+//        if (dataListener != null) {
+//            StringBuffer ids1 = new StringBuffer();
+//            StringBuffer ids2 = new StringBuffer();
+//            for (MyBooksMode myBooksMode : shopBooks) {
+//                List<MyBooksMode.ListDTO> listDTOS = new ArrayList<>();
+//                for (MyBooksMode.ListDTO listDTO : myBooksMode.getList()) {
+//                    if (listDTO.getIsselected() == 1) {
+//                        listDTOS.add(listDTO);
+//                        ids1.append(listDTO.getId() + ",");
+//
+//                    } else {
+//
+//                        ids2.append(listDTO.getId() + ",");
+//                    }
+//                }
+//                if (listDTOS.size() > 0) {
+//                    myBooksModes.add(new MyBooksMode(myBooksMode.getShopId(), myBooksMode.getName(), listDTOS));
+//                }
+//            }
+//            dataListener.selectExchange(myBooksModes);
+//        }
+//    }
 
 
     /**
@@ -113,27 +102,29 @@ public class MyBooksAdapter extends BaseAdapter {
 
         MyBooksMode mode = shopBooks.get(position);
         List<MyBooksMode.ListDTO> booksModes = mode.getList();
-
+        TextView shopName = view.findViewById(R.id.shopName);
         CheckBox shopCheckBox = view.findViewById(R.id.shopCheckBox);
 
-        int sum = 0;
-        for (MyBooksMode.ListDTO listDTO : booksModes) {
-            sum += listDTO.getIsselected();
-        }
-        shopCheckBox.setChecked(sum == booksModes.size());
-
-        shopCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            for (MyBooksMode.ListDTO listDTO : booksModes) {
-                listDTO.setIsselected(shopCheckBox.isChecked() ? 1 : 0);
-            }
-            notifyDataSetChanged();
-        });
-
-        TextView shopName = view.findViewById(R.id.shopName);
         shopName.setText(mode.getName());
 
-        MyListView myListView = view.findViewById(R.id.myListView);
+        boolean flag = true;
+        for (MyBooksMode.ListDTO booksMode : booksModes) {
+            flag = flag & selectIds.contains(booksMode.getId());
+        }
+        shopCheckBox.setChecked(flag);
 
+        shopCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            for (MyBooksMode.ListDTO booksMode : booksModes) {
+                if (isChecked) {
+                    selectIds.add(booksMode.getId());
+                } else {
+                    selectIds.remove(booksMode.getId());
+                }
+            }
+            dataListener.selectExchange();
+        });
+
+        MyListView myListView = view.findViewById(R.id.myListView);
         myListView.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
@@ -161,25 +152,35 @@ public class MyBooksAdapter extends BaseAdapter {
                 TextView bookPrice = view.findViewById(R.id.bookPrice);
                 TextView price = view.findViewById(R.id.price);
                 ShopSumButton bookNum = view.findViewById(R.id.bookNum);
+                ImageView bookCover = view.findViewById(R.id.bookCover);
 
-                checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    book.setIsselected(checkBox.isChecked() ? 1 : 0);
-                    MyBooksAdapter.this.notifyDataSetChanged();
-                    updateMoney();
-                });
+                checkBox.setChecked(selectIds.contains(book.getId()));
 
-                checkBox.setChecked(book.getIsselected() == 1);
-
-                ImageLoaderUtil.loadImage(HttpApi.HOST + book.getCovers(), view.findViewById(R.id.bookCover));
+                ImageLoaderUtil.loadImage(HttpApi.HOST + book.getCovers(), bookCover);
                 bookName.setText(book.getTitle());
                 bookPrice.setText("￥" + book.getPreevent());
                 price.setText("￥" + book.getPrice());
                 price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 bookNum.setSum(book.getCount());
+
+                bookCover.setOnClickListener(v -> dataListener.bookOnclick(book.getGoodsId() + ""));
+                bookName.setOnClickListener(v -> dataListener.bookOnclick(book.getGoodsId() + ""));
+                bookPrice.setOnClickListener(v -> dataListener.bookOnclick(book.getGoodsId() + ""));
+                price.setOnClickListener(v -> dataListener.bookOnclick(book.getGoodsId() + ""));
+
+                checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    if (isChecked) {
+                        selectIds.add(book.getId());
+                    } else {
+                        selectIds.remove(book.getId());
+                    }
+                    dataListener.selectExchange();
+                });
+
                 bookNum.setSumExchangeListener(sum1 -> {
                     book.setCount(sum1);
                     sumBookss(book.getGoodsId().toString(), sum1 + "");
-                    updateMoney();
+                    dataListener.selectExchange();
                 });
 
                 return view;
@@ -192,7 +193,9 @@ public class MyBooksAdapter extends BaseAdapter {
     }
 
     public interface DataListener {
-        void selectExchange(List<MyBooksMode> listDTOS);
+        void selectExchange();
+
+        void bookOnclick(String id);
     }
 
 }
