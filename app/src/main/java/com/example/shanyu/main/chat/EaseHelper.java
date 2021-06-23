@@ -1,5 +1,6 @@
 package com.example.shanyu.main.chat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -13,6 +14,7 @@ import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.chat.EMUserInfo;
 import com.hyphenate.easeui.EaseIM;
+import com.hyphenate.easeui.constants.EaseConstant;
 import com.hyphenate.easeui.delegate.EaseExpressionAdapterDelegate;
 import com.hyphenate.easeui.delegate.EaseFileAdapterDelegate;
 import com.hyphenate.easeui.delegate.EaseImageAdapterDelegate;
@@ -171,6 +173,57 @@ public class EaseHelper {
         });
 
     }
+
+    public void goChat(Activity activity, String uid) {
+        goChat(activity, uid, null, null);
+    }
+
+    public void goChat(Activity activity, String uid, String defNickName, String defAvatarUrl) {
+
+        EMUserInfo emUserInfo = getUserInfo(uid);
+
+        if (emUserInfo != null) {
+            ChatActivity.actionStart(activity, emUserInfo.getUserId(), emUserInfo.getNickName(), EaseConstant.CHATTYPE_SINGLE);
+        } else {
+
+            String[] userId = new String[1];
+            userId[0] = uid;
+            //获取用户信息
+            EMClient.getInstance().userInfoManager().fetchUserInfoByUserId(userId,
+                    new EMValueCallBack<Map<String, EMUserInfo>>() {
+                        @Override
+                        public void onSuccess(Map<String, EMUserInfo> map) {
+
+                            ArrayList<EMUserInfo> infoArray = new ArrayList<>();
+                            for (Map.Entry<String, EMUserInfo> entry : map.entrySet()) {
+                                EMUserInfo info = entry.getValue();
+                                if (StringUtil.isEmpty(info.getNickName()) && defNickName != null)
+                                    info.setNickName(defNickName);
+                                if (StringUtil.isEmpty(info.getAvatarUrl()) && defAvatarUrl != null)
+                                    info.setAvatarUrl(defAvatarUrl);
+                                infoArray.add(info);
+                            }
+
+                            if (infoArray.size() > 0) {
+                                userDBHelper.openWriteLink();
+                                userDBHelper.insert(infoArray);
+                                userDBHelper.closeLink();
+                            }
+
+                            EMUserInfo emUserInfo = getUserInfo(uid);
+                            ChatActivity.actionStart(activity, emUserInfo.getUserId(), emUserInfo.getNickName(), EaseConstant.CHATTYPE_SINGLE);
+
+
+                        }
+
+                        @Override
+                        public void onError(int error, String errorMsg) {
+
+                        }
+                    });
+        }
+    }
+
 
     public void setUserInfo(String userId, String nickName, String avatarUrl) {
         EMUserInfo emUserInfo = new EMUserInfo();

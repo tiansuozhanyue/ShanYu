@@ -42,6 +42,8 @@ public class ChatFragment extends EaseConversationListFragment {
         //设置头像尺寸
         conversationListLayout.setAvatarSize(EaseCommonUtils.dip2px(mContext, 45));
 
+        conversationListLayout.setItemBackGround(ContextCompat.getDrawable(mContext,R.drawable.bg_login_white));
+
         //设置圆角半径
         conversationListLayout.setAvatarRadius((int) EaseCommonUtils.dip2px(mContext, 5));
         //设置标题字体的颜色

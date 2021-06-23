@@ -94,11 +94,15 @@
         <activity
             android:name=".main.home.ui.BookOrderActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".main.home.ui.BookInfoActivity" />
+        <activity
+            android:name=".main.home.ui.BookInfoActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".main.mine.ui.MyBooksActivity" />
         <activity android:name=".main.mine.ui.SelectAddressActivity" />
         <activity android:name=".main.mine.ui.SetAddressActivity" />
-        <activity android:name=".login.LoginActivity" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".main.mine.ui.MineOrderActivity"
             android:launchMode="singleTask" />

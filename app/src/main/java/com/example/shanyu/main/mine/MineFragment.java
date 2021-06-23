@@ -18,6 +18,8 @@ import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.login.LoginActivity;
 import com.example.shanyu.main.MainActivity;
+import com.example.shanyu.main.chat.ChatActivity;
+import com.example.shanyu.main.chat.EaseHelper;
 import com.example.shanyu.main.mine.bean.HistoryBean;
 import com.example.shanyu.main.mine.bean.UserMode;
 import com.example.shanyu.main.mine.ui.AddressActivity;
@@ -39,6 +41,7 @@ import com.google.gson.JsonObject;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMUserInfo;
+import com.hyphenate.easeui.constants.EaseConstant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,7 +100,7 @@ public class MineFragment extends Fragment {
             R.id.mine_order0, R.id.mine_order1, R.id.mine_order2,
             R.id.mine_order3, R.id.mine_order4, R.id.mine_order5,
             R.id.mine_advice, R.id.mine_offers, R.id.mine_mybooks,
-            R.id.mine_collection
+            R.id.mine_collection, R.id.mine_kefu
     })
     public void onClickView(View view) {
         switch (view.getId()) {
@@ -149,6 +152,10 @@ public class MineFragment extends Fragment {
             case R.id.mine_collection:
                 startActivityForResult(new Intent(getContext(), CollectionActivity.class), 20);
                 break;
+            case R.id.mine_kefu:
+                EaseHelper.getInstance().goChat(getActivity(), "63");
+                break;
+
         }
     }
 

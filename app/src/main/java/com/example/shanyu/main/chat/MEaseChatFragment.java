@@ -8,6 +8,8 @@ import androidx.core.content.ContextCompat;
 import com.example.shanyu.R;
 import com.hyphenate.easeui.modules.chat.EaseChatFragment;
 import com.hyphenate.easeui.modules.chat.EaseChatInputMenu;
+import com.hyphenate.easeui.modules.chat.EaseInputMenuStyle;
+import com.hyphenate.easeui.modules.chat.interfaces.IChatPrimaryMenu;
 import com.hyphenate.easeui.widget.EaseTitleBar;
 
 public class MEaseChatFragment extends EaseChatFragment {
@@ -21,9 +23,10 @@ public class MEaseChatFragment extends EaseChatFragment {
 
         //设置输入栏背景
         EaseChatInputMenu chatInputMenu = chatLayout.getChatInputMenu();
-        chatInputMenu.getPrimaryMenu().setMenuBackground(ContextCompat.getDrawable(mContext, R.color.white));
+        IChatPrimaryMenu primaryMenu = chatInputMenu.getPrimaryMenu();
+        primaryMenu.setMenuBackground(ContextCompat.getDrawable(mContext, R.color.white));
 
-        EditText editText = chatInputMenu.getPrimaryMenu().getEditText();
+        EditText editText = primaryMenu.getEditText();
         editText.setTextSize(14);
         editText.setGravity(Gravity.CENTER_VERTICAL);
 

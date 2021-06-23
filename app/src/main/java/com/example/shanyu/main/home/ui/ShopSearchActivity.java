@@ -109,8 +109,7 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
                 break;
 
             case R.id.goChat:
-                EaseHelper.getInstance().setUserInfo(shop_id, name, HttpApi.HOST + covers);
-                ChatActivity.actionStart(this, shop_id, name, EaseConstant.CHATTYPE_SINGLE);
+                EaseHelper.getInstance().goChat(this, shop_id + "", name, HttpApi.HOST + covers);
                 break;
 
             case R.id.home:

@@ -44,6 +44,16 @@ public class SharedUtil {
         return preferences.getString("mobile", "");
     }
 
+    public boolean setUnionid(String unionid) {
+        editor.putString("unionid", unionid);
+        return editor.commit();
+    }
+
+
+    public String getUnionid() {
+        return preferences.getString("unionid", "");
+    }
+
     /**
      * 获取倒计时时间
      *

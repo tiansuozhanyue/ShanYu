@@ -143,8 +143,7 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
                 startActivity(intent1);
                 break;
             case R.id.chat:
-                EaseHelper.getInstance().setUserInfo(bookMode.getUid() + "", bookMode.getName(), HttpApi.HOST + bookMode.getCovers());
-                ChatActivity.actionStart(this, bookMode.getUid() + "", bookMode.getName(), EaseConstant.CHATTYPE_SINGLE);
+                EaseHelper.getInstance().goChat(this, bookMode.getUid() + "",bookMode.getName(),HttpApi.HOST + bookMode.getCovers());
                 break;
 
             case R.id.buy:

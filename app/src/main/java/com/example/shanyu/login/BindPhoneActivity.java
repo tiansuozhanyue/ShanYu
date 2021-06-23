@@ -117,12 +117,14 @@ public class BindPhoneActivity extends BaseLoginActivity implements TextWatcher 
      * 登录
      */
     private void bind() {
+        String unionid = getIntent().getStringExtra("unionid");
         Map<String, String> map = new HashMap<>();
         map.put("mobile", mobile);
         map.put("pcaptcha", pcaptcha);
         map.put("openid", getIntent().getStringExtra("openid"));
         map.put("nickname", getIntent().getStringExtra("nickname"));
         map.put("avatar", getIntent().getStringExtra("avatar"));
+        map.put("unionid", unionid);
 
         showLoading();
         HttpUtil.doPost(HttpApi.VERIFICATION, map, new HttpResultInterface() {
@@ -134,9 +136,11 @@ public class BindPhoneActivity extends BaseLoginActivity implements TextWatcher 
 
             @Override
             public void onSuccess(String t) {
+                SharedUtil.getIntence().setUnionid(unionid);
                 dismissLoading();
-                goLogin(mobile, t);
                 finish();
+                goLogin(mobile, t);
+
             }
         });
     }

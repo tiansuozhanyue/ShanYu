@@ -218,13 +218,15 @@ public class LoginActivity extends BaseLoginActivity {
 
         final String nickName = SharedUtil.getIntence().getNickName();
         final String avatar = SharedUtil.getIntence().getAvatar();
-        if (StringUtil.isEmpty(nickName) || StringUtil.isEmpty(avatar)) {
+        final String unionid = SharedUtil.getIntence().getUnionid();
+        if (StringUtil.isEmpty(nickName) || StringUtil.isEmpty(avatar) || StringUtil.isEmpty(unionid)) {
             getWXToken(code);
         } else {
             Map<String, String> map = new HashMap<>();
             map.put("openid", code);
             map.put("nickname", nickName);
             map.put("avatar", avatar);
+            map.put("unionid", unionid);
             showLoading();
             HttpUtil.doPost(HttpApi.LOGIN_WX, map, new HttpResultInterface() {
                 @Override
@@ -234,6 +236,7 @@ public class LoginActivity extends BaseLoginActivity {
                     intent.putExtra("openid", code);
                     intent.putExtra("nickname", nickName);
                     intent.putExtra("avatar", avatar);
+                    intent.putExtra("unionid", unionid);
                     startActivity(intent);
                 }
 
@@ -301,6 +304,7 @@ public class LoginActivity extends BaseLoginActivity {
                     intent.putExtra("openid", code);
                     intent.putExtra("nickname", jsonObject.getString("nickname"));
                     intent.putExtra("avatar", jsonObject.getString("headimgurl"));
+                    intent.putExtra("unionid", jsonObject.getString("unionid"));
                     startActivity(intent);
 
                 } catch (JSONException e) {
