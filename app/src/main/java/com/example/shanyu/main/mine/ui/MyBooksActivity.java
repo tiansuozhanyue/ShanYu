@@ -61,13 +61,10 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
     public TextView empty;
 
     boolean isEdit;
-    boolean isAllSelected;
     MyBooksAdapter myBooksAdapter;
-    List<MyBooksMode> listDTOS;
     List<MyBooksMode> actionModes;
     Set<Integer> allSelectIds = new HashSet<>();//所有id集合
     Set<Integer> selectIds = new HashSet<>();//选中id集合
-    List<Integer> editSelectIds = new ArrayList<>();//编辑后的选中id集合
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +96,21 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
                 break;
 
             case R.id.mCirButton:
-                if (mCirButton.isSelected())
+                if (mCirButton.isSelected()) {
+                    List<MyBooksMode> listDTOS = new ArrayList<>();
+                    for (MyBooksMode mode : actionModes) {
+                        List<MyBooksMode.ListDTO> list = new ArrayList<>();
+                        for (MyBooksMode.ListDTO listDTO : mode.getList()) {
+                            if (selectIds.contains(listDTO.getId()))
+                                list.add(listDTO);
+                        }
+                        if (list.size() > 0) {
+                            MyBooksMode mode1 = new MyBooksMode(mode.getShopId(), mode.getName(), list);
+                            listDTOS.add(mode1);
+                        }
+                    }
                     BookOrderActivity.start(MyBooksActivity.this, listDTOS);
+                }
                 break;
         }
 
@@ -173,12 +183,10 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
     }
 
     private void selectAllorNot() {
-        isAllSelected = !isAllSelected;
-        allCheckBox.setChecked(isAllSelected);
-        if (isAllSelected) {
-            selectIds.addAll(allSelectIds);
-        } else {
+        if (allCheckBox.isChecked()) {
             selectIds.clear();
+        } else {
+            selectIds.addAll(allSelectIds);
         }
         showSumInfo();
         myBooksAdapter.notifyDataSetChanged();
@@ -188,48 +196,27 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
     protected void onStop() {
         super.onStop();
 
-        StringBuffer ids_delet = new StringBuffer();
-        StringBuffer ids_add = new StringBuffer();
-        for (int id : allSelectIds) {
+        List<String> ids_delet = new ArrayList<>();
+        List<String> ids_add = new ArrayList<>();
 
-            switch (getFlag(id)) {
-                case 1: //取消选中
-                    ids_delet.append(id + ",");
-                    break;
-                case 2://选中
-                    ids_add.append(id + ",");
-                    break;
-                case 0: //不变
-                case 3:////不变
-                    break;
+        for (MyBooksMode mode : actionModes) {
+            for (MyBooksMode.ListDTO listDTO : mode.getList()) {
+                if (listDTO.getIsselected() == 0 && selectIds.contains(listDTO.getId())) {
+                    ids_add.add(listDTO.getId() + "");
+                } else if (listDTO.getIsselected() == 1 & !selectIds.contains(listDTO.getId())) {
+                    ids_delet.add(listDTO.getId() + "");
+                }
             }
-
         }
 
-        if (!StringUtil.isEmpty(ids_delet.toString()))
-            selectBookss(ids_delet.substring(0, ids_delet.length() - 1), "0");
-
-        if (!StringUtil.isEmpty(ids_add.toString()))
-            selectBookss(ids_add.substring(0, ids_add.length() - 1), "1");
-
-    }
-
-    private int getFlag(int id) {
-        int flag = 0;
-
-        for (int i : selectIds) {
-            if (i == id)
-                flag += 1;
-
+        for (String id : ids_delet) {
+            selectBookss(id, "0");
         }
 
-        for (int i : editSelectIds) {
-            if (i == id)
-                flag += 2;
-
+        for (String id : ids_add) {
+            selectBookss(id, "1");
         }
 
-        return flag;
     }
 
     /**
@@ -259,8 +246,6 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
             @Override
             public void onSuccess(String resultData) {
                 dismissLoading();
-
-                listDTOS = null;
                 getBookss();
 
             }
@@ -275,22 +260,12 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
 
     @Override
     public void selectExchange() {
-
         showSumInfo();
-
-        if (allSelectIds.size() == selectIds.size()) {
-            isAllSelected = true;
-            allCheckBox.setChecked(true);
-        } else {
-            isAllSelected = false;
-            allCheckBox.setChecked(false);
-        }
-
         myBooksAdapter.notifyDataSetChanged();
-
     }
 
     private void showSumInfo() {
+        allCheckBox.setChecked(allSelectIds.size() == selectIds.size());
         mCirButton.setSelected(selectIds.size() > 0);
         String allMoney = "0.00";
         for (MyBooksMode mode : actionModes) {
