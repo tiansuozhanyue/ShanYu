@@ -20,6 +20,7 @@ public class HttpApi {
     public static String BANNER = HOST + "index.php/index";
     public static String BOOKS = HOST + "index.php/index/index/isrecommend";
     public static String ACTION = HOST + "index.php/index/activity";
+    public static String CATEGORY = HOST + "index.php/index/category";
     public static String ADDRESS = HOST + "index.php/index/address";
     public static String FOOTS = HOST + "index.php/index/user/history";
     public static String OFFERS = HOST + "index.php/index/user/coupon";

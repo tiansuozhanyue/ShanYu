@@ -21,8 +21,13 @@ import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.chat.ChatActivity;
 import com.example.shanyu.main.chat.EaseHelper;
+import com.example.shanyu.main.home.adapter.CommentAdapter;
 import com.example.shanyu.main.home.adapter.SearchBooksAdapter;
+import com.example.shanyu.main.home.adapter.ShopCategoryAdapter;
+import com.example.shanyu.main.home.bean.BannerMode;
 import com.example.shanyu.main.home.bean.BookMode;
+import com.example.shanyu.main.home.bean.CategoryBean;
+import com.example.shanyu.main.home.bean.CommentBean;
 import com.example.shanyu.main.home.bean.ShopOfferBean;
 import com.example.shanyu.utils.ImageLoaderUtil;
 import com.example.shanyu.utils.StringUtil;
@@ -40,7 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ShopSearchActivity extends BaseActivity implements TextView.OnEditorActionListener, SearchBooksAdapter.BookOnClick {
+public class ShopSearchActivity extends BaseActivity implements TextView.OnEditorActionListener, SearchBooksAdapter.BookOnClick, ShopCategoryAdapter.CategoryOnClick {
 
     String searchInfo = "";
     String shop_id;
@@ -100,12 +105,16 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     }
 
 
-    @OnClick({R.id.goback, R.id.home, R.id.news, R.id.action, R.id.goChat})
+    @OnClick({R.id.goback, R.id.home, R.id.news, R.id.action, R.id.goChat, R.id.category})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
             case R.id.goback:
                 finish();
+                break;
+
+            case R.id.category:
+                getCategory();
                 break;
 
             case R.id.goChat:
@@ -260,6 +269,27 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
 
     }
 
+    /**
+     * 获取店铺书籍分类
+     */
+    private void getCategory() {
+        HttpUtil.doGet(HttpApi.CATEGORY, null, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+                List<CategoryBean> beans = new Gson().fromJson(resultData, new TypeToken<List<CategoryBean>>() {
+                }.getType());
+                mListView.setAdapter(new ShopCategoryAdapter(ShopSearchActivity.this, beans, ShopSearchActivity.this));
+
+            }
+        });
+
+    }
+
 
     @Override
     public void onBookClick(BookMode mode) {
@@ -268,4 +298,8 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
         startActivity(intent);
     }
 
+    @Override
+    public void onCategoryClick(String id) {
+
+    }
 }
