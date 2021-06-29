@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/myRefreshLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".main.mine.ui.CollectionActivity">
+    android:layout_height="match_parent">
 
     <com.scwang.smartrefresh.layout.header.ClassicsHeader
         android:layout_width="match_parent"
@@ -23,7 +22,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="16dp"
             android:divider="@color/transparent"
-            android:dividerHeight="10dp"
+            android:dividerHeight="1dp"
             android:scrollbars="none" />
 
         <TextView
@@ -35,7 +34,7 @@
             android:drawableTop="@mipmap/common_kong2"
             android:drawablePadding="10dp"
             android:gravity="center"
-            android:text="暂无收藏"
+            android:text="该分类暂无书籍"
             android:textColor="#4d000000"
             android:textSize="14sp"
             android:visibility="gone" />

@@ -32,8 +32,8 @@ public class BookMode implements Serializable {
     private Integer id;
     private Integer uid;
     private String title;
-    private Integer shopId;
-    private Integer categoryId;
+    private Integer shop_id;
+    private Integer category_id;
     private String category;
     private String goods;
     private String details;
@@ -77,19 +77,19 @@ public class BookMode implements Serializable {
     }
 
     public Integer getShopId() {
-        return shopId;
+        return shop_id;
     }
 
     public void setShopId(Integer shopId) {
-        this.shopId = shopId;
+        this.shop_id = shopId;
     }
 
     public Integer getCategoryId() {
-        return categoryId;
+        return category_id;
     }
 
     public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+        this.category_id = categoryId;
     }
 
     public String getCategory() {

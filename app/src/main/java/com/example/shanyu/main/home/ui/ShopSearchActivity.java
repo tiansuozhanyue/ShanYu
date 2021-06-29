@@ -71,8 +71,8 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     public Banner mBanner;
     @BindView(R.id.shop_name)
     public TextView shop_name;
-    private String name, covers;
-
+    private String name, covers, shopId;
+    List<CategoryBean> categoryBeans;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +114,12 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
                 break;
 
             case R.id.category:
+                home.setSelected(false);
+                home_line.setSelected(false);
+                news.setSelected(false);
+                news_line.setSelected(false);
+                action.setSelected(false);
+                action_line.setSelected(false);
                 getCategory();
                 break;
 
@@ -213,6 +219,7 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
                     ratingbar.setRating((int) Math.round(n));
                     mListView.setAdapter(new SearchBooksAdapter(ShopSearchActivity.this, bookModes, ShopSearchActivity.this));
                     name = bookModes.get(0).getName();
+                    shopId = bookModes.get(0).getShopId() + "";
                     covers = bookModes.get(0).getCovers();
                     shop_name.setText(name);
                 } else {
@@ -273,20 +280,25 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
      * 获取店铺书籍分类
      */
     private void getCategory() {
-        HttpUtil.doGet(HttpApi.CATEGORY, null, new HttpResultInterface() {
-            @Override
-            public void onFailure(String errorMsg) {
 
-            }
+        if (categoryBeans != null) {
+            mListView.setAdapter(new ShopCategoryAdapter(ShopSearchActivity.this, categoryBeans, ShopSearchActivity.this));
+        } else {
+            HttpUtil.doGet(HttpApi.CATEGORY, null, new HttpResultInterface() {
+                @Override
+                public void onFailure(String errorMsg) {
 
-            @Override
-            public void onSuccess(String resultData) {
-                List<CategoryBean> beans = new Gson().fromJson(resultData, new TypeToken<List<CategoryBean>>() {
-                }.getType());
-                mListView.setAdapter(new ShopCategoryAdapter(ShopSearchActivity.this, beans, ShopSearchActivity.this));
+                }
 
-            }
-        });
+                @Override
+                public void onSuccess(String resultData) {
+                    categoryBeans = new Gson().fromJson(resultData, new TypeToken<List<CategoryBean>>() {
+                    }.getType());
+                    mListView.setAdapter(new ShopCategoryAdapter(ShopSearchActivity.this, categoryBeans, ShopSearchActivity.this));
+
+                }
+            });
+        }
 
     }
 
@@ -299,7 +311,12 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     }
 
     @Override
-    public void onCategoryClick(String id) {
-
+    public void onCategoryClick(String id, String categoryName) {
+        Intent intent = new Intent(this, ShopCategoryActivity.class);
+        intent.putExtra("categoryId", id);
+        intent.putExtra("shopName", name);
+        intent.putExtra("categoryName", categoryName);
+        intent.putExtra("shopId", shopId);
+        startActivity(intent);
     }
 }

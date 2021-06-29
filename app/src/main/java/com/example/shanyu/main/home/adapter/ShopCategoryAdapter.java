@@ -56,10 +56,14 @@ public class ShopCategoryAdapter extends BaseAdapter {
 
         view.setOnClickListener(v -> {
             if (listBean == null) {
-                onClick.onCategoryClick(bean.getId() + "");
+                onClick.onCategoryClick(bean.getId() + "", bean.getName());
             } else {
-                mListView.setVisibility(View.VISIBLE);
-                mListView.setAdapter(new ShopCategoryAdapter2(mContext, listBean, onClick));
+                if (mListView.getVisibility() == View.GONE) {
+                    mListView.setVisibility(View.VISIBLE);
+                    mListView.setAdapter(new ShopCategoryAdapter2(mContext, listBean, onClick));
+                } else {
+                    mListView.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -67,7 +71,7 @@ public class ShopCategoryAdapter extends BaseAdapter {
     }
 
     public interface CategoryOnClick {
-        void onCategoryClick(String id);
+        void onCategoryClick(String id, String categoryName);
     }
 
 }

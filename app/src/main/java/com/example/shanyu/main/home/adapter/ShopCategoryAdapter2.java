@@ -42,12 +42,11 @@ public class ShopCategoryAdapter2 extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_shop_category_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_shop_category_item2, parent, false);
         TextView mTextView = view.findViewById(R.id.mTextView);
-        CategoryBean.ListBean bean=beans.get(position);
+        CategoryBean.ListBean bean = beans.get(position);
         mTextView.setText(bean.getName());
-        onClick.onCategoryClick(bean.getId() + "");
+        view.setOnClickListener(v -> onClick.onCategoryClick(bean.getId() + "", bean.getName()));
         return view;
     }
 
