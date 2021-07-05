@@ -20,6 +20,7 @@ import com.example.shanyu.login.LoginActivity;
 import com.example.shanyu.main.MainActivity;
 import com.example.shanyu.main.chat.ChatActivity;
 import com.example.shanyu.main.chat.EaseHelper;
+import com.example.shanyu.main.home.ui.ShopJoinActivity1;
 import com.example.shanyu.main.mine.bean.HistoryBean;
 import com.example.shanyu.main.mine.bean.UserMode;
 import com.example.shanyu.main.mine.ui.AddressActivity;
@@ -100,8 +101,7 @@ public class MineFragment extends Fragment {
             R.id.mine_order0, R.id.mine_order1, R.id.mine_order2,
             R.id.mine_order3, R.id.mine_order4, R.id.mine_order5,
             R.id.mine_advice, R.id.mine_offers, R.id.mine_mybooks,
-            R.id.mine_collection, R.id.mine_kefu
-    })
+            R.id.mine_collection, R.id.mine_kefu, R.id.mine_add})
     public void onClickView(View view) {
         switch (view.getId()) {
             case R.id.mine_set:
@@ -155,7 +155,9 @@ public class MineFragment extends Fragment {
             case R.id.mine_kefu:
                 EaseHelper.getInstance().goChat(getActivity(), "63");
                 break;
-
+            case R.id.mine_add:
+                startActivity(new Intent(getContext(), ShopJoinActivity1.class));
+                break;
         }
     }
 
