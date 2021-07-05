@@ -95,8 +95,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:hint="@string/hint_code_set"
-                android:maxLength="6"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="6" />
 
             <TextView
                 android:id="@+id/regist_getCode"
@@ -180,9 +180,10 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/see_info"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="《XXX用户服务协议》"
+                android:layout_height="match_parent"
+                android:text="《社优拼用户协议》"
                 android:textColor="@color/color_black_E6"
                 android:textSize="12sp" />
 

@@ -134,9 +134,8 @@ public class RegistActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.bth_regist,
-            R.id.regist_getCode,
-            R.id.login_goto})
+    @OnClick({R.id.bth_regist, R.id.regist_getCode,
+            R.id.login_goto, R.id.see_info})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -152,6 +151,9 @@ public class RegistActivity extends BaseActivity {
             case R.id.regist_getCode:
                 if (regist_getCode.isSelected())
                     getCode();
+                break;
+            case R.id.see_info:
+                startActivity(new Intent(this, WebViewActivity.class));
                 break;
 
         }
