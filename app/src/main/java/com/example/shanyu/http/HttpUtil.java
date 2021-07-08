@@ -272,9 +272,11 @@ public class HttpUtil {
                         mhander.post(() -> {
                             try {
 
-                                if (status == 1 || status == 200) {
+                                if (status == 1) {
                                     String data = object.getString("data");
                                     resultInterface.onSuccess(data);
+                                } else if (status == 200) {
+                                    resultInterface.onSuccess(result);
                                 } else {
                                     String msg = object.getString("msg");
                                     resultInterface.onFailure(msg);
