@@ -49,6 +49,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 public abstract class MineOrderBaseFragment extends Fragment implements MyRefreshLayout.RefreshListener, HttpResultInterface, OrderBookAdapter.OrderBookAdapterOnclick {
@@ -143,8 +144,8 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
         OrderBookBean bookBean = actionModes.get(positon);
         Intent intent = new Intent(getContext(), SetCommentsActivity.class);
         intent.putExtra("goods_id", bookBean.getGoods_id());
-        intent.putExtra("goods_uid", bookBean.getGoods_uid()+"");
-        intent.putExtra("order_id", bookBean.getId()+"");
+        intent.putExtra("goods_uid", bookBean.getGoods_uid() + "");
+        intent.putExtra("order_id", bookBean.getId() + "");
         startActivity(intent);
     }
 
@@ -165,7 +166,10 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
      */
     @Override
     public void onShowLogistics(int positon) {
-
+        OrderBookBean orderBookBean = actionModes.get(positon);
+        Intent intent = new Intent(getContext(), LogisticsActivity.class);
+        intent.putExtra("OrderBookBean", orderBookBean);
+        startActivity(intent);
     }
 
     /**
@@ -198,7 +202,7 @@ public abstract class MineOrderBaseFragment extends Fragment implements MyRefres
     public void payBack(int positon) {
         Map<String, String> map = new HashMap<>();
         map.put("uid", SharedUtil.getIntence().getUid());
-        map.put("order_id", actionModes.get(positon).getId()+"");
+        map.put("order_id", actionModes.get(positon).getId() + "");
         map.put("ty", "1");
         map.put("type", actionModes.get(positon).getType() + "");
         HttpUtil.doPost(actionModes.get(positon).getType() == 0 ? HttpApi.PAY_BACK_W : HttpApi.PAY_BACK_Z, map, new HttpResultInterface() {

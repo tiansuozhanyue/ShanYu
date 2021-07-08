@@ -37,7 +37,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShanYu"
         android:usesCleartextTraffic="true">
-        <activity android:name=".main.home.ui.ShopCategoryActivity"></activity>
+        <activity android:name=".main.mine.ui.LogisticsActivity"></activity>
+        <activity android:name=".main.home.ui.ShopCategoryActivity" />
         <activity android:name=".main.home.ui.ShopGetOfferActivity" />
         <activity android:name=".login.WebViewActivity" />
         <activity android:name=".main.home.ui.SearchAddressActivity" />

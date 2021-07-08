@@ -175,8 +175,8 @@ public class OrderBookAdapter extends BaseAdapter {
     private View getGrayView(String info) {
         TextView textView = new TextView(mContext);
         textView.setBackgroundResource(R.drawable.shape_comment);
-        textView.setPadding(AppUtil.dp2px(mContext, 20), AppUtil.dp2px(mContext, 5),
-                AppUtil.dp2px(mContext, 20), AppUtil.dp2px(mContext, 5));
+        textView.setPadding(AppUtil.dp2px(mContext, 15), AppUtil.dp2px(mContext, 5),
+                AppUtil.dp2px(mContext, 15), AppUtil.dp2px(mContext, 5));
         textView.setTextColor(mContext.getResources().getColor(R.color.color_black_E6));
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.setMargins(AppUtil.dp2px(mContext, 10), 0, 0, 0);

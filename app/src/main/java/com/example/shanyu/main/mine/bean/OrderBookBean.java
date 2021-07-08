@@ -40,6 +40,33 @@ public class OrderBookBean implements Serializable {
     private int shop_id;
     private int type;
     private List<GoodsListBean> goods_list;
+    private String numbers;
+    private String logistics;
+    private String loginame;
+
+    public String getLoginame() {
+        return loginame;
+    }
+
+    public void setLoginame(String loginame) {
+        this.loginame = loginame;
+    }
+
+    public String getNumbers() {
+        return numbers;
+    }
+
+    public void setNumbers(String numbers) {
+        this.numbers = numbers;
+    }
+
+    public String getLogistics() {
+        return logistics;
+    }
+
+    public void setLogistics(String logistics) {
+        this.logistics = logistics;
+    }
 
     public int getGoods_uid() {
         return goods_uid;
