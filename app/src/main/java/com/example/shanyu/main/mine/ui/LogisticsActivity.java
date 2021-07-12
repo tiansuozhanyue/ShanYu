@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.shanyu.R;
 import com.example.shanyu.base.BaseActivity;
+import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
 import com.example.shanyu.main.mine.bean.LogiBean;
@@ -63,7 +64,7 @@ public class LogisticsActivity extends BaseActivity implements HttpResultInterfa
         String numbers = orderBookBean.getNumbers();
         String logistics = orderBookBean.getLogistics();
 
-        ImageLoaderUtil.loadImage(orderBookBean.getCovers(), cover);
+        ImageLoaderUtil.loadImage(HttpApi.HOST + orderBookBean.getGoods_list().get(0).getCovers(), cover);
         name.setText(orderBookBean.getLoginame());
         code.setText(numbers);
 
@@ -127,7 +128,7 @@ public class LogisticsActivity extends BaseActivity implements HttpResultInterfa
                     statue.setText("已退签");
                     break;
                 case "5":
-                    statue.setText("派件zhong");
+                    statue.setText("派件中");
                     break;
                 case "6":
                     statue.setText("已退回");
