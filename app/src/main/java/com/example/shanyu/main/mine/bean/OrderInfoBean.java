@@ -45,8 +45,35 @@ public class OrderInfoBean implements Serializable {
     private String nickname;
     private String order;
     private String mobile;
+    private String loginame;
+    private String numbers;
+    private String freight;
     private int type;
     private List<GoodsListBean> goods_list;
+
+    public String getLoginame() {
+        return loginame;
+    }
+
+    public void setLoginame(String loginame) {
+        this.loginame = loginame;
+    }
+
+    public String getNumbers() {
+        return numbers;
+    }
+
+    public void setNumbers(String numbers) {
+        this.numbers = numbers;
+    }
+
+    public String getFreight() {
+        return freight;
+    }
+
+    public void setFreight(String freight) {
+        this.freight = freight;
+    }
 
     public int getId() {
         return id;

@@ -94,8 +94,11 @@ public class OrderBookAdapter extends BaseAdapter {
         switch (booksMode.getStatus()) {
             case 0:
                 statue.setText("待评价");
+                View view0 = getGrayView("查看物流");
                 View view1 = getGrayView("评价");
+                view0.setOnClickListener(v -> onClick.onShowLogistics(position));
                 view1.setOnClickListener(v -> onClick.onAppraise(position));
+                layout.addView(view0);
                 layout.addView(view1);
                 break;
 

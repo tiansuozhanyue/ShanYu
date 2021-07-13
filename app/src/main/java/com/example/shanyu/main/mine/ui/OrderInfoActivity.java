@@ -1,11 +1,13 @@
 package com.example.shanyu.main.mine.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.shanyu.R;
@@ -13,9 +15,11 @@ import com.example.shanyu.base.BaseActivity;
 import com.example.shanyu.http.HttpApi;
 import com.example.shanyu.http.HttpResultInterface;
 import com.example.shanyu.http.HttpUtil;
+import com.example.shanyu.main.home.ui.BookInfoActivity;
 import com.example.shanyu.main.mine.bean.OrderInfoBean;
 import com.example.shanyu.utils.ImageLoaderUtil;
 import com.example.shanyu.utils.SharedUtil;
+import com.example.shanyu.utils.StringUtil;
 import com.example.shanyu.utils.TimeUtil;
 import com.example.shanyu.utils.ToastUtil;
 import com.example.shanyu.widget.MyListView;
@@ -54,8 +58,18 @@ public class OrderInfoActivity extends BaseActivity {
     public TextView pay_type;
     @BindView(R.id.price4)
     public TextView price4;
+    @BindView(R.id.logistics)
+    public TextView logistics;
     @BindView(R.id.mMyListView)
     public MyListView mMyListView;
+    @BindView(R.id.layout0)
+    public LinearLayout layout0;
+    @BindView(R.id.logisticsNum)
+    public TextView logisticsNum;
+    @BindView(R.id.layout1)
+    public LinearLayout layout1;
+    @BindView(R.id.order_freight)
+    public TextView order_freight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +112,26 @@ public class OrderInfoActivity extends BaseActivity {
                 order_time.setText(TimeUtil.stampToDate2(infoBean.getCreated_at() + "000"));
                 order_money.setText("￥" + infoBean.getPrincipal());
 
+                if (StringUtil.isEmpty(infoBean.getLoginame())) {
+                    layout0.setVisibility(View.GONE);
+                } else {
+                    layout0.setVisibility(View.VISIBLE);
+                    logistics.setText(infoBean.getLoginame());
+                    logisticsNum.setText(infoBean.getNumbers());
+                }
+
+                if (StringUtil.isEmpty(infoBean.getFreight())) {
+                    layout1.setVisibility(View.GONE);
+                } else {
+                    layout1.setVisibility(View.VISIBLE);
+                    order_freight.setText("￥" + infoBean.getFreight());
+                }
+
                 if ("0.00".equals(infoBean.getMoney())) {
                     order_offers.setText("末使用优惠券");
                 } else {
                     order_offers.setText("-￥" + infoBean.getMoney());
+
                 }
 
                 switch (infoBean.getStatus()) {
@@ -187,6 +217,12 @@ public class OrderInfoActivity extends BaseActivity {
             String[] p1 = goodsBean.getPreevent().split("\\.");
             price1.setText(p1[0]);
             price2.setText("." + p1[1]);
+
+            view.setOnClickListener(v -> {
+                Intent intent = new Intent(OrderInfoActivity.this, BookInfoActivity.class);
+                intent.putExtra("bookModeId", goodsBean.getGoods_id() + "");
+                startActivity(intent);
+            });
 
             return view;
         }

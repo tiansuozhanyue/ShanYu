@@ -50,7 +50,6 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="12dp"
                     android:gravity="center_vertical"
-                    android:text="赵晓晓"
                     android:textColor="#e6000000"
                     android:textSize="14sp" />
 
@@ -60,7 +59,6 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
-                    android:text="15432653365"
                     android:textColor="#e6000000"
                     android:textSize="14sp" />
 
@@ -92,9 +90,51 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="10dp"
                     android:gravity="center_vertical"
-                    android:text="赵晓晓"
                     android:textColor="#e6000000"
                     android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/color_black_12" />
+
+            <LinearLayout
+                android:id="@+id/layout0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/home_detail_logistics" />
+
+                <TextView
+                    android:id="@+id/logistics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#e6000000"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/logisticsNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#e6000000"
+                    android:textSize="14sp" />
+
 
             </LinearLayout>
 
@@ -275,6 +315,37 @@
                 android:background="@color/color_black_12" />
 
             <LinearLayout
+                android:id="@+id/layout1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="运费"
+                    android:textColor="#66000000"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/order_freight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="#e6000000"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/color_black_12" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
@@ -345,7 +416,6 @@
                     android:textSize="10sp" />
 
             </LinearLayout>
-
 
         </LinearLayout>
 
