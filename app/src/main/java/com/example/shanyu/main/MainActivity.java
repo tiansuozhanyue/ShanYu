@@ -37,6 +37,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,8 @@ public class MainActivity extends BaseActivity implements AMapLocationListener {
         setTranslucentStatus();
         super.onCreate(savedInstanceState);
 
+        EventBus.getDefault().register(this);
+
         setContentView(R.layout.activity_main, true);
 
         viewPager = findViewById(R.id.viewPager);
@@ -66,6 +70,21 @@ public class MainActivity extends BaseActivity implements AMapLocationListener {
 
         initView();
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void studentEventBus(EventBean eventBean) {
+        switch (eventBean.flag) {
+            case EventBean.GO_ACTION:
+                viewPager.setCurrentItem(1);
+                break;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

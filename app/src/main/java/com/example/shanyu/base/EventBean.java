@@ -8,6 +8,7 @@ public class EventBean {
     public static final int SHARE_SUCESSS = 10;
     public static final int LOGIN_SUCESSS = 20;
     public static final int ADDRESS = 30;
+    public static final int GO_ACTION = 40;
 
     public String info;
     public int flag;

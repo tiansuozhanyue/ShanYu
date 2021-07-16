@@ -12,14 +12,14 @@
         android:layout_width="83dp"
         android:layout_height="83dp"
         android:layout_marginTop="60dp"
-        app:radius="50"
-        android:src="@mipmap/ic_launcher_round" />
+        android:src="@mipmap/ic_launcher_round"
+        app:radius="50" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="善羽"
+        android:text="社优拼"
         android:textColor="@color/color_black_E6"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -30,8 +30,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="22dp"
         android:layout_marginRight="16dp"
-        android:text="@string/about_mine"
         android:lineSpacingExtra="5dp"
+        android:text="@string/about_mine"
         android:textColor="#b3000000"
         android:textSize="14sp" />
 
@@ -51,10 +51,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="40dp"
         android:text="版权所有"
         android:textColor="@color/color_black_80"
-        android:layout_marginTop="5dp"
         android:textSize="14sp" />
 
 </LinearLayout>

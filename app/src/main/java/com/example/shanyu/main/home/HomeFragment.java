@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
 
     }
 
-    @OnClick({R.id.shop_join, R.id.search, R.id.address})
+    @OnClick({R.id.shop_join, R.id.shop_study, R.id.search, R.id.address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -153,6 +153,10 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
 
             case R.id.address:
                 startActivity(new Intent(getContext(), SearchAddressActivity.class));
+                break;
+
+            case R.id.shop_study:
+                EventBus.getDefault().post(new EventBean(EventBean.GO_ACTION));
                 break;
 
         }
@@ -202,7 +206,11 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
                             banner.setScaleType(ImageView.ScaleType.FIT_XY);
                             BannerMode.BannerDTO bannerDTO = (BannerMode.BannerDTO) o;
                             ImageLoaderUtil.loadImage((HttpApi.HOST + bannerDTO.getPicture()), banner, 13.0f);
-                            banner.setOnClickListener(v -> Toast.makeText(context, index + "", Toast.LENGTH_LONG).show());
+                            banner.setOnClickListener(v -> {
+                                Intent intent = new Intent(getContext(), BookInfoActivity.class);
+                                intent.putExtra("bookModeId", bannerDTO.getId().toString());
+                                startActivity(intent);
+                            });
                             return banner;
                         })
                         .setPages(mode.getBanner());
