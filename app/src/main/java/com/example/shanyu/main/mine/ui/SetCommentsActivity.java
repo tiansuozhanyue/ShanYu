@@ -84,7 +84,7 @@ public class SetCommentsActivity extends BaseActivity implements View.OnClickLis
         }
 
         StringBuffer slide = new StringBuffer();
-        for (int i = 0; i < pictures.size() - 2; i++) {
+        for (int i = 0; i < pictures.size() - 1; i++) {
             if (i == 0) {
                 slide.append(pictures.get(i));
             } else {
@@ -99,9 +99,9 @@ public class SetCommentsActivity extends BaseActivity implements View.OnClickLis
         map.put("order_id", getIntent().getStringExtra("order_id"));
         map.put("evaluate", evaluate);
         map.put("slide", slide.toString());
-        map.put("decimal001", ratingbar1.getNumStars() + "");
-        map.put("decimal002", ratingbar2.getNumStars() + "");
-        map.put("decimal003", ratingbar3.getNumStars() + "");
+        map.put("decimal001", ratingbar1.getRating() + "");
+        map.put("decimal002", ratingbar2.getRating() + "");
+        map.put("decimal003", ratingbar3.getRating() + "");
         showLoading();
         HttpUtil.doPost(HttpApi.ADDEVALUATE, map, new HttpResultInterface() {
             @Override

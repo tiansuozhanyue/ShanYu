@@ -47,6 +47,7 @@ import com.example.shanyu.widget.MyGridView;
 import com.example.shanyu.widget.MyListView;
 import com.example.shanyu.widget.MyRefreshLayout;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.to.aboomy.banner.Banner;
 import com.to.aboomy.banner.IndicatorView;
@@ -75,7 +76,6 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
         TextView.OnEditorActionListener {
 
     Unbinder bind;
-    int statue = -1;
     String searchInfo;
 
     @BindView(R.id.mBanner)
@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
         address.setText(SharedUtil.getIntence().getAddress());
 
         getBanner();
-        getShopStatue();
+
         myRefreshLayout.setRefreshListener(this);
 
     }
@@ -128,17 +128,7 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
         switch (view.getId()) {
 
             case R.id.shop_join:
-                switch (statue) {
-                    case -1:
-                        startActivity(new Intent(getContext(), ShopJoinActivity1.class));
-                        break;
-                    case 0:
-                        startActivity(new Intent(getContext(), ShopJoinActivity2.class));
-                        break;
-                    case 1:
-                        startActivity(new Intent(getContext(), ShopJoinActivity3.class));
-                        break;
-                }
+                getShopStatue();
                 break;
 
             case R.id.search:
@@ -268,16 +258,28 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
         HttpUtil.doPost(HttpApi.SHOP_STATUE, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
-                statue = -1;
+                startActivity(new Intent(getContext(), ShopJoinActivity1.class));
             }
 
             @Override
             public void onSuccess(String resultData) {
 
                 try {
-                    JSONArray array = new JSONArray(resultData);
-                    JSONObject object = (JSONObject) array.get(0);
-                    statue = object.getInt("status");
+                    JSONObject object = new JSONObject(resultData);
+                    int statue = object.optInt("status", -1);
+
+                    switch (statue) {
+                        case -1:
+                            startActivity(new Intent(getContext(), ShopJoinActivity1.class));
+                            break;
+                        case 0:
+                            startActivity(new Intent(getContext(), ShopJoinActivity2.class));
+                            break;
+                        case 1:
+                            startActivity(new Intent(getContext(), ShopJoinActivity3.class));
+                            break;
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

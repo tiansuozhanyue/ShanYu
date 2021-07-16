@@ -207,10 +207,19 @@ public class OrderBookBean implements Serializable {
 
         private int id;
         private int count;
+        private String goods_id;
         private String title;
         private String price;
         private String preevent;
         private String covers;
+
+        public String getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(String goods_id) {
+            this.goods_id = goods_id;
+        }
 
         public int getCount() {
             return count;
