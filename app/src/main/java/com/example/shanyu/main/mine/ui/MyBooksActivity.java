@@ -196,6 +196,9 @@ public class MyBooksActivity extends BaseActivity implements MyRefreshLayout.Ref
     protected void onStop() {
         super.onStop();
 
+        if (actionModes == null)
+            return;
+
         List<String> ids_delet = new ArrayList<>();
         List<String> ids_add = new ArrayList<>();
 

@@ -205,7 +205,7 @@ public class LoginActivity extends BaseLoginActivity {
     public void studentEventBus(EventBean eventBean) {
         switch (eventBean.flag) {
             case EventBean.LOGIN_SUCESSS:
-                Login_wx(eventBean.info);
+                getWXToken(eventBean.info);
                 break;
         }
 
@@ -214,40 +214,34 @@ public class LoginActivity extends BaseLoginActivity {
     /**
      * 微信登录
      */
-    private void Login_wx(String code) {
+    private void Login_wx(String code, String nickName, String avatar, String unionid) {
 
-        final String nickName = SharedUtil.getIntence().getNickName();
-        final String avatar = SharedUtil.getIntence().getAvatar();
-        final String unionid = SharedUtil.getIntence().getUnionid();
-        if (StringUtil.isEmpty(nickName) || StringUtil.isEmpty(avatar) || StringUtil.isEmpty(unionid)) {
-            getWXToken(code);
-        } else {
-            Map<String, String> map = new HashMap<>();
-            map.put("openid", code);
-            map.put("nickname", nickName);
-            map.put("avatar", avatar);
-            map.put("unionid", unionid);
-            showLoading();
-            HttpUtil.doPost(HttpApi.LOGIN_WX, map, new HttpResultInterface() {
-                @Override
-                public void onFailure(String errorMsg) {
-                    dismissLoading();
-                    Intent intent = new Intent(LoginActivity.this, BindPhoneActivity.class);
-                    intent.putExtra("openid", code);
-                    intent.putExtra("nickname", nickName);
-                    intent.putExtra("avatar", avatar);
-                    intent.putExtra("unionid", unionid);
-                    startActivity(intent);
-                }
+        Map<String, String> map = new HashMap<>();
+        map.put("openid", code);
+        map.put("nickname", nickName);
+        map.put("avatar", avatar);
+        map.put("unionid", unionid);
+        showLoading();
+        HttpUtil.doPost(HttpApi.LOGIN_WX, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                dismissLoading();
+                Intent intent = new Intent(LoginActivity.this, BindPhoneActivity.class);
+                intent.putExtra("openid", code);
+                intent.putExtra("nickname", nickName);
+                intent.putExtra("avatar", avatar);
+                intent.putExtra("unionid", unionid);
+                startActivity(intent);
+            }
 
-                @Override
-                public void onSuccess(String t) {
-                    dismissLoading();
-                    goLogin(phone, t);
-                    finish();
-                }
-            });
-        }
+            @Override
+            public void onSuccess(String t) {
+                dismissLoading();
+                goLogin(phone, t);
+                finish();
+            }
+        });
+//        }
     }
 
     /**
@@ -300,12 +294,7 @@ public class LoginActivity extends BaseLoginActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().string());
-                    Intent intent = new Intent(LoginActivity.this, BindPhoneActivity.class);
-                    intent.putExtra("openid", code);
-                    intent.putExtra("nickname", jsonObject.getString("nickname"));
-                    intent.putExtra("avatar", jsonObject.getString("headimgurl"));
-                    intent.putExtra("unionid", jsonObject.getString("unionid"));
-                    startActivity(intent);
+                    Login_wx(code, jsonObject.getString("nickname"), jsonObject.getString("headimgurl"), jsonObject.getString("unionid"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
