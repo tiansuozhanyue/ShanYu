@@ -21,6 +21,8 @@ import com.example.shanyu.main.MainActivity;
 import com.example.shanyu.main.chat.ChatActivity;
 import com.example.shanyu.main.chat.EaseHelper;
 import com.example.shanyu.main.home.ui.ShopJoinActivity1;
+import com.example.shanyu.main.home.ui.ShopJoinActivity2;
+import com.example.shanyu.main.home.ui.ShopJoinActivity3;
 import com.example.shanyu.main.mine.bean.HistoryBean;
 import com.example.shanyu.main.mine.bean.UserMode;
 import com.example.shanyu.main.mine.ui.AddressActivity;
@@ -104,24 +106,31 @@ public class MineFragment extends Fragment {
             R.id.mine_collection, R.id.mine_kefu, R.id.mine_add})
     public void onClickView(View view) {
         switch (view.getId()) {
+
             case R.id.mine_set:
                 startActivityForResult(new Intent(getContext(), SetingActivity.class), 101);
                 break;
+
             case R.id.mine_mybooks:
                 startActivity(new Intent(getContext(), MyBooksActivity.class));
                 break;
+
             case R.id.set_address:
                 startActivity(new Intent(getContext(), AddressActivity.class));
                 break;
+
             case R.id.mine_foot:
                 startActivity(new Intent(getContext(), FootActivity.class));
                 break;
+
             case R.id.mine_offers:
                 startActivity(new Intent(getContext(), OffersActivity.class));
                 break;
+
             case R.id.mine_advice:
                 startActivity(new Intent(getContext(), AdviceActivity.class).putExtra("action", "advice"));
                 break;
+
             case R.id.user_img:
             case R.id.user_name:
             case R.id.user_sign:
@@ -131,32 +140,41 @@ public class MineFragment extends Fragment {
                 intent.putExtra("autograph", mUserMode.getAutograph());
                 startActivityForResult(intent, 10);
                 break;
+
             case R.id.mine_order0:
                 startActivity(new Intent(getContext(), MineOrderActivity.class).putExtra("index", 0));
                 break;
+
             case R.id.mine_order1:
                 startActivity(new Intent(getContext(), MineOrderActivity.class).putExtra("index", 1));
                 break;
+
             case R.id.mine_order2:
                 startActivity(new Intent(getContext(), MineOrderActivity.class).putExtra("index", 2));
                 break;
+
             case R.id.mine_order3:
                 startActivity(new Intent(getContext(), MineOrderActivity.class).putExtra("index", 3));
                 break;
+
             case R.id.mine_order4:
                 startActivity(new Intent(getContext(), MineOrderActivity.class).putExtra("index", 4));
                 break;
+
             case R.id.mine_order5:
                 startActivity(new Intent(getContext(), MineOrderActivity.class).putExtra("index", 5));
                 break;
+
             case R.id.mine_collection:
                 startActivityForResult(new Intent(getContext(), CollectionActivity.class), 20);
                 break;
+
             case R.id.mine_kefu:
                 EaseHelper.getInstance().goChat(getActivity(), "63");
                 break;
+
             case R.id.mine_add:
-                startActivity(new Intent(getContext(), ShopJoinActivity1.class));
+                getShopStatue();
                 break;
         }
     }
@@ -166,6 +184,48 @@ public class MineFragment extends Fragment {
         super.onDestroy();
         //解除绑定
         bind.unbind();
+    }
+
+    /**
+     * 获取商铺审核状态
+     */
+    private void getShopStatue() {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("uid", SharedUtil.getIntence().getUid());
+
+        HttpUtil.doPost(HttpApi.SHOP_STATUE, map, new HttpResultInterface() {
+            @Override
+            public void onFailure(String errorMsg) {
+                startActivity(new Intent(getContext(), ShopJoinActivity1.class));
+            }
+
+            @Override
+            public void onSuccess(String resultData) {
+
+                try {
+                    JSONObject object = new JSONObject(resultData);
+                    int statue = object.optInt("status", -1);
+
+                    switch (statue) {
+                        case -1:
+                            startActivity(new Intent(getContext(), ShopJoinActivity1.class));
+                            break;
+                        case 0:
+                            startActivity(new Intent(getContext(), ShopJoinActivity2.class));
+                            break;
+                        case 1:
+                            startActivity(new Intent(getContext(), ShopJoinActivity3.class));
+                            break;
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
     }
 
     /**

@@ -16,7 +16,7 @@
     <string name="hint_pws_set">请设置您的密码</string>
     <string name="hint_code_set">请输入验证码</string>
     <string name="hint_code_set2">请填写验证码</string>
-    <string name="hint_school_set">请填写您的学校</string>
+    <string name="hint_school_set">请填写您的职位</string>
 
     <string name="login">登录</string>
     <string name="unLogin">退出登录</string>

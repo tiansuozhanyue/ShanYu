@@ -60,7 +60,7 @@
                 android:id="@+id/mine_mybooks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的书包"
+                android:text="购物车"
                 android:textColor="@color/color_red_login"
                 android:textSize="14sp" />
 

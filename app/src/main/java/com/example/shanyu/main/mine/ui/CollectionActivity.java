@@ -141,11 +141,11 @@ public class CollectionActivity extends BaseActivity implements MyRefreshLayout.
 
         MyCommonDialog myCommonDialog = new MyCommonDialog(this);
         myCommonDialog.setDialogContent("确认取消该收藏？");
-        myCommonDialog.setOnSetPositiveButton("取消", dialog -> {
+        myCommonDialog.setOnSetPositiveButton("确定", dialog -> {
             dialog.dismiss();
             cancleCollection(p);
         });
-        myCommonDialog.setOnSetNegativeButton("返回", dialog -> dialog.dismiss());
+        myCommonDialog.setOnSetNegativeButton("取消", dialog -> dialog.dismiss());
         myCommonDialog.show();
 
     }
