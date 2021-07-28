@@ -164,7 +164,7 @@ public class RegistActivity extends BaseActivity {
      */
     private void regist() {
 
-        if (StringUtil.isPhoneNumber(phone)) {
+        if (!StringUtil.isPhoneNumber(phone)) {
             ToastUtil.shortToast(getResources().getString(R.string.hint_phone_set));
             return;
         }
