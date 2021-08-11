@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class ShopCategoryActivity extends BaseActivity implements SearchBooksAdapter.BookOnClick, MyRefreshLayout.RefreshListener {
 
-    private String categoryId, shopId;
+    private String categoryId, shopId, type;
     private ListView mListView;
     private MyRefreshLayout myRefreshLayout;
     private TextView empty;
@@ -40,6 +40,7 @@ public class ShopCategoryActivity extends BaseActivity implements SearchBooksAda
     public void initView() {
         categoryId = getIntent().getStringExtra("categoryId");
         shopId = getIntent().getStringExtra("shopId");
+        type = getIntent().getStringExtra("type");
         myRefreshLayout = findViewById(R.id.myRefreshLayout);
         mListView = findViewById(R.id.mListView);
         empty = findViewById(R.id.empty);
@@ -52,6 +53,7 @@ public class ShopCategoryActivity extends BaseActivity implements SearchBooksAda
         Map<String, String> map = new HashMap<>();
         map.put("category_id", categoryId);
         map.put("shop_id", shopId);
+        map.put("type", type);
         HttpUtil.doGet(HttpApi.CATEGORYLIST, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {

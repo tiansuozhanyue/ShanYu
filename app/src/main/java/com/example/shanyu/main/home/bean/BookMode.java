@@ -51,6 +51,24 @@ public class BookMode implements Serializable {
     private String covers;
     private String name;
     private String decimal;
+    private int type;
+    private String distanc;
+
+    public String getDistanc() {
+        return distanc;
+    }
+
+    public void setDistanc(String distanc) {
+        this.distanc = distanc;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public Integer getId() {
         return id;

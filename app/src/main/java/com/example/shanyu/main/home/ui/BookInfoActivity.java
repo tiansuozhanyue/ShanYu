@@ -139,7 +139,8 @@ public class BookInfoActivity extends BaseActivity implements BookInfoAddressAda
 
             case R.id.shop:
                 Intent intent1 = new Intent(BookInfoActivity.this, ShopSearchActivity.class);
-                intent1.putExtra("shop_id", bookMode.getUid() + "");
+                intent1.putExtra("shop_id", bookMode.getShop_id() + "");
+                intent1.putExtra("uid", bookMode.getUid() + "");
                 startActivity(intent1);
                 break;
             case R.id.chat:

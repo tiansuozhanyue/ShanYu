@@ -59,6 +59,8 @@ public class BooksAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.book_sum1)).setText(sum[0]);
         ((TextView) view.findViewById(R.id.book_sum2)).setText("." + sum[1]);
 
+        ((TextView) view.findViewById(R.id.distanc)).setText(mode.getDistanc() + "km");
+
         TextView textView = view.findViewById(R.id.book_sum3);
         textView.setText(mode.getPrice());
         textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);

@@ -48,7 +48,7 @@ import butterknife.OnClick;
 public class ShopSearchActivity extends BaseActivity implements TextView.OnEditorActionListener, SearchBooksAdapter.BookOnClick, ShopCategoryAdapter.CategoryOnClick {
 
     String searchInfo = "";
-    String shop_id;
+    String shop_id, uid;
     @BindView(R.id.edit_input)
     public EditText edit_input;
     @BindView(R.id.mListView)
@@ -71,7 +71,7 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     public Banner mBanner;
     @BindView(R.id.shop_name)
     public TextView shop_name;
-    private String name, covers, shopId;
+    private String name, covers, shopId, type;
     List<CategoryBean> categoryBeans;
 
     @Override
@@ -86,11 +86,12 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
     @Override
     public void initView() {
         shop_id = getIntent().getStringExtra("shop_id");
+        uid = getIntent().getStringExtra("uid");
         edit_input.setOnEditorActionListener(this);
         home.setSelected(true);
         home_line.setSelected(true);
         getBooks(0);
-        getOffers(shop_id);
+        getOffers(uid);
     }
 
     @Override
@@ -221,6 +222,7 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
                     name = bookModes.get(0).getName();
                     shopId = bookModes.get(0).getShopId() + "";
                     covers = bookModes.get(0).getCovers();
+                    type = bookModes.get(0).getType() + "";
                     shop_name.setText(name);
                 } else {
                     ratingbar.setRating(0);
@@ -302,7 +304,6 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
 
     }
 
-
     @Override
     public void onBookClick(BookMode mode) {
         Intent intent = new Intent(this, BookInfoActivity.class);
@@ -315,8 +316,10 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
         Intent intent = new Intent(this, ShopCategoryActivity.class);
         intent.putExtra("categoryId", id);
         intent.putExtra("shopName", name);
+        intent.putExtra("type", type);
         intent.putExtra("categoryName", categoryName);
         intent.putExtra("shopId", shopId);
         startActivity(intent);
     }
+
 }

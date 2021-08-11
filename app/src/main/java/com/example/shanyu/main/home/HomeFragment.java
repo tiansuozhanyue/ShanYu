@@ -196,7 +196,7 @@ public class HomeFragment extends Fragment implements BooksAdapter.BookOnClick,
                             ImageView banner = new ImageView(context);
                             banner.setScaleType(ImageView.ScaleType.FIT_XY);
                             BannerMode.BannerDTO bannerDTO = (BannerMode.BannerDTO) o;
-                            ImageLoaderUtil.loadImage((HttpApi.HOST + bannerDTO.getPicture()), banner, 13.0f);
+                            ImageLoaderUtil.loadImage((HttpApi.HOST + bannerDTO.getPicture()), banner, 15.0f);
                             banner.setOnClickListener(v -> {
                                 Intent intent = new Intent(getContext(), BookInfoActivity.class);
                                 intent.putExtra("bookModeId", bannerDTO.getId().toString());

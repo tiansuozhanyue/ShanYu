@@ -108,7 +108,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="60dp"
             android:drawablePadding="10dp"
-            android:text="请登录www.baidu.com去上传您的商品"
+            android:text="请登录www.sypds.com去上传您的商品"
             android:textColor="@color/color_black_E6"
             android:textSize="14sp" />
 
