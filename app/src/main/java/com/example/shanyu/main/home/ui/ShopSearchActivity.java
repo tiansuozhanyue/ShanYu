@@ -286,7 +286,9 @@ public class ShopSearchActivity extends BaseActivity implements TextView.OnEdito
         if (categoryBeans != null) {
             mListView.setAdapter(new ShopCategoryAdapter(ShopSearchActivity.this, categoryBeans, ShopSearchActivity.this));
         } else {
-            HttpUtil.doGet(HttpApi.CATEGORY, null, new HttpResultInterface() {
+            Map<String, String> map = new HashMap<>();
+            map.put("type", type);
+            HttpUtil.doGet(HttpApi.CATEGORY, map, new HttpResultInterface() {
                 @Override
                 public void onFailure(String errorMsg) {
 

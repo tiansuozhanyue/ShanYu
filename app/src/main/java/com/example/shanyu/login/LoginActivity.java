@@ -221,11 +221,11 @@ public class LoginActivity extends BaseLoginActivity {
         map.put("nickname", nickName);
         map.put("avatar", avatar);
         map.put("unionid", unionid);
-        showLoading();
+//        showLoading();
         HttpUtil.doPost(HttpApi.LOGIN_WX, map, new HttpResultInterface() {
             @Override
             public void onFailure(String errorMsg) {
-                dismissLoading();
+//                dismissLoading();
                 Intent intent = new Intent(LoginActivity.this, BindPhoneActivity.class);
                 intent.putExtra("openid", code);
                 intent.putExtra("nickname", nickName);
@@ -236,7 +236,7 @@ public class LoginActivity extends BaseLoginActivity {
 
             @Override
             public void onSuccess(String t) {
-                dismissLoading();
+//                dismissLoading();
                 goLogin(phone, t);
                 finish();
             }
